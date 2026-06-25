@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho nhóm Data Science & AI.
 export default class DataScienceImg extends Component {
   render() {
     const theme = this.props.theme;

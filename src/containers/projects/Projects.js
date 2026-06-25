@@ -1,77 +1,20 @@
-import React, { useState, useEffect } from "react";
-import ApolloClient from "apollo-boost";
-import { gql } from "apollo-boost";
+import React from "react";
 import "./Project.css";
 import GithubRepoCard from "../../components/githubRepoCard/GithubRepoCard";
 import Button from "../../components/button/Button";
-import { openSource } from "../../portfolio";
 import { greeting } from "../../portfolio.js";
+import ProjectsData from "../../shared/opensource/projects.json";
 
-export default function Projects() {
-  const [repo, setrepo] = useState([]);
-
-  useEffect(() => {
-    getRepoData();
-  }, []);
-
-  function getRepoData() {
-    const client = new ApolloClient({
-      uri: "https://api.github.com/graphql",
-      request: (operation) => {
-        operation.setContext({
-          headers: {
-            authorization: `Bearer ${atob(openSource.githubConvertedToken)}`,
-          },
-        });
-      },
-    });
-
-    client
-      .query({
-        query: gql`
-          {
-            repositoryOwner(login: "${openSource.githubUserName}") {
-              ... on User {
-                pinnedRepositories(first: 6) {
-                  edges {
-                    node {
-                      nameWithOwner
-                      description
-                      forkCount
-                      stargazers {
-                        totalCount
-                      }
-                      url
-                      id
-                      diskUsage
-                      primaryLanguage {
-                        name
-                        color
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `,
-      })
-      .then((result) => {
-        setrepoFunction(result.data.repositoryOwner.pinnedRepositories.edges);
-        console.log(result);
-      });
-  }
-
-  function setrepoFunction(array) {
-    setrepo(array);
-  }
+// Tóm tắt: Section project legacy dùng dữ liệu snapshot, tránh phụ thuộc token GitHub runtime.
+export default function Projects({ theme }) {
+  const repositories = ProjectsData.data || [];
 
   return (
     <div className="main" id="opensource">
       <h1 className="project-title">Open Source Projects</h1>
       <div className="repo-cards-div-main">
-        {repo.map((v, i) => {
-          return <GithubRepoCard repo={v} key={v.node.id} />;
+        {repositories.map((repo) => {
+          return <GithubRepoCard repo={repo} key={repo.id} theme={theme} />;
         })}
       </div>
       <Button
@@ -79,6 +22,7 @@ export default function Projects() {
         className="project-button"
         href={greeting.github_repo}
         newTab={true}
+        theme={theme}
       />
     </div>
   );

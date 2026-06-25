@@ -4,6 +4,7 @@ import { Fade } from "react-reveal";
 import PullRequestCard from "../../components/pullRequestCard/PullRequestCard";
 import pullRequestsData from "../../shared/opensource/pull_requests.json";
 
+// Tóm tắt: Section liệt kê pull request từ snapshot GitHub lưu trong repo.
 class PullRequests extends Component {
   render() {
     const theme = this.props.theme;
@@ -18,7 +19,9 @@ class PullRequests extends Component {
         </div>
         <div className="pull-request-body-div">
           {pullRequestsData["data"].map((pullRequest) => {
-            return <PullRequestCard pullRequest={pullRequest} />;
+            return (
+              <PullRequestCard key={pullRequest.id} pullRequest={pullRequest} />
+            );
           })}
         </div>
       </div>

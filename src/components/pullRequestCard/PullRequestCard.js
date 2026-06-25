@@ -3,11 +3,12 @@ import "./PullRequestCard.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Fade } from "react-reveal";
 
+// Tóm tắt: Card mô tả pull request, trạng thái merge và số dòng thay đổi.
 class PullRequestCard extends Component {
   render() {
     const pullRequest = this.props.pullRequest;
-    var iconPR;
-    var bgColor;
+    let iconPR;
+    let bgColor;
     if (pullRequest["state"] === "OPEN") {
       iconPR = {
         iconifyClass: "octicon:git-pull-request",
@@ -28,12 +29,12 @@ class PullRequestCard extends Component {
       bgColor = "#ffdce0";
     }
 
-    var subtitleString =
+    const subtitleString =
       "#" +
       pullRequest["number"] +
       " opened on " +
       pullRequest["createdAt"].split("T")[0];
-    var mergedBy;
+    let mergedBy = null;
     if (pullRequest["mergedBy"] !== null) {
       const name = pullRequest["mergedBy"]["login"];
       mergedBy = (
@@ -42,7 +43,7 @@ class PullRequestCard extends Component {
           placement={"top"}
           style={{ marginBottom: "5px" }}
           overlay={
-            <Tooltip id={`tooltip-top`}>
+            <Tooltip id={`pull-request-merged-by-${pullRequest["id"]}`}>
               <strong>{`Merged by ${name}`}</strong>
             </Tooltip>
           }
@@ -55,13 +56,11 @@ class PullRequestCard extends Component {
             <img
               className="merge-by-img"
               src={pullRequest["mergedBy"]["avatarUrl"]}
-              alt=""
+              alt={name}
             />
           </a>
         </OverlayTrigger>
       );
-    } else {
-      mergedBy = <noscript></noscript>;
     }
 
     return (
@@ -111,6 +110,8 @@ class PullRequestCard extends Component {
                 <a
                   style={{ color: iconPR.style.color }}
                   href={pullRequest["baseRepository"]["url"]}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {pullRequest["baseRepository"]["owner"]["login"]}/
                   {pullRequest["baseRepository"]["name"]}
@@ -135,7 +136,7 @@ class PullRequestCard extends Component {
                 <img
                   className="owner-img"
                   src={pullRequest["baseRepository"]["owner"]["avatarUrl"]}
-                  alt=""
+                  alt={pullRequest["baseRepository"]["owner"]["login"]}
                 />
               </a>
             </div>

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Header from "../../../components/header/Header";
-// import Footer from "../../../components/footer/Footer";
 import TopButton from "../../../components/topButton/TopButton";
 import { Fade } from "react-reveal";
 import "./Error.css";
 import { Link } from "react-router-dom";
 
+// Tóm tắt: Trang lỗi 404 giữ layout theme và CTA quay về Home.
 export default class Error extends Component {
   render() {
     const theme = this.props.theme;
@@ -31,7 +31,6 @@ export default class Error extends Component {
             </Link>
           </Fade>
         </div>
-        {/* <Footer theme={this.props.theme} /> */}
         <TopButton theme={this.props.theme} />
       </div>
     );

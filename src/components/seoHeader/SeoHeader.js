@@ -9,33 +9,30 @@ import {
   certifications,
 } from "../../portfolio.js";
 
+// Tóm tắt: Gắn meta SEO và JSON-LD Person dựa trên dữ liệu portfolio trung tâm.
 function SeoHeader() {
-  let sameAs = [];
-  socialMediaLinks
+  const sameAs = socialMediaLinks
     .filter(
       (media) =>
         !(media.link.startsWith("tel") || media.link.startsWith("mailto"))
     )
-    .forEach((media) => {
-      sameAs.push(media.link);
-    });
+    .map((media) => media.link);
 
-  let mail = socialMediaLinks
+  const mail = socialMediaLinks
     .find((media) => media.link.startsWith("mailto"))
-    .link.substring("mailto:".length);
-  let job = experience.sections
+    ?.link.substring("mailto:".length);
+  const job = experience.sections
     ?.find((section) => section.work)
     ?.experiences?.at(0);
 
-  let credentials = [];
-  certifications.certifications.forEach((certification) => {
-    credentials.push({
+  const credentials = certifications.certifications.map((certification) => {
+    return {
       "@context": "https://schema.org",
       "@type": "EducationalOccupationalCredential",
       url: certification.certificate_link,
       name: certification.title,
       description: certification.subtitle,
-    });
+    };
   });
   const data = {
     "@context": "https://schema.org/",
@@ -45,10 +42,10 @@ function SeoHeader() {
     email: mail,
     telephone: contactPageData.phoneSection?.subtitle,
     sameAs: sameAs,
-    jobTitle: job.title,
+    jobTitle: job?.title,
     worksFor: {
       "@type": "Organization",
-      name: job.company,
+      name: job?.company,
     },
     address: {
       "@type": "PostalAddress",

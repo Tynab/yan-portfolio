@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./CertificationCard.css";
 import { Fade } from "react-reveal";
 
+// Tóm tắt: Card chứng chỉ với logo đơn vị cấp và link chứng thực ngoài.
 class CertificationCard extends Component {
   render() {
     const certificate = this.props.certificate;

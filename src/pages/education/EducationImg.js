@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho phần hero của trang Education.
 export default class EducationImg extends Component {
   render() {
     const theme = this.props.theme;

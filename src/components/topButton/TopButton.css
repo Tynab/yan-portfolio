@@ -1,5 +1,6 @@
+/* Tóm tắt: Style cho TopButton trong components/topButton. */
 #topButton {
-  visibility: hidden;
+  appearance: none;
   position: fixed;
   bottom: 1.2rem;
   right: 1.5rem;

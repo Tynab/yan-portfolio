@@ -4,6 +4,7 @@ import { Fade } from "react-reveal";
 import { certifications } from "../../portfolio";
 import CertificationCard from "../../components/certificationCard/CertificationCard";
 
+// Tóm tắt: Section chứng chỉ, render danh sách certificate từ portfolio.js.
 class Certifications extends Component {
   render() {
     const theme = this.props.theme;
@@ -18,7 +19,13 @@ class Certifications extends Component {
         </div>
         <div className="certs-body-div">
           {certifications.certifications.map((cert) => {
-            return <CertificationCard certificate={cert} theme={theme} />;
+            return (
+              <CertificationCard
+                key={cert.certificate_link}
+                certificate={cert}
+                theme={theme}
+              />
+            );
           })}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho header trang Projects.
 export default class ProjectsImg extends Component {
   render() {
     const theme = this.props.theme;

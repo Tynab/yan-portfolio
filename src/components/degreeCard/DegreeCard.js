@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./DegreeCard.css";
 import { Fade, Flip } from "react-reveal";
 
+// Tóm tắt: Card học vấn hiển thị logo trường, thời gian học và mô tả chi tiết.
 class DegreeCard extends Component {
   render() {
     const degree = this.props.degree;
@@ -49,7 +50,11 @@ class DegreeCard extends Component {
             <div className="body-content">
               {degree.descriptions.map((sentence) => {
                 return (
-                  <p className="content-list" style={{ color: theme.text }}>
+                  <p
+                    key={sentence}
+                    className="content-list"
+                    style={{ color: theme.text }}
+                  >
                     {sentence}
                   </p>
                 );

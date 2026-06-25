@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho nhóm kỹ năng Full Stack Development.
 export default class FullStackImg extends Component {
   render() {
     const theme = this.props.theme;

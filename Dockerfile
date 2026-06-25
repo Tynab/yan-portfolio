@@ -1,14 +1,15 @@
-FROM node:13.12.0-alpine
+# Tóm tắt: Image chạy portfolio React bằng dependency đúng từ package-lock.
+FROM node:22-alpine
 
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
+ENV HOST=0.0.0.0
+ENV PATH=/app/node_modules/.bin:$PATH
 
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --silent
-RUN npm install react-scripts@3.4.0 --silent
+COPY package.json package-lock.json ./
+RUN npm ci --silent
 
-COPY . ./
+COPY . .
 
+EXPOSE 3000
 CMD ["npm", "start"]

@@ -4,6 +4,7 @@ import { Fade } from "react-reveal";
 import IssueCard from "../../components/issueCard/IssueCard";
 import issuesData from "../../shared/opensource/issues.json";
 
+// Tóm tắt: Section liệt kê issue open/closed đã đóng góp từ snapshot JSON.
 class Issues extends Component {
   render() {
     const theme = this.props.theme;
@@ -18,7 +19,7 @@ class Issues extends Component {
         </div>
         <div className="issues-body-div">
           {issuesData["data"].map((issue) => {
-            return <IssueCard issue={issue} />;
+            return <IssueCard key={issue.id} issue={issue} />;
           })}
         </div>
       </div>

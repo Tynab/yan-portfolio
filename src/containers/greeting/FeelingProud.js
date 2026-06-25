@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho hero trang chủ, nhận màu nhấn từ theme.
 class FeelingProud extends Component {
   render() {
     const theme = this.props.theme;

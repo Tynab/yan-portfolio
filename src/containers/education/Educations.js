@@ -4,6 +4,7 @@ import DegreeCard from "../../components/degreeCard/DegreeCard.js";
 import { degrees } from "../../portfolio";
 import { Fade } from "react-reveal";
 
+// Tóm tắt: Section học vấn legacy, render degree cards nếu bật lại trong Education page.
 class Educations extends Component {
   render() {
     const theme = this.props.theme;
@@ -18,7 +19,9 @@ class Educations extends Component {
         </div>
         <div className="educations-body-div">
           {degrees.degrees.map((degree) => {
-            return <DegreeCard degree={degree} theme={theme} />;
+            return (
+              <DegreeCard key={degree.title} degree={degree} theme={theme} />
+            );
           })}
         </div>
       </div>

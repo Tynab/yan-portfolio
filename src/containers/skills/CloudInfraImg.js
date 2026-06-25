@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho nhóm Cloud Infra-Architecture.
 export default class CloudInfraImg extends Component {
   render() {
     const theme = this.props.theme;

@@ -13,13 +13,18 @@ const onMouseOut = (event, color, bgColor) => {
   el.style.backgroundColor = bgColor;
 };
 
+// Tóm tắt: Button dùng chung cho các CTA, tự bật rel an toàn khi mở tab mới.
 export default function Button({ text, className, href, newTab, theme }) {
+  const newTabProps = newTab
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {};
+
   return (
     <div className={className}>
       <a
         className="main-button"
         href={href}
-        target={newTab && "_blank"}
+        {...newTabProps}
         style={{
           color: theme.body,
           backgroundColor: theme.text,

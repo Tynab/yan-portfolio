@@ -3,19 +3,22 @@ import "./OrganizationList.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Fade } from "react-reveal";
 
+// Tóm tắt: Danh sách logo tổ chức GitHub kèm tooltip tên tổ chức.
 class OrganizationList extends Component {
   render() {
+    const logos = this.props.logos || [];
+
     return (
       <div className="organizations-main-div">
         <ul className="dev-icons-orgs">
-          {this.props.logos.map((logo) => {
+          {logos.map((logo) => {
             return (
               <OverlayTrigger
                 key={logo["login"]}
                 placement={"top"}
                 style={{ marginBottom: "5px" }}
                 overlay={
-                  <Tooltip id={`tooltip-top`}>
+                  <Tooltip id={`organization-${logo["login"]}`}>
                     <strong>{logo["login"]}</strong>
                   </Tooltip>
                 }
