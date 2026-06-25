@@ -3,6 +3,7 @@ import "./Talks.css";
 import TalkCard from "../../components/talkCard/TalkCard";
 import { talkSection } from "../../portfolio";
 
+// Tóm tắt: Section talks legacy, render các buổi chia sẻ kỹ thuật khi cấu hình có dữ liệu.
 export default function Talks() {
   return (
     <div className="main" id="talks">
@@ -12,6 +13,7 @@ export default function Talks() {
         {talkSection.talks.map((talk) => {
           return (
             <TalkCard
+              key={talk.title}
               talkDetails={{
                 title: talk.title,
                 subtitle: talk.subtitle,

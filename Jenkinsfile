@@ -2,11 +2,11 @@ pipeline {
     agent any
     
     environment {
-        // Telegram configre
+        // Cấu hình Telegram credential dùng để gửi trạng thái pipeline.
         TOKEN = credentials('telegram_token')
         CHAT_ID = credentials('telegram_chatid')
 
-        // Telegram message
+        // Nội dung thông báo build lấy từ commit hiện tại.
         GIT_MESSAGE = sh(returnStdout: true, script: "git log -n 1 --format=%s ${GIT_COMMIT}").trim()
         GIT_AUTHOR = sh(returnStdout: true, script: "git log -n 1 --format=%ae ${GIT_COMMIT}").trim()
         GIT_COMMIT_SHORT = sh(returnStdout: true, script: "git rev-parse --short ${GIT_COMMIT}").trim()
@@ -18,7 +18,7 @@ pipeline {
         TEXT_CLEAN = "${JOB_NAME} is Cleaning"
         TEXT_RUN = "${JOB_NAME} is Running"
 
-        // Telegram parameters
+        // Thông báo kết quả cuối pipeline.
         TEXT_SUCCESS_BUILD = "${JOB_NAME} is Success"
         TEXT_FAILURE_BUILD = "${JOB_NAME} is Failure"
     }

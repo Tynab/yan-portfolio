@@ -4,6 +4,7 @@ import { Fade } from "react-reveal";
 import OrganizationList from "../../components/organizationList/OrganizationList";
 import OrganizationsData from "../../shared/opensource/organizations.json";
 
+// Tóm tắt: Section logo tổ chức open-source đã từng đóng góp.
 class Organizations extends Component {
   render() {
     const theme = this.props.theme;

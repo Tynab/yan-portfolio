@@ -3,6 +3,7 @@ import "./Blog.css";
 import BlogCard from "../../components/blogCard/BlogCard";
 import { blogSection } from "../../portfolio";
 
+// Tóm tắt: Section blog legacy, dùng danh sách thủ công từ portfolio.js khi có dữ liệu.
 export default function Blogs() {
   return (
     <div className="main" id="blogs">
@@ -15,6 +16,7 @@ export default function Blogs() {
           {blogSection.blogs.map((blog) => {
             return (
               <BlogCard
+                key={blog.url}
                 blog={{
                   url: blog.url,
                   image: blog.image,

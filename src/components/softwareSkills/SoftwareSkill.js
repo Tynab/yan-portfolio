@@ -2,26 +2,22 @@ import React from "react";
 import "./SoftwareSkill.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
+// Tóm tắt: Render lưới kỹ năng phần mềm từ cấu hình, hỗ trợ cả Iconify và ảnh tĩnh.
 class SoftwareSkill extends React.Component {
   render() {
+    const logos = this.props.logos || [];
+
     return (
       <div>
         <div className="software-skills-main-div">
           <ul className="dev-icons">
-            {/* {skillsSection.softwareSkills.map(skills => {
-            return (
-              <li className="software-skill-inline" name={skills.skillName}>
-                <i className={skills.fontAwesomeClassname}></i>
-              </li>
-            );
-          })} */}
-            {this.props.logos.map((logo) => {
+            {logos.map((logo) => {
               return (
                 <OverlayTrigger
                   key={logo.skillName}
                   placement={"top"}
                   overlay={
-                    <Tooltip id={`tooltip-top`}>
+                    <Tooltip id={`software-skill-${logo.skillName}`}>
                       <strong>{logo.skillName}</strong>
                     </Tooltip>
                   }

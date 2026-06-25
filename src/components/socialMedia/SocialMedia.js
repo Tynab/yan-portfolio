@@ -13,22 +13,29 @@ const IconWrapper = styled.span`
   }
 `;
 
-export default function socialMedia(props) {
+// Tóm tắt: Render các kênh liên hệ xã hội từ cấu hình portfolio.js.
+export default function SocialMedia(props) {
   return (
     <div className="social-media-div">
-      {socialMediaLinks.map((media, i) => {
+      {socialMediaLinks.map((media) => {
+        const externalLink =
+          !media.link.startsWith("mailto:") && !media.link.startsWith("tel:");
+        const newTabProps = externalLink
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {};
+
         return (
           <a
-            key={i}
+            key={media.name}
             href={media.link}
-            className={`icon-button`}
-            target="_blank"
-            rel="noopener noreferrer"
+            className="icon-button"
+            aria-label={media.name}
+            title={media.name}
+            {...newTabProps}
           >
             <IconWrapper {...media} {...props}>
               <i className={`fab ${media.fontAwesomeIcon}`}></i>
             </IconWrapper>
-            {/* <span></span> */}
           </a>
         );
       })}

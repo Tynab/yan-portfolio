@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho khối blog/profile trong trang Contact.
 export default class BlogsImg extends Component {
   render() {
     const theme = this.props.theme;

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Header from "../../components/header/Header";
 import Greeting from "../../containers/greeting/Greeting";
 import Skills from "../../containers/skills/Skills";
-// import Footer from "../../components/footer/Footer";
 import TopButton from "../../components/topButton/TopButton";
 
+// Tóm tắt: Trang home ghép header, hero greeting, kỹ năng và nút cuộn lên.
 class Home extends Component {
   render() {
     return (
@@ -12,7 +12,6 @@ class Home extends Component {
         <Header theme={this.props.theme} />
         <Greeting theme={this.props.theme} />
         <Skills theme={this.props.theme} />
-        {/* <Footer theme={this.props.theme} /> */}
         <TopButton theme={this.props.theme} />
       </div>
     );

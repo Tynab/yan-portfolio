@@ -4,6 +4,7 @@ import IssueChart from "../../components/issueChart/IssueChart.js";
 import { Fade } from "react-reveal";
 import "./OpensourceCharts.css";
 
+// Tóm tắt: Gom hai biểu đồ doughnut cho pull request và issue.
 class OpensourceCharts extends Component {
   render() {
     const theme = this.props.theme;

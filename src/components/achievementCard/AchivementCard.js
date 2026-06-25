@@ -1,9 +1,14 @@
 import React from "react";
 
+// Tóm tắt: Card thành tựu legacy, render ảnh, mô tả và các link footer.
 export default function AchivementCard({ cardInfo }) {
+  const footer = cardInfo.footer || [];
+
   function openUrlInNewTab(url) {
-    var win = window.open(url, "_blank");
-    win.focus();
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if (win) {
+      win.focus();
+    }
   }
 
   return (
@@ -16,8 +21,12 @@ export default function AchivementCard({ cardInfo }) {
         <p className="card-subtitle">{cardInfo.description}</p>
       </div>
       <div className="certificate-card-footer">
-        {cardInfo.footer.map((v, i) => {
-          return <p onClick={() => openUrlInNewTab(v.url)}>{v.name}</p>;
+        {footer.map((v, i) => {
+          return (
+            <p key={`${v.name}-${i}`} onClick={() => openUrlInNewTab(v.url)}>
+              {v.name}
+            </p>
+          );
         })}
       </div>
     </div>

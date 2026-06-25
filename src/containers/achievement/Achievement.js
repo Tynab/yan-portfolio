@@ -3,11 +3,8 @@ import "./Achievement.css";
 import AchivementCard from "../../components/achievementCard/AchivementCard";
 import { achievementSection } from "../../portfolio";
 
+// Tóm tắt: Section thành tựu legacy, render các card achievement khi cấu hình có dữ liệu.
 export default function Achievement() {
-  // function openUrlInNewTab(url) {
-  //   var win = window.open(url, "_blank");
-  //   win.focus();
-  // }
   return (
     <div className="main" id="achievements">
       <div className="achievement-main-div">
@@ -23,6 +20,7 @@ export default function Achievement() {
           {achievementSection.achivementsCards.map((card) => {
             return (
               <AchivementCard
+                key={card.title}
                 cardInfo={{
                   title: card.title,
                   description: card.subtitle,

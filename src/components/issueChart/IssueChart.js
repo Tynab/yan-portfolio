@@ -4,6 +4,7 @@ import { Fade } from "react-reveal";
 import "./IssueChart.css";
 import IssueData from "../../shared/opensource/issues.json";
 
+// Tóm tắt: Biểu đồ phân phối issue open/closed từ dữ liệu snapshot.
 class IssueChart extends Component {
   render() {
     const data = {

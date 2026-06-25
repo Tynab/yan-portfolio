@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho khối vị trí trong trang Contact.
 export default class AddressImg extends Component {
   render() {
     const theme = this.props.theme;

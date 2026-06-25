@@ -8,6 +8,7 @@ import FullStackImg from "./FullStackImg";
 import CloudInfraImg from "./CloudInfraImg";
 import DesignImg from "./DesignImg";
 
+// Chọn illustration tương ứng với từng nhóm kỹ năng trong portfolio.js.
 function GetSkillSvg(props) {
   if (props.fileName === "DataScienceImg")
     return <DataScienceImg theme={props.theme} />;
@@ -18,6 +19,7 @@ function GetSkillSvg(props) {
   return <DesignImg theme={props.theme} />;
 }
 
+// Tóm tắt: Render từng nhóm kỹ năng, icon công nghệ và mô tả năng lực.
 class SkillSection extends Component {
   render() {
     const theme = this.props.theme;
@@ -28,10 +30,6 @@ class SkillSection extends Component {
             <div key={i} className="skills-main-div">
               <Fade left duration={2000}>
                 <div className="skills-image-div">
-                  {/* <img
-                    alt="Ashutosh is Analysing Data"
-                    src={require(`../../assests/images/${skill.imagePath}`)}
-                  ></img> */}
                   <GetSkillSvg fileName={skill.fileName} theme={theme} />
                 </div>
               </Fade>

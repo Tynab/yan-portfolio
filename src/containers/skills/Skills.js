@@ -3,6 +3,7 @@ import "./Skills.css";
 import SkillSection from "./SkillSection";
 import { Fade } from "react-reveal";
 
+// Tóm tắt: Section tổng quan năng lực chính trên trang home.
 export default function Skills(props) {
   const theme = props.theme;
   return (

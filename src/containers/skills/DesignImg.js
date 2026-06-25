@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+// Tóm tắt: Illustration SVG cho nhóm Game Development & Others.
 export default class DesignImg extends Component {
   render() {
     const theme = this.props.theme;

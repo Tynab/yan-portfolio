@@ -5,14 +5,13 @@ import { ThemeProvider } from "styled-components";
 import { chosenTheme } from "./theme";
 import { GlobalStyles } from "./global";
 
+// Tóm tắt: App là root composition, nơi gắn theme toàn cục và router chính.
 function App() {
   return (
     <ThemeProvider theme={chosenTheme}>
       <>
         <GlobalStyles />
-        <div>
-          <Main theme={chosenTheme} />
-        </div>
+        <Main theme={chosenTheme} />
       </>
     </ThemeProvider>
   );

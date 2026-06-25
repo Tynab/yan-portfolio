@@ -3,6 +3,7 @@ import "./Splash.css";
 import { Redirect } from "react-router-dom";
 import LoaderLogo from "../../components/Loader/LoaderLogo.js";
 
+// Tóm tắt: Splash hiển thị logo động rồi tự chuyển sang trang home.
 function AnimatedSplash(props) {
   return (
     <div className="logo_wrapper">
@@ -25,7 +26,7 @@ class Splash extends Component {
     this.id = setTimeout(() => this.setState({ redirect: true }), 5500);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     clearTimeout(this.id);
   }
 

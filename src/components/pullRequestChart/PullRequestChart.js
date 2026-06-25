@@ -4,6 +4,7 @@ import { Fade } from "react-reveal";
 import "./PullRequestChart.css";
 import PullRequestData from "../../shared/opensource/pull_requests.json";
 
+// Tóm tắt: Biểu đồ phân phối trạng thái pull request từ dữ liệu snapshot.
 class PullRequestChart extends Component {
   render() {
     const data = {

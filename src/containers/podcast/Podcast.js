@@ -2,6 +2,7 @@ import React from "react";
 import "./Podcast.css";
 import { podcastSection } from "../../portfolio";
 
+// Tóm tắt: Section podcast legacy, nhúng iframe từ danh sách URL cấu hình.
 export default function Podcast() {
   return (
     <div className="main">
@@ -14,12 +15,12 @@ export default function Podcast() {
       <div className="podcast-main-div">
         {podcastSection.podcast.map((podcastLink) => {
           return (
-            <div>
+            <div key={podcastLink}>
               <iframe
                 title="podcast"
                 className="podcast"
                 src={podcastLink}
-                frameborder="0"
+                frameBorder="0"
                 scrolling="no"
               ></iframe>
             </div>

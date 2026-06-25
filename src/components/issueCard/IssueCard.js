@@ -3,11 +3,12 @@ import "./IssueCard.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Fade } from "react-reveal";
 
+// Tóm tắt: Card mô tả issue GitHub, gồm trạng thái, repo nguồn và assignee đầu tiên.
 class IssueCard extends Component {
   render() {
     const issue = this.props.issue;
-    var iconPR;
-    var bgColor;
+    let iconPR;
+    let bgColor;
     if (issue["closed"] === false) {
       iconPR = {
         iconifyClass: "octicon:issue-opened",
@@ -22,9 +23,9 @@ class IssueCard extends Component {
       bgColor = "#ffdce0";
     }
 
-    var subtitleString =
+    const subtitleString =
       "#" + issue["number"] + " opened on " + issue["createdAt"].split("T")[0];
-    var assignee;
+    let assignee = null;
     if (issue["assignees"]["nodes"].length > 0) {
       const name = issue["assignees"]["nodes"][0]["name"];
       assignee = (
@@ -33,7 +34,7 @@ class IssueCard extends Component {
           placement={"top"}
           style={{ marginBottom: "5px" }}
           overlay={
-            <Tooltip id={`tooltip-top`}>
+            <Tooltip id={`issue-assignee-${issue["id"]}`}>
               <strong>{`Assigned to ${name}`}</strong>
             </Tooltip>
           }
@@ -46,13 +47,11 @@ class IssueCard extends Component {
             <img
               className="assigned-to-img"
               src={issue["assignees"]["nodes"][0]["avatarUrl"]}
-              alt=""
+              alt={name}
             />
           </a>
         </OverlayTrigger>
       );
-    } else {
-      assignee = <noscript></noscript>;
     }
 
     return (
@@ -102,6 +101,8 @@ class IssueCard extends Component {
                 <a
                   style={{ color: iconPR.style.color }}
                   href={issue["repository"]["url"]}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {issue["repository"]["owner"]["login"]}/
                   {issue["repository"]["name"]}
@@ -126,7 +127,7 @@ class IssueCard extends Component {
                 <img
                   className="owner-img"
                   src={issue["repository"]["owner"]["avatarUrl"]}
-                  alt=""
+                  alt={issue["repository"]["owner"]["login"]}
                 />
               </a>
             </div>
