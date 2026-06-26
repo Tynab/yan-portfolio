@@ -1,14 +1,15 @@
 {
   "private": true,
   "name": "YAN-Portfolio",
-  "homepage": ".",
   "version": "0.1.0",
+  "homepage": ".",
   "scripts": {
     "build": "react-scripts build",
     "predeploy": "npm run build",
     "deploy": "gh-pages -b gh-pages -d build",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.js\" --ignore-pattern \"src/assests/font-awesome/**\"",
+    "prepare": "husky",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
@@ -31,7 +32,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "husky": "^4.3.8",
+    "husky": "^9.1.7",
     "lint-staged": "^10.2.11",
     "prettier": "2.0.5",
     "prettier-package-json": "^2.8.0"
@@ -57,7 +58,15 @@
     }
   },
   "lint-staged": {
-    "*.json": "prettier-package-json --write",
+    "package.json": "prettier-package-json --write",
     "*.{js,css,md}": "prettier --write"
+  },
+  "overrides": {
+    "underscore": "1.13.8",
+    "serialize-javascript": "7.0.6",
+    "webpack-dev-server": "5.2.5",
+    "uuid": "11.1.1",
+    "js-yaml": "4.2.0",
+    "@tootallnate/once": "2.0.1"
   }
 }

@@ -1,0 +1,1 @@
+export PATH=/c/PROGRA~1/Git/usr/bin:/c/PROGRA~1/Git/bin:$PATH; npx lint-staged
