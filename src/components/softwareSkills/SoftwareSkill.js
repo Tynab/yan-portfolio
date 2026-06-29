@@ -2,6 +2,8 @@ import React from "react";
 import "./SoftwareSkill.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
+const skillAssetVersion = "2026-06-29-lfs-refresh";
+
 // Tóm tắt: Render lưới kỹ năng phần mềm từ cấu hình, hỗ trợ cả Iconify và ảnh tĩnh.
 class SoftwareSkill extends React.Component {
   render() {
@@ -35,7 +37,7 @@ class SoftwareSkill extends React.Component {
                       <img
                         className="skill-image"
                         style={logo.style}
-                        src={`${process.env.PUBLIC_URL}/skills/${logo.imageSrc}`}
+                        src={`${process.env.PUBLIC_URL}/skills/${logo.imageSrc}?v=${skillAssetVersion}`}
                         alt={logo.skillName}
                       />
                     )}
