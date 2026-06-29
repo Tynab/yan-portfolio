@@ -7,6 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+RUN node scripts/verify-lfs-assets.js
 RUN npm run build
 
 FROM nginx:1.27-alpine
