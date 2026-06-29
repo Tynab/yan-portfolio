@@ -76,52 +76,100 @@ const skills = {
       ],
       softwareSkills: [
         {
-          skillName: "Python",
-          imageSrc: "Python.png",
+          skillName: "Anaconda",
+          imageSrc: "Anaconda.png",
         },
         {
           skillName: "Jupyter Notebook",
           imageSrc: "JupyterNotebook.png",
         },
         {
-          skillName: "NumPy",
-          imageSrc: "NumPy.png",
-        },
-        {
-          skillName: "Matplotlib",
-          imageSrc: "Matplotlib.png",
-        },
-        {
-          skillName: "Pandas",
-          imageSrc: "Pandas.png",
-        },
-        {
-          skillName: "seaborn",
-          imageSrc: "seaborn.png",
-        },
-        {
-          skillName: "Plotly",
-          imageSrc: "Plotly.png",
-        },
-        {
-          skillName: "SciPy",
-          imageSrc: "SciPy.png",
-        },
-        {
-          skillName: "scikit-learn",
-          imageSrc: "sklearn.png",
-        },
-        {
           skillName: "TensorFlow",
           imageSrc: "TensorFlow.png",
         },
         {
-          skillName: "Keras",
-          imageSrc: "Keras.png",
-        },
-        {
           skillName: "PyTorch",
           imageSrc: "PyTorch.png",
+        },
+        {
+          skillName: "Ray",
+          imageSrc: "Ray.png",
+        },
+        {
+          skillName: "RLlib",
+          imageSrc: "RLlib.png",
+        },
+        {
+          skillName: "Hugging Face",
+          imageSrc: "HuggingFace.png",
+        },
+        {
+          skillName: "LangChain",
+          imageSrc: "LangChain.png",
+        },
+        {
+          skillName: "LangGraph",
+          imageSrc: "LangGraph.png",
+        },
+        {
+          skillName: "MLflow",
+          imageSrc: "MLflow.png",
+        },
+        {
+          skillName: "Seldon Core",
+          imageSrc: "SeldonCore.png",
+        },
+        {
+          skillName: "Ollama",
+          imageSrc: "Ollama.png",
+        },
+        {
+          skillName: "Open WebUI",
+          imageSrc: "OpenWebUI.png",
+        },
+        {
+          skillName: "ComfyUI",
+          imageSrc: "ComfyUI.png",
+        },
+        {
+          skillName: "Claude",
+          imageSrc: "Claude.png",
+        },
+        {
+          skillName: "Codex",
+          imageSrc: "Codex.png",
+        },
+        {
+          skillName: "GitHub Copilot",
+          imageSrc: "Copilot.png",
+        },
+        {
+          skillName: "Cursor",
+          imageSrc: "Cursor.png",
+        },
+        {
+          skillName: "Qdrant",
+          imageSrc: "Qdrant.png",
+        },
+        {
+          skillName: "Neo4j",
+          imageSrc: "Neo4j.png",
+        },
+        {
+          skillName: "Elastic Stack",
+          imageSrc: "Elastic.png",
+        },
+        {
+          skillName: "ClickHouse",
+          imageSrc: "ClickHouse.png",
+        },
+        {
+          skillName: "Snowflake",
+          imageSrc: "Snowflake.png",
+        },
+        {
+          skillName: "Superset",
+          imageSrc: "Superset.png",
         },
       ],
     },
@@ -147,12 +195,68 @@ const skills = {
           imageSrc: "JS.png",
         },
         {
-          skillName: "jQuery",
-          imageSrc: "jQuery.png",
+          skillName: "TypeScript",
+          imageSrc: "TypeScript.png",
         },
         {
-          skillName: "Visual Basic",
-          imageSrc: "VB.png",
+          skillName: "React",
+          imageSrc: "React.png",
+        },
+        {
+          skillName: "Bootstrap",
+          imageSrc: "Bootstrap.png",
+        },
+        {
+          skillName: "Angular",
+          imageSrc: "Angular.png",
+        },
+        {
+          skillName: "NextJS",
+          imageSrc: "NextJS.png",
+        },
+        {
+          skillName: "Blazor",
+          imageSrc: "Blazor.png",
+        },
+        {
+          skillName: "NodeJS",
+          imageSrc: "Nodejs.png",
+        },
+        {
+          skillName: "NestJS",
+          imageSrc: "NestJS.png",
+        },
+        {
+          skillName: ".NET",
+          imageSrc: "dotNet.png",
+        },
+        {
+          skillName: "ABP",
+          imageSrc: "ABP.png",
+        },
+        {
+          skillName: "Spring",
+          imageSrc: "Spring.png",
+        },
+        {
+          skillName: "Thymeleaf",
+          imageSrc: "Thymeleaf.png",
+        },
+        {
+          skillName: "OpenAPI",
+          imageSrc: "OpenAPI.png",
+        },
+        {
+          skillName: "AsyncAPI",
+          imageSrc: "AsyncAPI.png",
+        },
+        {
+          skillName: "SignalR",
+          imageSrc: "SignalR.png",
+        },
+        {
+          skillName: "Hangfire",
+          imageSrc: "Hangfire.png",
         },
         {
           skillName: "C",
@@ -171,24 +275,36 @@ const skills = {
           imageSrc: "Java.png",
         },
         {
-          skillName: "Thymeleaf",
-          imageSrc: "Thymeleaf.png",
+          skillName: "Go",
+          imageSrc: "Go.png",
         },
         {
-          skillName: "Bootstrap",
-          imageSrc: "Bootstrap.png",
+          skillName: "Rust",
+          imageSrc: "Rust.png",
         },
         {
-          skillName: "React",
-          imageSrc: "React.png",
+          skillName: "Python",
+          imageSrc: "Python.png",
         },
         {
-          skillName: "Blazor",
-          imageSrc: "Blazor.png",
+          skillName: "Lua",
+          imageSrc: "Lua.png",
         },
         {
-          skillName: "Angular",
-          imageSrc: "Angular.png",
+          skillName: "Visual Basic",
+          imageSrc: "VB.png",
+        },
+        {
+          skillName: "Swift",
+          imageSrc: "Swift.png",
+        },
+        {
+          skillName: "Objective-C",
+          imageSrc: "ObjectiveC.png",
+        },
+        {
+          skillName: "Android SDK",
+          imageSrc: "Android.png",
         },
         {
           skillName: "Xamarin",
@@ -199,48 +315,9 @@ const skills = {
           imageSrc: "MAUI.png",
         },
         {
-          skillName: "Node.js",
-          imageSrc: "Nodejs.png",
+          skillName: "Realm",
+          imageSrc: "Realm.png",
         },
-        {
-          skillName: ".NET",
-          imageSrc: "dotNet.png",
-        },
-        {
-          skillName: "ABP",
-          imageSrc: "ABP.png",
-        },
-        {
-          skillName: "Spring",
-          imageSrc: "Spring.png",
-        },
-        {
-          skillName: "SignalR",
-          imageSrc: "SignalR.png",
-        },
-        {
-          skillName: "Hangfire",
-          imageSrc: "Hangfire.png",
-        },
-        {
-          skillName: "DotNetCore.CAP",
-          imageSrc: "CAP.png",
-        },
-        {
-          skillName: "Lombok",
-          imageSrc: "Lombok.png",
-        },
-      ],
-    },
-    {
-      title: "Cloud Infra-Architecture",
-      fileName: "CloudInfraImg",
-      skills: [
-        "⚡ Experience working on multiple cloud platforms",
-        "⚡ Hosting and maintaining websites on virtual machine instances along with integration of databases",
-        "⚡ Setting up streaming jobs from DB to Server or vice-versa on GCP and AWS",
-      ],
-      softwareSkills: [
         {
           skillName: "PostgreSQL",
           imageSrc: "Postgre.png",
@@ -269,8 +346,71 @@ const skills = {
           skillName: "n8n",
           imageSrc: "n8n.png",
         },
+      ],
+    },
+    {
+      title: "Cloud Infra-Architecture",
+      fileName: "CloudInfraImg",
+      skills: [
+        "⚡ Experience working on multiple cloud platforms",
+        "⚡ Hosting and maintaining websites on virtual machine instances along with integration of databases",
+        "⚡ Setting up streaming jobs from DB to Server or vice-versa on GCP and AWS",
+      ],
+      softwareSkills: [
         {
-          skillName: "Argo CD",
+          skillName: "MinIO",
+          imageSrc: "MinIO.png",
+        },
+        {
+          skillName: "RabbitMQ",
+          imageSrc: "RabbitMq.png",
+        },
+        {
+          skillName: "Docker",
+          imageSrc: "Docker.png",
+        },
+        {
+          skillName: "Docker Compose",
+          imageSrc: "DockerCompose.png",
+        },
+        {
+          skillName: "Docker Swarm",
+          imageSrc: "DockerSwarm.png",
+        },
+        {
+          skillName: "Podman",
+          imageSrc: "Podman.png",
+        },
+        {
+          skillName: "Kubernetes",
+          imageSrc: "K8s.png",
+        },
+        {
+          skillName: "K3s",
+          imageSrc: "K3s.png",
+        },
+        {
+          skillName: "Minikube",
+          imageSrc: "Minikube.png",
+        },
+        {
+          skillName: "K9s",
+          imageSrc: "K9s.png",
+        },
+        {
+          skillName: "Velero",
+          imageSrc: "Velero.png",
+        },
+        {
+          skillName: "Helm",
+          imageSrc: "Helm.png",
+        },
+        {
+          skillName: "KEDA",
+          imageSrc: "KEDA.png",
+        },
+        {
+          skillName: "Argo",
           imageSrc: "Argo.png",
         },
         {
@@ -294,40 +434,12 @@ const skills = {
           imageSrc: "Portainer.png",
         },
         {
-          skillName: "Ollama",
-          imageSrc: "Ollama.png",
+          skillName: "Watchtower",
+          imageSrc: "Watchtower.png",
         },
         {
-          skillName: "Podman",
-          imageSrc: "Podman.png",
-        },
-        {
-          skillName: "Docker",
-          imageSrc: "Docker.png",
-        },
-        {
-          skillName: "Docker Compose",
-          imageSrc: "DockerCompose.png",
-        },
-        {
-          skillName: "Docker Swarm",
-          imageSrc: "DockerSwarm.png",
-        },
-        {
-          skillName: "Minikube",
-          imageSrc: "Minikube.png",
-        },
-        {
-          skillName: "Kubernetes",
-          imageSrc: "K8s.png",
-        },
-        {
-          skillName: "Open WebUI",
-          imageSrc: "OpenWebUI.png",
-        },
-        {
-          skillName: "K9s",
-          imageSrc: "K9s.png",
+          skillName: "OpenTelemetry",
+          imageSrc: "OpenTelemetry.png",
         },
         {
           skillName: "Prometheus",
@@ -338,24 +450,32 @@ const skills = {
           imageSrc: "Grafana.png",
         },
         {
-          skillName: "Watchtower",
-          imageSrc: "Watchtower.png",
-        },
-        {
-          skillName: "Elastic Stack",
-          imageSrc: "ElasticStack.png",
-        },
-        {
-          skillName: "Kong Gateway",
-          imageSrc: "Kong.png",
+          skillName: "Zabbix",
+          imageSrc: "Zabbix.png",
         },
         {
           skillName: "Wazuh",
           imageSrc: "Wazuh.png",
         },
         {
+          skillName: "Kyverno",
+          imageSrc: "Kyverno.png",
+        },
+        {
+          skillName: "Keycloak",
+          imageSrc: "Keycloak.png",
+        },
+        {
           skillName: "Project Calico",
           imageSrc: "Calico.png",
+        },
+        {
+          skillName: "Kong Gateway",
+          imageSrc: "Kong.png",
+        },
+        {
+          skillName: "Konga",
+          imageSrc: "Konga.png",
         },
         {
           skillName: "NGINX",
@@ -370,24 +490,12 @@ const skills = {
           imageSrc: "ngrok.png",
         },
         {
-          skillName: "RabbitMQ",
-          imageSrc: "RabbitMq.png",
+          skillName: "Apache",
+          imageSrc: "Apache.png",
         },
         {
-          skillName: "Apache Maven",
-          imageSrc: "Maven.png",
-        },
-        {
-          skillName: "Apache Tomcat",
-          imageSrc: "Tomcat.png",
-        },
-        {
-          skillName: "Apache Kafka",
-          imageSrc: "Kafka.png",
-        },
-        {
-          skillName: "Apache Pulsar",
-          imageSrc: "Pulsar.png",
+          skillName: "Cloudflare",
+          imageSrc: "Cloudflare.png",
         },
         {
           skillName: "Git",
@@ -398,44 +506,44 @@ const skills = {
           imageSrc: "LFS.png",
         },
         {
-          skillName: "GitLab",
-          imageSrc: "GitLab.png",
-        },
-        {
           skillName: "GitHub",
           imageSrc: "GitHub.png",
         },
         {
-          skillName: "Bitbucket",
-          imageSrc: "Bitbucket.png",
+          skillName: "GitLab",
+          imageSrc: "GitLab.png",
         },
         {
-          skillName: "Azure",
-          imageSrc: "Azure.png",
-        },
-        {
-          skillName: "AWS",
-          imageSrc: "AWS.png",
-        },
-        {
-          skillName: "Google Cloud Platform",
-          imageSrc: "Google.png",
-        },
-        {
-          skillName: "Heroku",
-          imageSrc: "Heroku.png",
-        },
-        {
-          skillName: "Cloudflare",
-          imageSrc: "Cloudflare.png",
+          skillName: "npm",
+          imageSrc: "npm.png",
         },
         {
           skillName: "NuGet",
           imageSrc: "NuGet.png",
         },
         {
-          skillName: "npm",
-          imageSrc: "npm.png",
+          skillName: "Atlassian",
+          imageSrc: "Atlassian.png",
+        },
+        {
+          skillName: "Jam.dev",
+          imageSrc: "JamDev.png",
+        },
+        {
+          skillName: "Amazon Web Services",
+          imageSrc: "AWS.png",
+        },
+        {
+          skillName: "Microsoft Azure",
+          imageSrc: "Azure.png",
+        },
+        {
+          skillName: "Google",
+          imageSrc: "Google.png",
+        },
+        {
+          skillName: "Heroku",
+          imageSrc: "Heroku.png",
         },
       ],
     },
@@ -449,18 +557,6 @@ const skills = {
       ],
       softwareSkills: [
         {
-          skillName: "Lua",
-          imageSrc: "Lua.png",
-        },
-        {
-          skillName: "Pymunk",
-          imageSrc: "Pymunk.png",
-        },
-        {
-          skillName: "Pygame",
-          imageSrc: "Pygame.png",
-        },
-        {
           skillName: "Unity",
           imageSrc: "Unity.png",
         },
@@ -469,36 +565,40 @@ const skills = {
           imageSrc: "Godot.png",
         },
         {
-          skillName: "Swift",
-          imageSrc: "Swift.png",
+          skillName: "Open Match",
+          imageSrc: "OpenMatch.png",
         },
         {
-          skillName: "Objective-C",
-          imageSrc: "ObjectiveC.png",
+          skillName: "Agones",
+          imageSrc: "Agones.png",
         },
         {
-          skillName: "Android SDK",
-          imageSrc: "Android.png",
+          skillName: "Blender",
+          imageSrc: "Blender.png",
         },
         {
-          skillName: "Cimetrix Control",
-          imageSrc: "CCF.png",
+          skillName: "Tripo 3D",
+          imageSrc: "Tripo3D.png",
         },
         {
-          skillName: "Jira Software",
-          imageSrc: "JiraSoftware.png",
+          skillName: "Meshy",
+          imageSrc: "Meshy.png",
         },
         {
-          skillName: "Confluence",
-          imageSrc: "Confluence.png",
+          skillName: "Adobe",
+          imageSrc: "Adobe.png",
+        },
+        {
+          skillName: "Figma",
+          imageSrc: "Figma.png",
         },
         {
           skillName: "draw.io",
           imageSrc: "drawio.png",
         },
         {
-          skillName: "Figma",
-          imageSrc: "Figma.png",
+          skillName: "Cimetrix Control",
+          imageSrc: "CCF.png",
         },
       ],
     },
@@ -601,6 +701,7 @@ const degrees = {
 
 const certifications = {
   certifications: [
+    // Core Web / Programming Languages
     {
       title: "HTML",
       subtitle: "Top 20%",
@@ -608,15 +709,7 @@ const certifications = {
       certificate_link:
         "https://certificate.testcenter.vn/dUd-Vz0fMlcZNV9GVjE2bFN7SXU",
       alt_name: "HTML",
-      color_code: "#FEC569",
-    },
-    {
-      title: "Java",
-      subtitle: "Basic",
-      logo_path: "hackerrank.png",
-      certificate_link: "https://www.hackerrank.com/certificates/18b8b69e9e0f",
-      alt_name: "Java",
-      color_code: "#FD7C80",
+      color_code: "#FFB86C",
     },
     {
       title: "JavaScript",
@@ -624,7 +717,7 @@ const certifications = {
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/9136c4f105da",
       alt_name: "JS",
-      color_code: "#82E4CD",
+      color_code: "#FFE66D",
     },
     {
       title: "Python",
@@ -632,7 +725,23 @@ const certifications = {
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/923b39aff6b7",
       alt_name: "Python",
-      color_code: "#F5DEB5",
+      color_code: "#6EC6FF",
+    },
+    {
+      title: "Java",
+      subtitle: "Basic",
+      logo_path: "hackerrank.png",
+      certificate_link: "https://www.hackerrank.com/certificates/18b8b69e9e0f",
+      alt_name: "Java",
+      color_code: "#FF6B6B",
+    },
+    {
+      title: "CSharp",
+      subtitle: "Basic",
+      logo_path: "hackerrank.png",
+      certificate_link: "https://www.hackerrank.com/certificates/6f13753d7cc6",
+      alt_name: "C#",
+      color_code: "#9B5DE5",
     },
     {
       title: "PHP",
@@ -641,7 +750,7 @@ const certifications = {
       certificate_link:
         "https://certificate.testcenter.vn/ekZ-Vz0fMlcZNV9GVjE2bFN7SXU",
       alt_name: "PHP",
-      color_code: "#DB4FA5",
+      color_code: "#C77DFF",
     },
     {
       title: "Go",
@@ -649,24 +758,25 @@ const certifications = {
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/fe8553df0712",
       alt_name: "Go",
-      color_code: "#F0D1CE",
+      color_code: "#00C2FF",
     },
+
+    // Frontend / UI / CMS
     {
-      title: "SQL",
-      subtitle: "Advanced",
+      title: "Frontend Developer",
+      subtitle: "React",
       logo_path: "hackerrank.png",
-      certificate_link: "https://www.hackerrank.com/certificates/9c262c7c1e37",
-      alt_name: "SQL",
-      color_code: "#FFC347",
+      certificate_link: "https://www.hackerrank.com/certificates/4ad345e70e8d",
+      alt_name: "React",
+      color_code: "#61DAFB",
     },
     {
-      title: "MySQL",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
-      certificate_link:
-        "https://certificate.testcenter.vn/dEB_Vz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "MySQL",
-      color_code: "#A47DD0",
+      title: "Figma",
+      subtitle: "Advance",
+      logo_path: "udemy.png",
+      certificate_link: "http://ude.my/UC-1a6a9e4d-d01a-4515-a1bd-281e7283c34c",
+      alt_name: "Figma",
+      color_code: "#F24E1E",
     },
     {
       title: "Wordpress",
@@ -675,16 +785,10 @@ const certifications = {
       certificate_link:
         "https://certificate.testcenter.vn/dEB_Vj0fMlcZNV9GVjE2bFN7SXU",
       alt_name: "Wordpress",
-      color_code: "#00E65F",
+      color_code: "#21759B",
     },
-    {
-      title: "Frontend Developer",
-      subtitle: "React",
-      logo_path: "hackerrank.png",
-      certificate_link: "https://www.hackerrank.com/certificates/4ad345e70e8d",
-      alt_name: "React",
-      color_code: "#6629FF",
-    },
+
+    // Backend / API / Software Engineering
     {
       title: "Spring",
       subtitle: "Very Good",
@@ -692,16 +796,7 @@ const certifications = {
       certificate_link:
         "https://drive.google.com/file/d/10JSIUge0uaZv09QnLi13nMMEI8js1xl-/view?usp=drive_link",
       alt_name: "Spring",
-      color_code: "#0357D3",
-    },
-    {
-      title: "Git",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
-      certificate_link:
-        "https://certificate.testcenter.vn/dUd-Vj0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Git",
-      color_code: "#E69BD2",
+      color_code: "#6DB33F",
     },
     {
       title: "Rest API",
@@ -709,42 +804,7 @@ const certifications = {
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/51c373908367",
       alt_name: "API",
-      color_code: "#FF0759",
-    },
-    {
-      title: "DX",
-      subtitle: "Digital Transformation",
-      logo_path: "fpt.png",
-      certificate_link:
-        "https://drive.google.com/file/d/1--a1O9aOZuRz6wjtQUmCSTvxRYEZBm2X/view?usp=drive_link",
-      alt_name: "DX",
-      color_code: "#FF6501",
-    },
-    {
-      title: "Problem Solving",
-      subtitle: "Intermediate",
-      logo_path: "hackerrank.png",
-      certificate_link: "https://www.hackerrank.com/certificates/afa149d488a2",
-      alt_name: "Problem Solving",
-      color_code: "#FFD304",
-    },
-    {
-      title: "Agile",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
-      certificate_link:
-        "https://certificate.testcenter.vn/dUd-VT0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Agile",
-      color_code: "#D44CC6",
-    },
-    {
-      title: "Teamwork",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
-      certificate_link:
-        "https://certificate.testcenter.vn/dE94Uz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Teamwork",
-      color_code: "#C3F148",
+      color_code: "#FF4D6D",
     },
     {
       title: "Software Engineer",
@@ -752,16 +812,34 @@ const certifications = {
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/21f4d932e858",
       alt_name: "Software Engineer",
-      color_code: "#A45CFE",
+      color_code: "#7B2CBF",
     },
     {
-      title: "Presentation",
+      title: "Problem Solving",
+      subtitle: "Intermediate",
+      logo_path: "hackerrank.png",
+      certificate_link: "https://www.hackerrank.com/certificates/afa149d488a2",
+      alt_name: "Problem Solving",
+      color_code: "#FFD60A",
+    },
+
+    // Database / Data / AI
+    {
+      title: "SQL",
+      subtitle: "Advanced",
+      logo_path: "hackerrank.png",
+      certificate_link: "https://www.hackerrank.com/certificates/9c262c7c1e37",
+      alt_name: "SQL",
+      color_code: "#F8961E",
+    },
+    {
+      title: "MySQL",
       subtitle: "Top 20%",
       logo_path: "testcenter.png",
       certificate_link:
-        "https://certificate.testcenter.vn/ekZ7Vz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Presentation",
-      color_code: "#86FE92",
+        "https://certificate.testcenter.vn/dEB_Vz0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "MySQL",
+      color_code: "#4479A1",
     },
     {
       title: "DA",
@@ -770,7 +848,7 @@ const certifications = {
       certificate_link:
         "https://drive.google.com/file/d/1-4gb3YPDXbZqzrPKO_rbRI1pVEQTQy6s/view?usp=drive_link",
       alt_name: "DA",
-      color_code: "#00E2FF",
+      color_code: "#00B4D8",
     },
     {
       title: "ML",
@@ -778,8 +856,120 @@ const certifications = {
       logo_path: "cybersoft.png",
       certificate_link:
         "https://drive.google.com/file/d/1-H9-u_GGE_xa5Aq2Q9dpcBbhi9R00Ebw/view?usp=drive_link",
-      alt_name: "DA",
-      color_code: "#BAEEF9",
+      alt_name: "ML",
+      color_code: "#80ED99",
+    },
+    {
+      title: "Excel",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/ekZ7Vj0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "Excel",
+      color_code: "#21A366",
+    },
+
+    // DevOps / Source Control / Digital Transformation
+    {
+      title: "Git",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/dUd-Vj0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "Git",
+      color_code: "#F1502F",
+    },
+    {
+      title: "DevOps",
+      subtitle: "Advance",
+      logo_path: "devopseduvn.png",
+      certificate_link:
+        "https://devopsedu.vn/certificate/?cert_hash=1b891b616f6076a2",
+      alt_name: "DevOps",
+      color_code: "#00F5D4",
+    },
+    {
+      title: "DX",
+      subtitle: "Digital Transformation",
+      logo_path: "fpt.png",
+      certificate_link:
+        "https://drive.google.com/file/d/1--a1O9aOZuRz6wjtQUmCSTvxRYEZBm2X/view?usp=drive_link",
+      alt_name: "DX",
+      color_code: "#FF7A00",
+    },
+
+    // Game / 3D / Media / SEO
+    {
+      title: "Unity",
+      subtitle: "Advance",
+      logo_path: "udemy.png",
+      certificate_link: "http://ude.my/UC-74458ff2-07ea-4938-878c-b4382991ebea",
+      alt_name: "Unity",
+      color_code: "#A0A0A0",
+    },
+    {
+      title: "Blender",
+      subtitle: "3D",
+      logo_path: "udemy.png",
+      certificate_link: "http://ude.my/UC-83b5cbe6-096e-4fc4-8dfa-6fb1c4278580",
+      alt_name: "Blender",
+      color_code: "#F5792A",
+    },
+    {
+      title: "Adobe Premiere Pro",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/ckd5U3kOJFAOM1RcRyYED0F4SHIX",
+      alt_name: "Adobe Premiere",
+      color_code: "#9999FF",
+    },
+    {
+      title: "SEO",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/dUR_Wj0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "SEO",
+      color_code: "#38B000",
+    },
+
+    // Office / Soft Skills / Work Process
+    {
+      title: "Word",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/ekZ7UT0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "Word",
+      color_code: "#2B579A",
+    },
+    {
+      title: "Presentation",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/ekZ7Vz0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "Presentation",
+      color_code: "#FFB703",
+    },
+    {
+      title: "Agile",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/dUd-VT0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "Agile",
+      color_code: "#FB5607",
+    },
+    {
+      title: "Teamwork",
+      subtitle: "Top 20%",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/dE94Uz0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "Teamwork",
+      color_code: "#8AC926",
     },
   ],
 };
