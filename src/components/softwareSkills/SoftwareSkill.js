@@ -37,7 +37,9 @@ class SoftwareSkill extends React.Component {
                       <img
                         className="skill-image"
                         style={logo.style}
-                        src={`${process.env.PUBLIC_URL}/skills/${logo.imageSrc}?v=${skillAssetVersion}`}
+                        src={`${import.meta.env.BASE_URL}skills/${
+                          logo.imageSrc
+                        }?v=${skillAssetVersion}`}
                         alt={logo.skillName}
                       />
                     )}

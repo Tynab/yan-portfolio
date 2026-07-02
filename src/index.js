@@ -6,7 +6,6 @@ import { Client as Styletron } from "styletron-engine-atomic";
 
 import "./index.css";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 import "./assests/font-awesome/css/all.css";
 
 const engine = new Styletron();
@@ -20,6 +19,3 @@ ReactDOM.render(
   </StyletronProvider>,
   document.getElementById("root")
 );
-
-// Portfolio ưu tiên nội dung luôn mới, nên service worker vẫn tắt mặc định.
-serviceWorker.unregister();
