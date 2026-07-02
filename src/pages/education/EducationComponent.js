@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "../../components/header/Header";
 import TopButton from "../../components/topButton/TopButton";
 import Certifications from "../../containers/certifications/Certifications";
@@ -10,37 +10,34 @@ import "./EducationComponent.css";
 import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Trang Education hiện tập trung vào hồ sơ luyện tập và chứng chỉ.
-class Education extends Component {
-  render() {
-    const theme = this.props.theme;
-    return (
-      <div className="education-main">
-        <Header theme={this.props.theme} />
-        <div className="basic-education">
-          <Fade direction="up" duration={2000}>
-            <div className="heading-div">
-              <div className="heading-img-div">
-                <EducationImg theme={theme} />
-              </div>
-              <div className="heading-text-div">
-                <h1 className="heading-text" style={{ color: theme.text }}>
-                  Education
-                </h1>
-                <h3 className="heading-sub-text" style={{ color: theme.text }}>
-                  Basic Qualification and Certifcations
-                </h3>
-                <CompetitiveSites logos={competitiveSites.competitiveSites} />
-              </div>
+function Education({ theme }) {
+  return (
+    <div className="education-main">
+      <Header theme={theme} />
+      <div className="basic-education">
+        <Fade direction="up" duration={2000}>
+          <div className="heading-div">
+            <div className="heading-img-div">
+              <EducationImg theme={theme} />
             </div>
-          </Fade>
-          {certifications.certifications.length > 0 ? (
-            <Certifications theme={this.props.theme} />
-          ) : null}
-        </div>
-        <TopButton theme={this.props.theme} />
+            <div className="heading-text-div">
+              <h1 className="heading-text" style={{ color: theme.text }}>
+                Education
+              </h1>
+              <h3 className="heading-sub-text" style={{ color: theme.text }}>
+                Basic Qualification and Certifcations
+              </h3>
+              <CompetitiveSites logos={competitiveSites.competitiveSites} />
+            </div>
+          </div>
+        </Fade>
+        {certifications.certifications.length > 0 ? (
+          <Certifications theme={theme} />
+        ) : null}
       </div>
-    );
-  }
+      <TopButton theme={theme} />
+    </div>
+  );
 }
 
 export default Education;
