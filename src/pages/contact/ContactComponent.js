@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "../../components/header/Header";
-import TopButton from "../../components/topButton/TopButton";
+import PageLayout from "../../components/pageLayout/PageLayout";
 import SocialMedia from "../../components/socialMedia/SocialMedia";
 import Button from "../../components/button/Button";
 import BlogsImg from "./BlogsImg";
@@ -17,8 +16,7 @@ const phoneSection = contactPageData.phoneSection;
 // Tóm tắt: Trang Contact hiển thị kênh liên hệ, link hồ sơ và vị trí hiện tại.
 function Contact({ theme }) {
   return (
-    <div className="contact-main">
-      <Header theme={theme} />
+    <PageLayout theme={theme} className="contact-main">
       <div className="basic-contact">
         <Fade direction="up" duration={1000}>
           <div className="contact-heading-div">
@@ -126,8 +124,7 @@ function Contact({ theme }) {
           </div>
         </Fade>
       </div>
-      <TopButton theme={theme} />
-    </div>
+    </PageLayout>
   );
 }
 

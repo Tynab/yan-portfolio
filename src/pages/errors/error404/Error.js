@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "../../../components/header/Header";
-import TopButton from "../../../components/topButton/TopButton";
+import PageLayout from "../../../components/pageLayout/PageLayout";
 import { Fade } from "react-awesome-reveal";
 import "./Error.css";
 import { Link } from "react-router-dom";
@@ -8,8 +7,7 @@ import { Link } from "react-router-dom";
 // Tóm tắt: Trang lỗi 404 giữ layout theme và CTA quay về Home.
 function Error({ theme }) {
   return (
-    <div className="error-main">
-      <Header theme={theme} />
+    <PageLayout theme={theme} className="error-main">
       <div className="error-class">
         <Fade direction="up" duration={2000}>
           <h1>Woops</h1>
@@ -29,8 +27,7 @@ function Error({ theme }) {
           </Link>
         </Fade>
       </div>
-      <TopButton theme={theme} />
-    </div>
+    </PageLayout>
   );
 }
 

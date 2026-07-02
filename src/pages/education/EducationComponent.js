@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "../../components/header/Header";
-import TopButton from "../../components/topButton/TopButton";
+import PageLayout from "../../components/pageLayout/PageLayout";
 import Certifications from "../../containers/certifications/Certifications";
 import CompetitiveSites from "../../components/competitiveSites/CompetitiveSites";
 import EducationImg from "./EducationImg";
@@ -12,8 +11,7 @@ import { Fade } from "react-awesome-reveal";
 // Tóm tắt: Trang Education hiện tập trung vào hồ sơ luyện tập và chứng chỉ.
 function Education({ theme }) {
   return (
-    <div className="education-main">
-      <Header theme={theme} />
+    <PageLayout theme={theme} className="education-main">
       <div className="basic-education">
         <Fade direction="up" duration={2000}>
           <div className="heading-div">
@@ -35,8 +33,7 @@ function Education({ theme }) {
           <Certifications theme={theme} />
         ) : null}
       </div>
-      <TopButton theme={theme} />
-    </div>
+    </PageLayout>
   );
 }
 

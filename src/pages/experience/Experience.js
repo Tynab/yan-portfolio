@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "../../components/header/Header";
-import TopButton from "../../components/topButton/TopButton";
+import PageLayout from "../../components/pageLayout/PageLayout";
 import ExperienceAccordion from "../../containers/experienceAccordion/ExperienceAccordion.js";
 import "./Experience.css";
 import { experience } from "../../portfolio.js";
@@ -10,8 +9,7 @@ import ExperienceImg from "./ExperienceImg";
 // Tóm tắt: Trang Experience hiển thị phần giới thiệu và accordion kinh nghiệm làm việc.
 function Experience({ theme }) {
   return (
-    <div className="experience-main">
-      <Header theme={theme} />
+    <PageLayout theme={theme} className="experience-main">
       <div className="basic-experience">
         <Fade direction="up" duration={2000}>
           <div className="experience-heading-div">
@@ -42,8 +40,7 @@ function Experience({ theme }) {
         </Fade>
       </div>
       <ExperienceAccordion sections={experience["sections"]} theme={theme} />
-      <TopButton theme={theme} />
-    </div>
+    </PageLayout>
   );
 }
 
