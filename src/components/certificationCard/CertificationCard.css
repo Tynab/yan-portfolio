@@ -1,15 +1,19 @@
 /* Tóm tắt: Style cho CertificationCard trong components/certificationCard. */
+/* react-awesome-reveal bọc mỗi card trong 1 div wrapper (class cert-card-reveal),
+   nên phần chia cột flex (30%) phải đặt trên wrapper này — không phải trên .cert-card. */
+.cert-card-reveal {
+  flex: 0 0 30%;
+  margin-bottom: 30px;
+}
+
 .cert-card {
-  width: 30%;
-  display: inline-block;
+  width: 100%;
   justify-content: center;
   align-items: center;
   text-align: center;
   border: 1px solid #d9dbdf;
   border-radius: 5px;
   box-shadow: 5px 5px 5px #d9dbdf;
-  margin-bottom: 30px;
-  flex: 0 0 30%;
 }
 
 .cert-header {
@@ -106,7 +110,7 @@
 }
 
 @media (max-width: 768px) {
-  .cert-card {
-    width: 100%;
+  .cert-card-reveal {
+    flex-basis: 100%;
   }
 }

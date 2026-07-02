@@ -15,7 +15,9 @@ export default function Main({ theme }) {
   // isSplash đang tắt (false) nên "/" render thẳng Home; bật settings.isSplash để dùng màn splash làm landing.
   const Landing = settings.isSplash ? Splash : Home;
   return (
-    <HashRouter>
+    <HashRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       <Routes>
         <Route path="/" element={<Landing theme={theme} />} />
         <Route path="/home" element={<Home theme={theme} />} />

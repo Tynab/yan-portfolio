@@ -11,8 +11,6 @@ module.exports = {
   ],
   rules: {
     "react/prop-types": "off",
-    // SVG dùng thuộc tính kebab-case (stroke-miterlimit...) sẵn có; cảnh báo thay vì lỗi để không chặn build.
-    "react/no-unknown-property": "warn",
   },
   ignorePatterns: ["build/", "src/assests/font-awesome/**"],
   overrides: [

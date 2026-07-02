@@ -5,7 +5,7 @@ import { Fade } from "react-awesome-reveal";
 // Tóm tắt: Card chứng chỉ với logo đơn vị cấp và link chứng thực ngoài.
 function CertificationCard({ certificate, theme }) {
   return (
-    <Fade direction="up" duration={2000}>
+    <Fade direction="up" duration={2000} className="cert-card-reveal">
       <div className="cert-card">
         <div className="content">
           <a

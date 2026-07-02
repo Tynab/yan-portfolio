@@ -59,6 +59,10 @@
     "@tootallnate/once": "2.0.1",
     "nth-check": "2.1.1",
     "postcss": "8.5.15",
-    "moment-timezone": "0.5.35"
+    "moment-timezone": "0.5.35",
+    "react-uid": "2.3.3",
+    "react-window": "1.8.11",
+    "react-virtualized-auto-sizer": "1.0.26",
+    "esbuild": "^0.25.0"
   }
 }
