@@ -30,7 +30,7 @@ function PullRequestChart() {
 
   return (
     <div className="pr-chart">
-      <Fade direction="up" duration={2000}>
+      <Fade direction="up" duration={2000} triggerOnce>
         <h2 className="pr-chart-header">Pull Request Distribution</h2>
       </Fade>
       <Doughnut

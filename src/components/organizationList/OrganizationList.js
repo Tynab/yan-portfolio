@@ -21,7 +21,7 @@ function OrganizationList({ logos = [] }) {
               }
             >
               <li className="organizations-inline" name={logo["login"]}>
-                <Fade direction="up" duration={2000}>
+                <Fade direction="up" duration={2000} triggerOnce>
                   <img
                     className="organizations-img"
                     src={logo["avatarUrl"]}

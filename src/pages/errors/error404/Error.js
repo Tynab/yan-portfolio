@@ -9,7 +9,7 @@ function Error({ theme }) {
   return (
     <PageLayout theme={theme} className="error-main">
       <div className="error-class">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <h1>Woops</h1>
           <h1 className="error-404">404</h1>
           <p>The requested page is unavailable at the moment!</p>

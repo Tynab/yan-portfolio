@@ -53,7 +53,7 @@ function IssueCard({ issue }) {
   }
 
   return (
-    <Fade direction="up" duration={2000}>
+    <Fade direction="up" duration={2000} triggerOnce>
       <div
         className="issue-card"
         style={{

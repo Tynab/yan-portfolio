@@ -9,7 +9,7 @@ function Issues({ theme }) {
   return (
     <div>
       <div className="issues-header-div">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <h1 className="issues-header" style={{ color: theme.text }}>
             Issues
           </h1>

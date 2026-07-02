@@ -26,7 +26,7 @@ function IssueChart() {
 
   return (
     <div className="issue-chart">
-      <Fade direction="up" duration={2000}>
+      <Fade direction="up" duration={2000} triggerOnce>
         <h2 className="issue-chart-header">Issue Distribution</h2>
       </Fade>
       <Doughnut

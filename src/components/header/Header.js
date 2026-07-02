@@ -26,7 +26,7 @@ const navItems = [
 function Header({ theme }) {
   const link = settings.isSplash ? "/splash" : "/home";
   return (
-    <Fade direction="down" duration={1000}>
+    <Fade direction="down" duration={1000} triggerOnce>
       <SeoHeader />
       <div>
         <header className="header">

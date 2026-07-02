@@ -18,7 +18,7 @@ function Contact({ theme }) {
   return (
     <PageLayout theme={theme} className="contact-main">
       <div className="basic-contact">
-        <Fade direction="up" duration={1000}>
+        <Fade direction="up" duration={1000} triggerOnce>
           <div className="contact-heading-div">
             <div className="contact-heading-img-div">
               <img
@@ -57,7 +57,7 @@ function Contact({ theme }) {
             </div>
           </div>
         </Fade>
-        <Fade direction="up" duration={1000}>
+        <Fade direction="up" duration={1000} triggerOnce>
           <div className="blog-heading-div">
             <div className="blog-heading-text-div">
               <h1 className="blog-heading-text" style={{ color: theme.text }}>
@@ -83,7 +83,7 @@ function Contact({ theme }) {
             </div>
           </div>
         </Fade>
-        <Fade direction="up" duration={1000}>
+        <Fade direction="up" duration={1000} triggerOnce>
           <div className="address-heading-div">
             <div className="contact-heading-img-div">
               <AddressImg theme={theme} />

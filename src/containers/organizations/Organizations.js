@@ -9,7 +9,7 @@ function Organizations({ theme }) {
   return (
     <div id="organizations">
       <div className="organizations-header-div">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <h1 className="organizations-header" style={{ color: theme.text }}>
             Contributed Organizations
           </h1>

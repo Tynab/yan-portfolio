@@ -9,7 +9,7 @@ function PullRequests({ theme }) {
   return (
     <div>
       <div className="pull-requests-header-div">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <h1 className="pull-requests-header" style={{ color: theme.text }}>
             Pull Requests
           </h1>

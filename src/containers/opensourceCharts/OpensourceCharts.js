@@ -9,7 +9,7 @@ function OpensourceCharts({ theme }) {
   return (
     <div className="main-div">
       <div className="os-charts-header-div">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <h1 className="os-charts-header" style={{ color: theme.text }}>
             Contributions
           </h1>

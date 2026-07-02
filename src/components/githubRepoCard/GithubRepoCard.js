@@ -21,7 +21,7 @@ export default function GithubRepoCard({ repo, theme }) {
 
   return (
     <div className="repo-card-div" style={{ backgroundColor: theme.highlight }}>
-      <Fade direction="up" duration={2000}>
+      <Fade direction="up" duration={2000} triggerOnce>
         <div
           role="button"
           tabIndex={0}

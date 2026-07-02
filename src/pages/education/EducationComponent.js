@@ -13,7 +13,7 @@ function Education({ theme }) {
   return (
     <PageLayout theme={theme} className="education-main">
       <div className="basic-education">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <div className="heading-div">
             <div className="heading-img-div">
               <EducationImg theme={theme} />

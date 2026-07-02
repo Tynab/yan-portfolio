@@ -13,7 +13,7 @@ function Projects({ theme }) {
   return (
     <PageLayout theme={theme} className="projects-main">
       <div className="basic-projects">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <div className="projects-heading-div">
             <div className="projects-heading-img-div">
               <ProjectsImg theme={theme} />

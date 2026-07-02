@@ -9,7 +9,7 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
       className="experience-list-item"
       style={{ marginTop: index === 0 ? 30 : 50 }}
     >
-      <Fade direction="left" duration={2000}>
+      <Fade direction="left" duration={2000} triggerOnce>
         <div className="experience-card-logo-div">
           <img
             className="experience-card-logo"
@@ -46,7 +46,7 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
           />
         )}
       </div>
-      <Fade direction="right" duration={2000}>
+      <Fade direction="right" duration={2000} triggerOnce>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div
             className="arrow-left"

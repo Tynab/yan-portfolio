@@ -9,7 +9,7 @@ function Certifications({ theme }) {
   return (
     <div className="main" id="certs">
       <div className="certs-header-div">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <h1 className="certs-header" style={{ color: theme.text }}>
             Certifications
           </h1>

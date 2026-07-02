@@ -11,7 +11,7 @@ function Experience({ theme }) {
   return (
     <PageLayout theme={theme} className="experience-main">
       <div className="basic-experience">
-        <Fade direction="up" duration={2000}>
+        <Fade direction="up" duration={2000} triggerOnce>
           <div className="experience-heading-div">
             <div className="experience-heading-img-div">
               <ExperienceImg theme={theme} />
