@@ -9,7 +9,7 @@ YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường A
 ## Stack kỹ thuật
 
 - **React 18** + `react-dom` 18 (`createRoot`), **react-router-dom 6** với `HashRouter` (route dạng `/#/...`).
-- **Vite 5** (`@vitejs/plugin-react`) làm build tool/dev server, thay cho Create React App; một plugin nội bộ (`jsAsJsx` trong `vite.config.js`) cho phép JSX tồn tại trong file `.js` để không phải đổi tên hàng loạt.
+- **Vite 7** (`@vitejs/plugin-react`) làm build tool/dev server, thay cho Create React App; một plugin nội bộ (`jsAsJsx` trong `vite.config.js`) cho phép JSX tồn tại trong file `.js` để không phải đổi tên hàng loạt.
 - `styled-components` 6 cho theme (`ThemeProvider`, `GlobalStyles`); `styletron-react` + `styletron-engine-atomic` + `baseui` cho riêng accordion ở trang Experience.
 - `react-awesome-reveal` + `@emotion/react` cho animation cuộn trang (thay cho `react-reveal`, không còn tương thích React 18).
 - `react-bootstrap` 2 + `bootstrap` 5 cho tooltip/overlay.
