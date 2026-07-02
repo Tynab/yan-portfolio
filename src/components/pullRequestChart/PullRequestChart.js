@@ -5,6 +5,7 @@ import { Fade } from "react-awesome-reveal";
 import "./PullRequestChart.css";
 import PullRequestData from "../../shared/opensource/pull_requests.json";
 
+// chart.js v4 tree-shaken nên phải đăng ký thủ công các thành phần dùng tới (ArcElement/Tooltip/Legend).
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const CHART_COLORS = ["#28a745", "#6f42c1", "#d73a49"];

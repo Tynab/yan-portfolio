@@ -2,6 +2,7 @@ import React from "react";
 import "./SoftwareSkill.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
+// Chuỗi cache-bust: nginx phục vụ /skills/ với no-cache nên phải bump giá trị này mỗi khi đổi PNG kỹ năng.
 const skillAssetVersion = "2026-06-29-lfs-refresh";
 
 // Tóm tắt: Render lưới kỹ năng phần mềm từ cấu hình, hỗ trợ cả Iconify và ảnh tĩnh.
@@ -34,6 +35,7 @@ function SoftwareSkill({ logos = [] }) {
                     <img
                       className="skill-image"
                       style={logo.style}
+                      // BASE_URL (Vite) thay cho PUBLIC_URL (CRA) để trỏ đúng thư mục public/skills/ khi deploy.
                       src={`${import.meta.env.BASE_URL}skills/${
                         logo.imageSrc
                       }?v=${skillAssetVersion}`}

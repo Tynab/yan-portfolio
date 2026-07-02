@@ -5,6 +5,7 @@ import { Fade } from "react-awesome-reveal";
 import "./IssueChart.css";
 import IssueData from "../../shared/opensource/issues.json";
 
+// chart.js v4 tree-shaken nên phải đăng ký thủ công các thành phần dùng tới (ArcElement/Tooltip/Legend).
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const CHART_COLORS = ["#28a745", "#d73a49"];

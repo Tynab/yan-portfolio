@@ -14,6 +14,7 @@ const engine = new Styletron();
 // Tóm tắt: Entry point — gắn Styletron/BaseUI + Helmet provider rồi render app (React 18 createRoot).
 const container = document.getElementById("root");
 createRoot(container).render(
+  // Thứ tự bọc bắt buộc: Styletron (engine cho BaseUI) -> BaseUI -> Helmet (quản lý <head>) -> App.
   <StyletronProvider value={engine}>
     <BaseProvider theme={LightTheme}>
       <HelmetProvider>

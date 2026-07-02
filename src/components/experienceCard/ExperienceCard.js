@@ -13,6 +13,7 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
         <div className="experience-card-logo-div">
           <img
             className="experience-card-logo"
+            // new URL(..., import.meta.url): cách Vite nạp ảnh động thay cho require() của CRA.
             src={
               new URL(
                 `../../assests/images/${experience["logo_path"]}`,

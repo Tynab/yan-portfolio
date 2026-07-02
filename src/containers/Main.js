@@ -12,6 +12,7 @@ import Error404 from "../pages/errors/error404/Error";
 
 // Tóm tắt: Router chính (v6) — chọn landing theo splash, còn lại là các route trang.
 export default function Main({ theme }) {
+  // isSplash đang tắt (false) nên "/" render thẳng Home; bật settings.isSplash để dùng màn splash làm landing.
   const Landing = settings.isSplash ? Splash : Home;
   return (
     <HashRouter>
@@ -26,6 +27,7 @@ export default function Main({ theme }) {
         {settings.isSplash && (
           <Route path="/splash" element={<Splash theme={theme} />} />
         )}
+        {/* Catch-all: mọi path không khớp route nào ở trên đều rơi vào trang 404. */}
         <Route path="*" element={<Error404 theme={theme} />} />
       </Routes>
     </HashRouter>

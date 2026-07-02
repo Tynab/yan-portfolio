@@ -20,6 +20,7 @@ function CertificationCard({ certificate, theme }) {
             >
               <img
                 className="logo_img"
+                // new URL(..., import.meta.url): cách Vite nạp ảnh động thay cho require() của CRA.
                 src={
                   new URL(
                     `../../assests/images/${certificate.logo_path}`,

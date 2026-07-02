@@ -34,6 +34,7 @@ function SeoHeader() {
       description: certification.subtitle,
     };
   });
+  // Object JSON-LD schema.org Person, nhúng vào <script type="application/ld+json"> bên dưới để hỗ trợ SEO.
   const data = {
     "@context": "https://schema.org/",
     "@type": "Person",

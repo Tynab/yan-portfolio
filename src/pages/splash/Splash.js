@@ -18,6 +18,7 @@ function Splash({ theme }) {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
+    // Hiện splash 5.5s rồi tự điều hướng sang /home.
     const id = setTimeout(() => setRedirect(true), 5500);
     return () => clearTimeout(id);
   }, []);

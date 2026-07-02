@@ -22,6 +22,7 @@ function Contact({ theme }) {
           <div className="contact-heading-div">
             <div className="contact-heading-img-div">
               <img
+                // new URL(..., import.meta.url): cách Vite nạp ảnh động thay cho require() của CRA.
                 src={
                   new URL(
                     `../../assests/images/${ContactData["profile_image_path"]}`,
