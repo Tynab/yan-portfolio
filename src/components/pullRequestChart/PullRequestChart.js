@@ -7,6 +7,9 @@ import PullRequestData from "../../shared/opensource/pull_requests.json";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const CHART_COLORS = ["#28a745", "#6f42c1", "#d73a49"];
+const CHART_HOVER_COLORS = ["#28a745dd", "#6f42c1dd", "#d73a49dd"];
+
 // Tóm tắt: Biểu đồ phân phối trạng thái pull request từ dữ liệu snapshot.
 function PullRequestChart() {
   const data = {
@@ -18,8 +21,8 @@ function PullRequestChart() {
           PullRequestData["merged"],
           PullRequestData["closed"],
         ],
-        backgroundColor: ["#28a745", "#6f42c1", "#d73a49"],
-        hoverBackgroundColor: ["#28a745dd", "#6f42c1dd", "#d73a49dd"],
+        backgroundColor: CHART_COLORS,
+        hoverBackgroundColor: CHART_HOVER_COLORS,
       },
     ],
   };

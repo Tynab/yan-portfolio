@@ -7,6 +7,9 @@ import IssueData from "../../shared/opensource/issues.json";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const CHART_COLORS = ["#28a745", "#d73a49"];
+const CHART_HOVER_COLORS = ["#28a745dd", "#d73a49dd"];
+
 // Tóm tắt: Biểu đồ phân phối issue open/closed từ dữ liệu snapshot.
 function IssueChart() {
   const data = {
@@ -14,8 +17,8 @@ function IssueChart() {
     datasets: [
       {
         data: [IssueData["open"], IssueData["closed"]],
-        backgroundColor: ["#28a745", "#d73a49"],
-        hoverBackgroundColor: ["#28a745dd", "#d73a49dd"],
+        backgroundColor: CHART_COLORS,
+        hoverBackgroundColor: CHART_HOVER_COLORS,
       },
     ],
   };
