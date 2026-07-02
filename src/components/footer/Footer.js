@@ -1,6 +1,6 @@
 import React from "react";
 import "./Footer.css";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import { greeting } from "../../portfolio.js";
 
 // Tóm tắt: Footer nhỏ dùng theme phụ để hiển thị credit chủ portfolio.

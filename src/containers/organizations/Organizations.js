@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Organizations.css";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import OrganizationList from "../../components/organizationList/OrganizationList";
 import OrganizationsData from "../../shared/opensource/organizations.json";
 
@@ -11,7 +11,7 @@ class Organizations extends Component {
     return (
       <div id="organizations">
         <div className="organizations-header-div">
-          <Fade bottom duration={2000} distance="20px">
+          <Fade direction="up" duration={2000}>
             <h1 className="organizations-header" style={{ color: theme.text }}>
               Contributed Organizations
             </h1>

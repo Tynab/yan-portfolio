@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./PullRequestCard.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card mô tả pull request, trạng thái merge và số dòng thay đổi.
 class PullRequestCard extends Component {
@@ -64,7 +64,7 @@ class PullRequestCard extends Component {
     }
 
     return (
-      <Fade bottom duration={2000} distance="40px">
+      <Fade direction="up" duration={2000}>
         <div
           className="pull-request-card"
           style={{

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./OrganizationList.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Danh sách logo tổ chức GitHub kèm tooltip tên tổ chức.
 class OrganizationList extends Component {
@@ -24,7 +24,7 @@ class OrganizationList extends Component {
                 }
               >
                 <li className="organizations-inline" name={logo["login"]}>
-                  <Fade bottom duration={2000} distance="40px">
+                  <Fade direction="up" duration={2000}>
                     <img
                       className="organizations-img"
                       src={logo["avatarUrl"]}

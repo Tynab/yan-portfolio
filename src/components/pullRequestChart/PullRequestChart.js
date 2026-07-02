@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import "./PullRequestChart.css";
 import PullRequestData from "../../shared/opensource/pull_requests.json";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Tóm tắt: Biểu đồ phân phối trạng thái pull request từ dữ liệu snapshot.
 class PullRequestChart extends Component {
@@ -24,18 +27,21 @@ class PullRequestChart extends Component {
 
     return (
       <div className="pr-chart">
-        <Fade bottom duration={2000} distance="20px">
+        <Fade direction="up" duration={2000}>
           <h2 className="pr-chart-header">Pull Request Distribution</h2>
         </Fade>
         <Doughnut
           data={data}
           options={{
-            padding: "0",
-            margin: "0",
             responsive: true,
             maintainAspectRatio: true,
             animation: {
               duration: 4000,
+            },
+            plugins: {
+              legend: {
+                position: "top",
+              },
             },
           }}
         />

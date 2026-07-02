@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./IssueCard.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card mô tả issue GitHub, gồm trạng thái, repo nguồn và assignee đầu tiên.
 class IssueCard extends Component {
@@ -55,7 +55,7 @@ class IssueCard extends Component {
     }
 
     return (
-      <Fade bottom duration={2000} distance="40px">
+      <Fade direction="up" duration={2000}>
         <div
           className="issue-card"
           style={{

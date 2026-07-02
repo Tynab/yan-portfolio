@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Splash.css";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import LoaderLogo from "../../components/Loader/LoaderLogo.js";
 
 // Tóm tắt: Splash hiển thị logo động rồi tự chuyển sang trang home.
@@ -32,7 +32,7 @@ class Splash extends Component {
 
   render() {
     return this.state.redirect ? (
-      <Redirect to="/home" />
+      <Navigate to="/home" replace />
     ) : (
       <AnimatedSplash theme={this.props.theme} />
     );

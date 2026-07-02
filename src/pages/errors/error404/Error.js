@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Header from "../../../components/header/Header";
 import TopButton from "../../../components/topButton/TopButton";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import "./Error.css";
 import { Link } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export default class Error extends Component {
       <div className="error-main">
         <Header theme={this.props.theme} />
         <div className="error-class">
-          <Fade bottom duration={2000} distance="40px">
+          <Fade direction="up" duration={2000}>
             <h1>Woops</h1>
             <h1 className="error-404">404</h1>
             <p>The requested page is unavailable at the moment!</p>

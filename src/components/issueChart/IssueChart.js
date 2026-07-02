@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import "./IssueChart.css";
 import IssueData from "../../shared/opensource/issues.json";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Tóm tắt: Biểu đồ phân phối issue open/closed từ dữ liệu snapshot.
 class IssueChart extends Component {
@@ -20,18 +23,21 @@ class IssueChart extends Component {
 
     return (
       <div className="issue-chart">
-        <Fade bottom duration={2000} distance="20px">
+        <Fade direction="up" duration={2000}>
           <h2 className="issue-chart-header">Issue Distribution</h2>
         </Fade>
         <Doughnut
           data={data}
           options={{
-            margin: "0",
-            padding: "0",
             responsive: true,
             maintainAspectRatio: true,
             animation: {
               duration: 4000,
+            },
+            plugins: {
+              legend: {
+                position: "top",
+              },
             },
           }}
         />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./ExperienceCard.css";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Timeline card mô tả một vai trò công việc/kỳ thực tập và logo công ty.
 class ExperienceCard extends Component {
@@ -14,7 +14,7 @@ class ExperienceCard extends Component {
         className="experience-list-item"
         style={{ marginTop: index === 0 ? 30 : 50 }}
       >
-        <Fade left duration={2000} distance="40px">
+        <Fade direction="left" duration={2000}>
           <div className="experience-card-logo-div">
             <img
               className="experience-card-logo"
@@ -50,7 +50,7 @@ class ExperienceCard extends Component {
             />
           )}
         </div>
-        <Fade right duration={2000} distance="40px">
+        <Fade direction="right" duration={2000}>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div
               className="arrow-left"

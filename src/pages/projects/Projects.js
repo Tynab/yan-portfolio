@@ -3,7 +3,7 @@ import Header from "../../components/header/Header";
 import GithubRepoCard from "../../components/githubRepoCard/GithubRepoCard";
 import Button from "../../components/button/Button";
 import TopButton from "../../components/topButton/TopButton";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import { greeting, projectsHeader } from "../../portfolio.js";
 import ProjectsData from "../../shared/opensource/projects.json";
 import "./Projects.css";
@@ -17,7 +17,7 @@ class Projects extends Component {
       <div className="projects-main">
         <Header theme={theme} />
         <div className="basic-projects">
-          <Fade bottom duration={2000} distance="40px">
+          <Fade direction="up" duration={2000}>
             <div className="projects-heading-div">
               <div className="projects-heading-img-div">
                 <ProjectsImg theme={theme} />

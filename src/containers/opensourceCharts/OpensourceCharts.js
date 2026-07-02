@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PullRequestChart from "../../components/pullRequestChart/PullRequestChart.js";
 import IssueChart from "../../components/issueChart/IssueChart.js";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 import "./OpensourceCharts.css";
 
 // Tóm tắt: Gom hai biểu đồ doughnut cho pull request và issue.
@@ -11,7 +11,7 @@ class OpensourceCharts extends Component {
     return (
       <div className="main-div">
         <div className="os-charts-header-div">
-          <Fade bottom duration={2000} distance="20px">
+          <Fade direction="up" duration={2000}>
             <h1 className="os-charts-header" style={{ color: theme.text }}>
               Contributions
             </h1>

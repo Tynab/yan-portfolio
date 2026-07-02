@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./CertificationCard.css";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card chứng chỉ với logo đơn vị cấp và link chứng thực ngoài.
 class CertificationCard extends Component {
@@ -8,7 +8,7 @@ class CertificationCard extends Component {
     const certificate = this.props.certificate;
     const theme = this.props.theme;
     return (
-      <Fade bottom duration={2000} distance="20px">
+      <Fade direction="up" duration={2000}>
         <div className="cert-card">
           <div className="content">
             <a

@@ -7,7 +7,7 @@ import EducationImg from "./EducationImg";
 import { competitiveSites } from "../../portfolio";
 import { certifications } from "../../portfolio";
 import "./EducationComponent.css";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Trang Education hiện tập trung vào hồ sơ luyện tập và chứng chỉ.
 class Education extends Component {
@@ -17,7 +17,7 @@ class Education extends Component {
       <div className="education-main">
         <Header theme={this.props.theme} />
         <div className="basic-education">
-          <Fade bottom duration={2000} distance="40px">
+          <Fade direction="up" duration={2000}>
             <div className="heading-div">
               <div className="heading-img-div">
                 <EducationImg theme={theme} />
