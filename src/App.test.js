@@ -1,10 +1,21 @@
+// Tóm tắt: Smoke test — App render không lỗi (bọc đủ provider như index.js).
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "@testing-library/react";
+import { BaseProvider, LightTheme } from "baseui";
+import { Provider as StyletronProvider } from "styletron-react";
+import { Client as Styletron } from "styletron-engine-atomic";
+import { HelmetProvider } from "react-helmet-async";
 import App from "./App";
 
-// Tóm tắt: Smoke test đảm bảo App mount/unmount được trong DOM giả lập.
-it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+test("App renders without crashing", () => {
+  const engine = new Styletron();
+  render(
+    <StyletronProvider value={engine}>
+      <BaseProvider theme={LightTheme}>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </BaseProvider>
+    </StyletronProvider>
+  );
 });
