@@ -1,7 +1,7 @@
 import React from "react";
 import ProjectLanguages from "../../components/projectLanguages/ProjectLanguages";
 import "./GithubRepoCard.css";
-import { Fade } from "react-reveal";
+import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card repository tĩnh, dùng cho trang Projects và danh sách repo phụ.
 export default function GithubRepoCard({ repo, theme }) {
@@ -21,7 +21,7 @@ export default function GithubRepoCard({ repo, theme }) {
 
   return (
     <div className="repo-card-div" style={{ backgroundColor: theme.highlight }}>
-      <Fade bottom duration={2000} distance="40px">
+      <Fade direction="up" duration={2000} triggerOnce>
         <div
           role="button"
           tabIndex={0}

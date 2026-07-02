@@ -3,7 +3,20 @@ import "./SocialMedia.css";
 import { socialMediaLinks } from "../../portfolio";
 import styled from "styled-components";
 
-const IconWrapper = styled.span`
+// styled-components v6 chuyển tiếp mọi prop xuống DOM; chỉ giữ lại các prop
+// hợp lệ cho <span> để tránh cảnh báo "unknown attribute" (backgroundColor,
+// fontAwesomeIcon, link, name... chỉ dùng cho style/logic, không phải HTML).
+const nonDomProps = new Set([
+  "backgroundColor",
+  "fontAwesomeIcon",
+  "link",
+  "name",
+  "theme",
+  "onToggle",
+]);
+const IconWrapper = styled.span.withConfig({
+  shouldForwardProp: (prop) => !nonDomProps.has(prop),
+})`
   i {
     background-color: ${(props) => props.backgroundColor};
   }
