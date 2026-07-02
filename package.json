@@ -46,11 +46,6 @@
     "vite": "^5.4.21",
     "vitest": "^2.1.9"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "package.json": "prettier-package-json --write",
     "*.{js,css,md}": "prettier --write"
