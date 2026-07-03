@@ -126,6 +126,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Superpowers subagent-driven-development scratch (ledger, briefs, diffs)
-.superpowers/
