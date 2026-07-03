@@ -31,21 +31,27 @@ function isNightInVietnam(minutes) {
 
 export default {
   async fetch(request) {
-    const url = new URL(request.url);
+    try {
+      const url = new URL(request.url);
 
-    // Giữ nguyên hành vi Page Rule #1 cũ: chỉ trên www, mọi khung giờ.
-    if (
-      url.hostname === "www.yamiannephilim.com" &&
-      url.pathname === "/wedding-card"
-    ) {
-      return Response.redirect(WEDDING_CARD_TARGET, STATUS_CODE);
+      // Giữ nguyên hành vi Page Rule #1 cũ: chỉ trên www, mọi khung giờ.
+      if (
+        url.hostname === "www.yamiannephilim.com" &&
+        url.pathname === "/wedding-card"
+      ) {
+        return Response.redirect(WEDDING_CARD_TARGET, STATUS_CODE);
+      }
+
+      // Không truyền path/query sang đích — giống hệt 2 Page Rules forwarding cũ.
+      const target = isNightInVietnam(minutesOfDayInVietnam())
+        ? NIGHT_TARGET
+        : DAY_TARGET;
+      return Response.redirect(target, STATUS_CODE);
+    } catch {
+      // Lỗi bất kỳ (vd. Intl.DateTimeFormat) đều fallback về DAY_TARGET thay vì để
+      // Cloudflare trả trang lỗi 1101 — thà ban đêm vẫn hiện portfolio còn hơn báo lỗi.
+      return Response.redirect(DAY_TARGET, STATUS_CODE);
     }
-
-    // Không truyền path/query sang đích — giống hệt 2 Page Rules forwarding cũ.
-    const target = isNightInVietnam(minutesOfDayInVietnam())
-      ? NIGHT_TARGET
-      : DAY_TARGET;
-    return Response.redirect(target, STATUS_CODE);
   },
 };
 
