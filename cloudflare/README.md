@@ -28,7 +28,7 @@ Tóm tắt: Hướng dẫn deploy Worker chuyển hướng `yamiannephilim.com` 
    curl.exe -sI https://www.yamiannephilim.com/wedding-card | findstr /i "HTTP location"
    ```
 
-   Kỳ vọng: status `302`; `location: https://portfolio.yamiannephilim.com` cho 2 lệnh đầu, `location: https://tynab.github.io/Yami-Buzzy` cho lệnh cuối.
+   Kỳ vọng: status `302`; `location: https://portfolio.yamiannephilim.com/` cho 2 lệnh đầu (có `/` cuối — chuẩn hóa URL của Response.redirect), `location: https://tynab.github.io/Yami-Buzzy` cho lệnh cuối.
 
 5. **Giả lập ban đêm (không cần đợi 23:30)**: trong `Edit code`, sửa tạm `NIGHT_START_MINUTES` thành số phút hiện tại theo giờ VN (ví dụ đang 14:00 → `14 * 60`) → `Deploy` → chạy lại lệnh curl đầu tiên, kỳ vọng `location: https://github.com/Tynab` → hoàn lại `23 * 60 + 30` → `Deploy`. Nếu sau khi Deploy mà response vẫn hiện portfolio, kiểm tra lại cả 2 route đã gắn vào Worker chưa (`Settings` → `Domains & Routes`) và xem log trực tiếp ở tab `Logs` của Worker trước khi thử lại.
 6. **Tắt 3 Page Rules cũ**: Dashboard → zone `yamiannephilim.com` → `Rules` → `Page Rules` → gạt toggle **OFF** cả 3 rule (rule wedding-card + 2 rule forwarding). **Không xóa** — giữ lại để rollback. (Worker route vốn được ưu tiên chạy trước Page Rules, tắt đi cho sạch và tránh nhầm lẫn.)
