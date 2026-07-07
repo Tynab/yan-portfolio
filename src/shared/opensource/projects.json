@@ -1,126 +1,64 @@
 {
     "data": [
         {
-            "id": "MDEwOlJlcG9zaXRvcnkyNDU0NjcyNzQ=",
-            "name": "CRM",
-            "createdAt": "2022-10-08",
-            "url": "https://github.com/Tynab/CRM-Project",
-            "description": "📒 CRM technology empowers businesses to build, manage, and grow customer relationships effectively.",
-            "isFork": false,
-            "languages": [
-                {
-                    "name": "HTML",
-                    "iconifyClass": "vscode-icons:file-type-html"
-                },
-                {
-                    "name": "CSS",
-                    "iconifyClass": "vscode-icons:file-type-css"
-                },
-                {
-                    "name": "JavaScript",
-                    "iconifyClass": "logos:javascript"
-                },
-                {
-                    "name": "jQuery",
-                    "iconifyClass": "devicon:jquery"
-                },
-                {
-                    "name": "Java",
-                    "iconifyClass": "logos:java"
-                },
-                {
-                    "name": "Thymeleaf",
-                    "iconifyClass": "logos:thymeleaf-icon"
-                },
-                {
-                    "name": "Spring",
-                    "iconifyClass": "logos:spring-icon"
-                },
-                {
-                    "name": "Auth0",
-                    "iconifyClass": "logos:auth0-icon"
-                },
-                {
-                    "name": "MySQL",
-                    "iconifyClass": "vscode-icons:file-type-mysql"
-                },
-                {
-                    "name": "Procfile",
-                    "iconifyClass": "devicon:heroku"
-                },
-                {
-                    "name": "Dockerfile",
-                    "iconifyClass": "skill-icons:docker"
-                },
-                {
-                    "name": "Jenkinsfile",
-                    "iconifyClass": "vscode-icons:file-type-jenkins"
-                },
-                {
-                    "name": "Git",
-                    "iconifyClass": "devicon:git"
-                },
-                {
-                    "name": "GitHub",
-                    "iconifyClass": "icon-park:github"
-                }
-            ]
-        },
-        {
             "id": "R_kgDOG_vYHA",
-            "name": "Ecommerce",
-            "createdAt": "2022-07-23",
-            "url": "https://github.com/Nohit-Java17/Jira-Project",
-            "description": "🛒 An e-commerce website facilitates end-to-end buying, from product display to transactions and customer support.",
+            "name": "RAG Agent Platform",
+            "createdAt": "2025-02-21",
+            "url": "https://github.com/Tynab/rag-agent-platform",
+            "description": "🤖 Fully offline RAG and SDLC automation platform (Docker Compose) combining Ollama, Qdrant, and Neo4j for hybrid document Q&A, plus a 15-agent LangGraph workflow that turns requirements into analysis, design, and code.",
             "isFork": false,
             "languages": [
                 {
+                    "name": "Python",
+                    "iconifyClass": "logos:python"
+                },
+                {
+                    "name": "FastAPI",
+                    "iconifyClass": "devicon:fastapi"
+                },
+                {
+                    "name": "LangChain",
+                    "iconifyClass": "simple-icons:langchain"
+                },
+                {
+                    "name": "LangGraph",
+                    "iconifyClass": "simple-icons:langgraph"
+                },
+                {
+                    "name": "Ollama",
+                    "iconifyClass": "devicon:ollama"
+                },
+                {
+                    "name": "Qdrant",
+                    "iconifyClass": "logos:qdrant-icon"
+                },
+                {
+                    "name": "Neo4j",
+                    "iconifyClass": "vscode-icons:file-type-light-neo4j"
+                },
+                {
+                    "name": "Openn WebUI",
+                    "iconifyClass": "selfhst:open-webui"
+                },
+                {
+                    "name": "Watchtower",
+                    "iconifyClass": "selfhst:watchtower"
+                },
+                {
+                    "name": "Pydantic",
+                    "iconifyClass": "simple-icons:pydantic"
+                },
+                {
                     "name": "HTML",
-                    "iconifyClass": "vscode-icons:file-type-html"
+                    "iconifyClass": "devicon:html5"
                 },
                 {
                     "name": "CSS",
-                    "iconifyClass": "vscode-icons:file-type-css"
+                    "iconifyClass": "devicon:css3"
                 },
                 {
-                    "name": "JavaScript",
-                    "iconifyClass": "logos:javascript"
-                },
-                {
-                    "name": "jQuery",
-                    "iconifyClass": "devicon:jquery"
-                },
-                {
-                    "name": "Java",
-                    "iconifyClass": "logos:java"
-                },
-                {
-                    "name": "Thymeleaf",
-                    "iconifyClass": "logos:thymeleaf-icon"
-                },
-                {
-                    "name": "Spring",
-                    "iconifyClass": "logos:spring-icon"
-                },
-                {
-                    "name": "Auth0",
-                    "iconifyClass": "logos:auth0-icon"
-                },
-                {
-                    "name": "MySQL",
-                    "iconifyClass": "vscode-icons:file-type-mysql"
-                },
-                {
-                    "name": "Procfile",
-                    "iconifyClass": "devicon:heroku"
-                },
-                {
-                    "name": "Dockerfile",
+                    "name": "Docker",
                     "iconifyClass": "skill-icons:docker"
-                },
-                {
-                    "name": "Jenkinsfile",
-                    "iconifyClass": "vscode-icons:file-type-jenkins"
                 },
                 {
                     "name": "Git",
@@ -133,11 +71,11 @@
             ]
         },
         {
-            "id": "R_kgDOG0_8uQ",
-            "name": "Analysis of hotel bookings in Portugal",
-            "createdAt": "2023-04-21",
-            "url": "https://github.com/Nihgi-DA08/Capstone-Project",
-            "description": "📶 Analyzing hotel bookings in Portugal to uncover insights and offer valuable recommendations for the hospitality industry stakeholders.",
+            "id": "MDEwOlJlcG9zaXRvcnkyNDU0NjcyNzQ=",
+            "name": "Animal Chess",
+            "createdAt": "2024-02-19",
+            "url": "https://github.com/Tynab/animal-chess",
+            "description": "🕹️ Animal Chess built with Pygame, featuring PvP/PvC/CvC modes, a minimax/alpha-beta/BFS/A* bot, and a TensorFlow CNN model trained via a notebook pipeline on logged match data.",
             "isFork": false,
             "languages": [
                 {
@@ -149,40 +87,28 @@
                     "iconifyClass": "logos:jupyter"
                 },
                 {
-                    "name": "Matplotlib",
-                    "iconifyClass": "logos:matplotlib-icon"
+                    "name": "Anaconda",
+                    "iconifyClass": "devicon:anaconda"
                 },
                 {
-                    "name": "NumPy",
-                    "iconifyClass": "logos:numpy"
+                    "name": "TensorFlow",
+                    "iconifyClass": "logos:tensorflow"
                 },
                 {
-                    "name": "Pandas",
-                    "iconifyClass": "logos:pandas-icon"
-                },
-                {
-                    "name": "seaborn",
-                    "iconifyClass": "logos:seaborn-icon"
-                },
-                {
-                    "name": "Plotly",
-                    "iconifyClass": "devicon:plotly"
+                    "name": "Keras",
+                    "iconifyClass": "devicon:keras"
                 },
                 {
                     "name": "scikit-learn",
                     "iconifyClass": "devicon:scikitlearn"
                 },
                 {
-                    "name": "Procfile",
-                    "iconifyClass": "devicon:heroku"
+                    "name": "Pandas",
+                    "iconifyClass": "devicon:pandas"
                 },
                 {
-                    "name": "Dockerfile",
-                    "iconifyClass": "skill-icons:docker"
-                },
-                {
-                    "name": "Jenkinsfile",
-                    "iconifyClass": "vscode-icons:file-type-jenkins"
+                    "name": "NumPy",
+                    "iconifyClass": "devicon:numpy"
                 },
                 {
                     "name": "Git",
@@ -199,11 +125,11 @@
             ]
         },
         {
-            "id": "R_kgDOGcPKSQ",
-            "name": "YANF",
-            "createdAt": "2022-09-29",
-            "url": "https://github.com/Tynab/YANF",
-            "description": "🚀 YANF enriches .NET Framework for creating dynamic Windows Forms Applications with advanced UI features.",
+            "id": "MDEwOlJlcG9zaXRvcnkzMjU5NDM1MTE=",
+            "name": "Id generator Snowflake",
+            "createdAt": "2023-07-07",
+            "url": "https://github.com/Tynab-x-Longkunz/id-generator-snowflake",
+            "description": "❄️ Thread-safe C# Snowflake ID generator producing sortable, unique 64-bit IDs from custom Worker/Datacenter IDs, with base-36 encoding and full ID component decoding.",
             "isFork": false,
             "languages": [
                 {
@@ -233,7 +159,7 @@
             "name": "YANLib",
             "createdAt": "2023-01-15",
             "url": "https://github.com/Tynab/YANLib",
-            "description": "🚀 YANLib optimizes .NET for efficient data processing with enhanced utilities for datetime, numbers, text, passwords, and JSON.",
+            "description": "📚 .NET 8 NuGet library of fluent, null-safe extension methods for parsing, collections, JSON, dates, and math — with built-in Snowflake ID generation and auto-parallelization for large datasets.",
             "isFork": false,
             "languages": [
                 {
@@ -245,43 +171,91 @@
                     "iconifyClass": "logos:dotnet"
                 },
                 {
-                    "name": "Microsoft SQL Server",
-                    "iconifyClass": "devicon:microsoftsqlserver"
+                    "name": "nuget.config",
+                    "iconifyClass": "devicon:nuget"
                 },
                 {
-                    "name": "MongoDB",
-                    "iconifyClass": "vscode-icons:file-type-mongo"
+                    "name": "Git",
+                    "iconifyClass": "devicon:git"
                 },
                 {
-                    "name": "Redis",
-                    "iconifyClass": "logos:redis"
+                    "name": "GitHub",
+                    "iconifyClass": "icon-park:github"
+                }
+            ]
+        },
+        {
+            "id": "R_kgDOGcPKSQ",
+            "name": "YANF",
+            "createdAt": "2022-09-29",
+            "url": "https://github.com/Tynab/YANF",
+            "description": "🧰 NuGet library extending .NET Framework WinForms with restyled controls, a multi-language MessageBox, and load/wait/update screens for richer desktop UIs.",
+            "isFork": false,
+            "languages": [
+                {
+                    "name": "C#",
+                    "iconifyClass": "devicon:csharp"
                 },
                 {
-                    "name": "Elastic Stack",
-                    "iconifyClass": "vscode-icons:file-type-elastic"
-                },
-                {
-                    "name": "Apache Kafka",
-                    "iconifyClass": "logos:kafka-icon"
-                },
-                {
-                    "name": "RabbitMQ",
-                    "iconifyClass": "devicon:rabbitmq"
-                },
-                {
-                    "name": "Apache Pulsar",
-                    "iconifyClass": "simple-icons:apachepulsar"
-                },
-                {
-                    "name": "Azure Service Bus",
-                    "iconifyClass": "devicon:azure"
+                    "name": ".NET",
+                    "iconifyClass": "logos:dotnet"
                 },
                 {
                     "name": "nuget.config",
                     "iconifyClass": "devicon:nuget"
                 },
                 {
-                    "name": "Dockerfile",
+                    "name": "Git",
+                    "iconifyClass": "devicon:git"
+                },
+                {
+                    "name": "GitHub",
+                    "iconifyClass": "icon-park:github"
+                }
+            ]
+        },
+        {
+            "id": "R_kgDOG0_8uQ",
+            "name": "Analysis of hotel bookings in Portugal",
+            "createdAt": "2023-04-21",
+            "url": "https://github.com/Nihgi-DA08/capstone-project",
+            "description": "📊 Cleans, analyzes, and visualizes Portugal hotel booking data, fitting a Linear Regression model and serving results through an interactive Dash dashboard (Pandas, scikit-learn, Plotly).",
+            "isFork": false,
+            "languages": [
+                {
+                    "name": "Python",
+                    "iconifyClass": "logos:python"
+                },
+                {
+                    "name": "Jupyter Notebook",
+                    "iconifyClass": "logos:jupyter"
+                },
+                {
+                    "name": "Anaconda",
+                    "iconifyClass": "devicon:anaconda"
+                },
+                {
+                    "name": "Plotly",
+                    "iconifyClass": "devicon:plotly"
+                },
+                {
+                    "name": "Seaborn",
+                    "iconifyClass": "devicon:seaborn"
+                },
+                {
+                    "name": "Matplotlib",
+                    "iconifyClass": "devicon:matplotlib"
+                },
+                {
+                    "name": "Gunicorn",
+                    "iconifyClass": "logos:gunicorn"
+                },
+                {
+                    "name": "Heroku",
+                    "iconifyClass": "devicon:heroku"
+                },
+                {
+                    "name": "Docker",
                     "iconifyClass": "skill-icons:docker"
                 },
                 {
@@ -295,36 +269,10 @@
                 {
                     "name": "GitHub",
                     "iconifyClass": "icon-park:github"
-                }
-            ]
-        },
-        {
-            "id": "MDEwOlJlcG9zaXRvcnkzMjU5NDM1MTE=",
-            "name": "Id generator Snowflake",
-            "createdAt": "2023-07-07",
-            "url": "https://github.com/Tynab-x-Longkunz/Id-Generator-Snowflake",
-            "description": "🚀 A library generating unique IDs based on the Snowflake algorithm, customizable for Worker ID and Datacenter ID.",
-            "isFork": false,
-            "languages": [
-                {
-                    "name": "C#",
-                    "iconifyClass": "devicon:csharp"
                 },
                 {
-                    "name": ".NET",
-                    "iconifyClass": "logos:dotnet"
-                },
-                {
-                    "name": "nuget.config",
-                    "iconifyClass": "devicon:nuget"
-                },
-                {
-                    "name": "Git",
-                    "iconifyClass": "devicon:git"
-                },
-                {
-                    "name": "GitHub",
-                    "iconifyClass": "icon-park:github"
+                    "name": "Git LFS",
+                    "iconifyClass": "simple-icons:gitlfs"
                 }
             ]
         }

@@ -27,7 +27,7 @@ export default function EducationImg({ theme }) {
           <stop offset="1" stopColor="gray" stopOpacity="0.1" />
         </linearGradient>
       </defs>
-      <title>Graduation</title>
+      <title>graduation</title>
       <ellipse
         cx="232.05775"
         cy="450.06897"
