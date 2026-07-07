@@ -9,7 +9,7 @@ const settings = {
 const seo = {
   title: "Yami An's Portfolio",
   description:
-    "A passionate individual who always thrives to work on end to end products which develop sustainable and scalable social and technical systems to create impact.",
+    "A passionate individual who always strives to work on end-to-end products which develop sustainable and scalable social and technical systems to create impact.",
   og: {
     title: "Yami An Portfolio",
     type: "website",
@@ -23,7 +23,7 @@ const greeting = {
   logo_name: "yamiannephilim",
   nickname: "Yami An",
   subTitle:
-    "A passionate individual who always thrives to work on end to end products which develop sustainable and scalable social and technical systems to create impact.",
+    "A passionate individual who always strives to work on end-to-end products which develop sustainable and scalable social and technical systems to create impact.",
   resumeLink:
     "https://drive.google.com/file/d/1HqRpwMKDX9vYGbZFWkyDungwJ_pgMFe_/view?usp=sharing",
   portfolio_repository: "https://github.com/Tynab/YAN-Portfolio",
@@ -124,6 +124,10 @@ const skills = {
           imageSrc: "Ollama.png",
         },
         {
+          skillName: "Groq",
+          imageSrc: "Groq.png",
+        },
+        {
           skillName: "Open WebUI",
           imageSrc: "OpenWebUI.png",
         },
@@ -146,6 +150,10 @@ const skills = {
         {
           skillName: "Cursor",
           imageSrc: "Cursor.png",
+        },
+        {
+          skillName: "Cline",
+          imageSrc: "Cline.png",
         },
         {
           skillName: "Qdrant",
@@ -177,8 +185,8 @@ const skills = {
       title: "Full Stack Development",
       fileName: "FullStackImg",
       skills: [
-        "⚡ Experienced in developing full-stack web applications using .NET and Spring.",
-        "⚡ Expertise in front-end technologies such as HTML, CSS, Boostrap and React",
+        "⚡ Experienced in developing full-stack web applications using .NET and Spring",
+        "⚡ Expertise in front-end technologies such as HTML, CSS, Bootstrap and React",
         "⚡ Strong understanding of back-end technologies such as ASP.NET, Spring Boot, and Node.js",
       ],
       softwareSkills: [
@@ -333,6 +341,10 @@ const skills = {
         {
           skillName: "SQLite",
           imageSrc: "SqLite.png",
+        },
+        {
+          skillName: "Supabase",
+          imageSrc: "Supabase.png",
         },
         {
           skillName: "MongoDB",
@@ -741,19 +753,19 @@ const certifications = {
     },
     {
       title: "Figma",
-      subtitle: "Advance",
+      subtitle: "Advanced",
       logo_path: "udemy.png",
       certificate_link: "http://ude.my/UC-1a6a9e4d-d01a-4515-a1bd-281e7283c34c",
       alt_name: "Figma",
       color_code: "#F24E1E",
     },
     {
-      title: "Wordpress",
+      title: "WordPress",
       subtitle: "Top 20%",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dEB_Vj0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Wordpress",
+      alt_name: "WordPress",
       color_code: "#21759B",
     },
 
@@ -777,7 +789,7 @@ const certifications = {
     },
     {
       title: "Software Engineer",
-      subtitle: "It covers topics like Problem solving, SQL, and REST API.",
+      subtitle: "It covers topics like problem solving, SQL, and REST API.",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/21f4d932e858",
       alt_name: "Software Engineer",
@@ -850,12 +862,21 @@ const certifications = {
     },
     {
       title: "DevOps",
-      subtitle: "Advance",
+      subtitle: "Advanced",
       logo_path: "devopseduvn.png",
       certificate_link:
         "https://devopsedu.vn/certificate/?cert_hash=1b891b616f6076a2",
       alt_name: "DevOps",
       color_code: "#00F5D4",
+    },
+    {
+      title: "Security",
+      subtitle: "Web Developer Security",
+      logo_path: "hacksplaining.png",
+      certificate_link:
+        "https://drive.google.com/file/d/1m6heXZHCLq76ABVKRukNBPL80i6uAsVA/view?usp=drive_link",
+      alt_name: "Security",
+      color_code: "#9999FF",
     },
     {
       title: "DX",
@@ -870,7 +891,7 @@ const certifications = {
     // Game / 3D / Media / SEO
     {
       title: "Unity",
-      subtitle: "Advance",
+      subtitle: "Advanced",
       logo_path: "udemy.png",
       certificate_link: "http://ude.my/UC-74458ff2-07ea-4938-878c-b4382991ebea",
       alt_name: "Unity",
@@ -883,15 +904,6 @@ const certifications = {
       certificate_link: "http://ude.my/UC-83b5cbe6-096e-4fc4-8dfa-6fb1c4278580",
       alt_name: "Blender",
       color_code: "#F5792A",
-    },
-    {
-      title: "Adobe Premiere Pro",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
-      certificate_link:
-        "https://certificate.testcenter.vn/ckd5U3kOJFAOM1RcRyYED0F4SHIX",
-      alt_name: "Adobe Premiere",
-      color_code: "#9999FF",
     },
     {
       title: "SEO",
@@ -963,7 +975,7 @@ const experience = {
           duration: "Nov 2023 - Now",
           location: "Tan Binh District, Ho Chi Minh City",
           description:
-            "At GIIS, I led digital transformation projects in education, including the TMS, SDP, Helpdesk, Timetable, and Course management. I focused on architectural design, optimizing data flows, and implementing AWS cloud solutions to enhance administrative efficiency and educational interactions.",
+            "At GIIS, I led digital transformation projects in education, including the SDP, Helpdesk, Scholarship, and TMS. I focused on architectural design, optimizing data flows, and implementing AWS cloud solutions to enhance administrative efficiency and educational interactions.",
           color: "#ee3c26",
         },
         {
@@ -1040,7 +1052,7 @@ const experience = {
 const projectsHeader = {
   title: "Projects",
   description:
-    "My projects makes use of vast variety of latest technology tools. My best experience is to create Data Science projects and deploy them to web applications using cloud infrastructure.",
+    "My projects make use of a vast variety of the latest technology tools. My best experience is to create Data Science projects and deploy them to web applications using cloud infrastructure.",
   avatar_image_path: "projects_image.svg",
 };
 
