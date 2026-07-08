@@ -841,12 +841,12 @@ const certifications = {
       color_code: "#80ED99",
     },
     {
-      title: "Excel",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
+      title: "DevOps on AWS",
+      subtitle: "DevOps on Amazon Web Services",
+      logo_path: "devopseduvn.png",
       certificate_link:
-        "https://certificate.testcenter.vn/ekZ7Vj0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Excel",
+        "https://devopsedu.vn/certificate/?cert_hash=18b51461aaf0b6be",
+      alt_name: "AWS",
       color_code: "#21A366",
     },
 
@@ -861,12 +861,12 @@ const certifications = {
       color_code: "#F1502F",
     },
     {
-      title: "DevOps",
-      subtitle: "Advanced",
+      title: "Kubernetes",
+      subtitle: "Practical Kubernetes",
       logo_path: "devopseduvn.png",
       certificate_link:
-        "https://devopsedu.vn/certificate/?cert_hash=1b891b616f6076a2",
-      alt_name: "DevOps",
+        "https://devopsedu.vn/certificate/?cert_hash=ad4567a08148061a",
+      alt_name: "K8s",
       color_code: "#00F5D4",
     },
     {
@@ -875,7 +875,7 @@ const certifications = {
       logo_path: "hacksplaining.png",
       certificate_link:
         "https://drive.google.com/file/d/1m6heXZHCLq76ABVKRukNBPL80i6uAsVA/view?usp=drive_link",
-      alt_name: "Security",
+      alt_name: "Cyber Security",
       color_code: "#9999FF",
     },
     {
@@ -917,12 +917,12 @@ const certifications = {
 
     // Office / Soft Skills / Work Process
     {
-      title: "Word",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
+      title: "Logging",
+      subtitle: "Logging for DevOps",
+      logo_path: "devopseduvn.png",
       certificate_link:
-        "https://certificate.testcenter.vn/ekZ7UT0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Word",
+        "https://devopsedu.vn/certificate/?cert_hash=1b891b616f6076a2",
+      alt_name: "Logging",
       color_code: "#2B579A",
     },
     {
@@ -975,7 +975,7 @@ const experience = {
           duration: "Nov 2023 - Now",
           location: "Tan Binh District, Ho Chi Minh City",
           description:
-            "At GIIS, I led digital transformation projects in education, including the SDP, Helpdesk, Scholarship, and TMS. I focused on architectural design, optimizing data flows, and implementing AWS cloud solutions to enhance administrative efficiency and educational interactions.",
+            "At Terralogic, I led digital transformation projects in the education domain for GIIS, including SDP, Helpdesk, Scholarship, and TMS systems. My responsibilities focused on architectural design, data flow optimization, system integration, and the implementation of AWS cloud solutions to improve administrative efficiency, school management operations, and digital interactions between educational stakeholders.",
           color: "#ee3c26",
         },
         {
@@ -986,7 +986,7 @@ const experience = {
           duration: "Jul 2023 - Nov 2023",
           location: "District 2, Thu Duc City",
           description:
-            "The Hoozing Integrated Platform & System encompasses a range of projects, including HzWebsite, HzAgentWebsite, and HzExternalAgent. It's designed to aid customers and real estate agents in the comprehensive management, marketing, buying, selling, and renting of real estate properties.",
+            "At Hoozing, I spearheaded the development of the Hoozing Integrated Platform & System, which included projects such as HzWebsite, HzAgentWebsite, and HzExternalAgent. I provided architectural design, optimized code quality and performance, and led technical workshops to support an integrated platform that simplifies property management, marketing, buying, selling, and renting processes for customers, real estate agents, and external partners.",
           color: "#0879bf",
         },
         {
@@ -997,7 +997,7 @@ const experience = {
           duration: "Jul 2022 - Jul 2023",
           location: "District 7, Ho Chi Minh City",
           description:
-            "As a maintainer for the Inventory, POS Wrapper, and OSR sources, I played a key role in a digital transformation project for Long Chau and FPT Shop. This involved integrating multiple streams, such as OMS, to ensure a smooth and efficient transition to a digital platform.",
+            "At FPT Retail, I contributed to a large-scale digital transformation initiative for Long Chau and FPT Shop. As a maintainer of key systems including Inventory, POS Wrapper, and OSR, I supported system stability, integration, and operational efficiency. I also participated in integrating multiple business streams such as OMS, helping ensure a smooth transition from traditional retail operations to a more scalable and unified digital platform.",
           color: "#9b1578",
         },
         {
@@ -1008,7 +1008,7 @@ const experience = {
           duration: "Jul 2017 - Jul 2022",
           location: "District 8, Ho Chi Minh City",
           description:
-            "Conduct structural analysis, review foundational documentation for 住友林業, calculate spacer blocks for 三菱, 小田急, 東急, ヤマビコ, determine reinforcement slab areas for 住宅 and 一建, input masses for 茨城, 東北, and 峰岸, and calculate steel reinforcement and unit dimensions. Additionally, estimate the required raw timber quantity.",
+            "At Emar Viet Nam, within Emar Group's construction and engineering division, I handled structural analysis, reviewed foundational documentation, and performed technical calculations for Japanese construction projects involving clients such as 住友林業, 三菱, 小田急, 東急, and ヤマビコ. My work included calculating spacer blocks, reinforcement slab areas, steel reinforcement, unit dimensions, mass inputs, and raw timber quantity estimation. In addition, I developed an internal HRM system, provided architectural design, technical guidance, and code optimization to improve internal operational efficiency.",
           color: "#fc1f20",
         },
       ],
@@ -1017,14 +1017,14 @@ const experience = {
       title: "Internships",
       experiences: [
         {
-          title: "Embedded Intern",
+          title: "Embedded Software Trainee",
           company: "AMPM",
           company_url: "https://ampm.vn/",
           logo_path: "ampm.png",
           duration: "Jan 2017 - Mar 2017",
           location: "Tan Binh, Ho Chi Minh City",
           description:
-            "As an intern at an Electronic Equipment Trading Company, my role revolves around embedded programming, delving into the intricate world of embedded systems. I actively engage in developing and fine-tuning software that powers embedded devices, gaining hands-on experience in this specialized domain within the electronics industry.",
+            "At AMPM, an electronic equipment trading company, I worked as an Embedded Intern focusing on embedded programming and embedded systems. I gained hands-on experience in developing, testing, and fine-tuning software for embedded devices, while building practical knowledge of how software interacts with electronic hardware in real-world device applications.",
           color: "#000000",
         },
       ],
@@ -1040,7 +1040,7 @@ const experience = {
           duration: "Jun 2023 - Jun 2024",
           location: "District 1, Ho Chi Minh City",
           description:
-            "At the academy, my role as a Data Analysis mentor involves guiding and imparting expertise in diverse data analysis methods to students, nurturing the growth of their analytical abilities. I support their journey by sharing insights, techniques, and fostering a deeper understanding of data analysis, aiding in the refinement of their analytical prowess within the academic realm.",
+            "At CyberSoft Academy, I mentored students in data analysis and was later invited to become a lecturer. My role involved guiding students through core data analysis methods, sharing practical techniques, supporting their learning process, and helping them strengthen analytical thinking, data interpretation skills, and problem-solving capabilities within an academic and hands-on training environment.",
           color: "#4285F4",
         },
       ],
