@@ -964,7 +964,7 @@ const experience = {
   header_image_path: "experience.svg",
   sections: [
     {
-      title: "Work",
+      title: "Professional Experience",
       work: true,
       experiences: [
         {
@@ -1030,10 +1030,10 @@ const experience = {
       ],
     },
     {
-      title: "Volunteerships",
+      title: "Additional Experience",
       experiences: [
         {
-          title: "Mentor",
+          title: "Mentor & Lecturer",
           company: "CyberSoft Academy",
           company_url: "https://cybersoft.edu.vn/",
           logo_path: "cybersoft_academy.png",
