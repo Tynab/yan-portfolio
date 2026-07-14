@@ -20,10 +20,10 @@ function Education({ theme }) {
             </div>
             <div className="heading-text-div">
               <h1 className="heading-text" style={{ color: theme.text }}>
-                Education
+                Certifications
               </h1>
               <h3 className="heading-sub-text" style={{ color: theme.text }}>
-                Basic Qualification and Certifications
+                Professional Certifications and Skill Assessments
               </h3>
               <CompetitiveSites logos={competitiveSites.competitiveSites} />
             </div>
