@@ -17,7 +17,7 @@ const onMouseOut = (event) => {
 
 const navItems = [
   { path: "/home", label: "Home" },
-  { path: "/education", label: "Education" },
+  { path: "/certifications", label: "Certifications" },
   { path: "/experience", label: "Experience" },
   { path: "/projects", label: "Projects" },
 ];
