@@ -8,6 +8,13 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  /* Tắt scroll anchoring: react-bootstrap chèn node tooltip vào <body> mỗi lần
+     hover icon, khiến trình duyệt bù trừ scroll sai và đẩy trang trượt lên vài px. */
+  html,
+  body {
+    overflow-anchor: none;
+  }
+
   body {
     align-items: center;
     background: ${({ theme }) => theme.body};
