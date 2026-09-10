@@ -44,7 +44,7 @@
     "prettier": "2.0.5",
     "prettier-package-json": "^2.8.0",
     "vite": "^7.3.6",
-    "vitest": "^3.2.6"
+    "vitest": "^5.0.0"
   },
   "lint-staged": {
     "package.json": "prettier-package-json --write",
