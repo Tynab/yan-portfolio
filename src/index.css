@@ -1,5 +1,6 @@
 /* Tóm tắt: Style cho index. */
 @font-face {
+  font-display: swap;
   font-family: "Agustina Regular";
   font-style: normal;
   font-weight: normal;
@@ -7,39 +8,46 @@
     url("./assests/fonts/Agustina.woff") format("woff");
 }
 @font-face {
+  font-display: swap;
   font-family: "Montserrat";
   src: local("Montserrat"),
-    url("./assests/fonts/Montserrat-Regular.ttf") format("woff");
+    url("./assests/fonts/Montserrat-Regular.ttf") format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: "Google Sans Bold";
   src: local("Google Sans Bold"),
-    url("./assests/fonts/GoogleSans-Bold.ttf") format("woff");
+    url("./assests/fonts/GoogleSans-Bold.ttf") format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: "Google Sans Bold Italic";
   src: local("Google Sans Bold Italic"),
-    url("./assests/fonts/GoogleSans-BoldItalic.ttf") format("woff");
+    url("./assests/fonts/GoogleSans-BoldItalic.ttf") format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: "Google Sans Italic";
   src: local("Google Sans Italic"),
-    url("./assests/fonts/GoogleSans-Italic.ttf") format("woff");
+    url("./assests/fonts/GoogleSans-Italic.ttf") format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: "Google Sans Medium";
   src: local("Google Sans Medium"),
-    url("./assests/fonts/GoogleSans-Medium.ttf") format("woff");
+    url("./assests/fonts/GoogleSans-Medium.ttf") format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: "Google Sans Medium Italic";
   src: local("Google Sans Medium Italic"),
-    url("./assests/fonts/GoogleSans-MediumItalic.ttf") format("woff");
+    url("./assests/fonts/GoogleSans-MediumItalic.ttf") format("truetype");
 }
 @font-face {
+  font-display: swap;
   font-family: "Google Sans Regular";
   src: local("Google Sans Regular"),
-    url("./assests/fonts/GoogleSans-Regular.ttf") format("woff");
+    url("./assests/fonts/GoogleSans-Regular.ttf") format("truetype");
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -63,4 +71,15 @@ body {
     font-size: 16px;
     line-height: normal;
   }
+}
+/* Khung section dùng chung cho nhiều trang (Skills, Certifications). */
+.main {
+  width: 90%;
+  padding: 20px 10px;
+  margin: 0px auto;
+  margin-top: 4rem;
+}
+/* Giữ chỗ trong lúc chunk của trang đang tải để footer/TopButton không nhảy. */
+.page-loading {
+  min-height: 100vh;
 }

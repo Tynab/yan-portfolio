@@ -1,5 +1,4 @@
 import React from "react";
-import PageLayout from "../../components/pageLayout/PageLayout";
 import GithubRepoCard from "../../components/githubRepoCard/GithubRepoCard";
 import Button from "../../components/button/Button";
 import { Fade } from "react-awesome-reveal";
@@ -11,7 +10,7 @@ import ProjectsImg from "./ProjectsImg";
 // Tóm tắt: Trang Projects render danh sách repository nổi bật từ snapshot JSON nội bộ.
 function Projects({ theme }) {
   return (
-    <PageLayout theme={theme} className="projects-main">
+    <div className="projects-main">
       <div className="basic-projects">
         <Fade direction="up" duration={2000} triggerOnce>
           <div className="projects-heading-div">
@@ -46,7 +45,7 @@ function Projects({ theme }) {
         href={greeting.github_repo}
         newTab={true}
       />
-    </PageLayout>
+    </div>
   );
 }
 

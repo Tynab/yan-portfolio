@@ -1,41 +1,25 @@
 import React from "react";
 import ExperienceCard from "../../components/experienceCard/ExperienceCard.js";
 import "./ExperienceAccordion.css";
-import { Accordion, Panel } from "baseui/accordion";
 
 // Tóm tắt: Accordion gom kinh nghiệm theo nhóm Work/Internship/Volunteer.
+// Dùng <details>/<summary> gốc thay cho baseui: có sẵn bàn phím + ARIA, không cần tải baseui/styletron.
+// name chung => trình duyệt hỗ trợ sẽ chỉ mở một nhóm tại một thời điểm (giống Accordion của baseui).
 function ExperienceAccordion({ theme, sections }) {
   return (
     <div className="experience-accord">
-      <Accordion>
-        {sections.map((section) => {
-          return (
-            <Panel
-              className="accord-panel"
-              title={section["title"]}
-              key={section["title"]}
-              overrides={{
-                Header: {
-                  style: () => ({
-                    backgroundColor: `${theme.body}`,
-                    border: `1px solid`,
-                    borderRadius: `5px`,
-                    borderColor: `${theme.headerColor}`,
-                    marginBottom: `3px`,
-                    fontFamily: "Google Sans Regular",
-                    color: `${theme.text}`,
-                    ":hover": {
-                      color: `${theme.secondaryText}`,
-                    },
-                  }),
-                },
-                Content: {
-                  style: () => ({
-                    backgroundColor: `${theme.body}`,
-                  }),
-                },
-              }}
-            >
+      {sections.map((section) => {
+        return (
+          <details
+            className="accord-panel"
+            name="experience-sections"
+            key={section["title"]}
+          >
+            <summary className="accord-header">
+              <span>{section["title"]}</span>
+              <span className="accord-chevron" aria-hidden="true" />
+            </summary>
+            <div className="accord-content">
               {section["experiences"].map((experience, index) => {
                 return (
                   <ExperienceCard
@@ -47,10 +31,10 @@ function ExperienceAccordion({ theme, sections }) {
                   />
                 );
               })}
-            </Panel>
-          );
-        })}
-      </Accordion>
+            </div>
+          </details>
+        );
+      })}
     </div>
   );
 }

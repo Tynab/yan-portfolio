@@ -3,7 +3,7 @@ import "./CompetitiveSites.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { toDomId } from "../../utils/domId";
 
-// Tóm tắt: Render các hồ sơ luyện tập/chứng chỉ online trong trang Education.
+// Tóm tắt: Render các hồ sơ luyện tập/chứng chỉ online trong trang Certifications.
 function CompetitiveSites({ logos = [] }) {
   return (
     <div className="competitive-sites-main-div">

@@ -16,8 +16,6 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "baseui": "^18.1.0",
-    "bootstrap": "^5.0.0",
     "chart.js": "^4.5.1",
     "gh-pages": "^5.0.0",
     "react": "^18.3.1",
@@ -27,9 +25,7 @@
     "react-dom": "^18.3.1",
     "react-helmet-async": "^3.0.0",
     "react-router-dom": "^6.30.4",
-    "styled-components": "^6.4.3",
-    "styletron-engine-atomic": "^1.6.2",
-    "styletron-react": "^6.1.1"
+    "styled-components": "^6.4.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
@@ -58,10 +54,6 @@
     "js-yaml": "4.2.0",
     "@tootallnate/once": "2.0.1",
     "nth-check": "2.1.1",
-    "postcss": "8.5.15",
-    "moment-timezone": "0.5.35",
-    "react-uid": "2.3.3",
-    "react-window": "1.8.11",
-    "react-virtualized-auto-sizer": "1.0.26"
+    "postcss": "8.5.15"
   }
 }
