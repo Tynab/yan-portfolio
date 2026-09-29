@@ -15,7 +15,7 @@ YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường A
 - `react-bootstrap` 2 cho tooltip/overlay; không nạp Bootstrap CSS, style tooltip tối thiểu nằm trong `src/tooltip.css`.
 - `react-helmet-async` (`HelmetProvider`) cho meta tag SEO và JSON-LD Person.
 - `chart.js` 4 + `react-chartjs-2` 5 cho biểu đồ đóng góp open-source.
-- `Vitest` + `@testing-library/react` + `jsdom` cho test; ESLint cấu hình độc lập (`.eslintrc.cjs`, không còn dùng preset `react-app`).
+- `Vitest` 5 (cần Node `^22.12` hoặc `>=24`, khai báo trong `engines`) + `@testing-library/react` + `jsdom` cho test; ESLint cấu hình độc lập (`.eslintrc.cjs`, không còn dùng preset `react-app`).
 - Font Awesome 6 nạp từ CDN trong `index.html` (không bundle); icon/ảnh kỹ năng nằm trong `public/skills`.
 
 Toàn bộ component đã chuyển thành **function component** (không còn class component).
