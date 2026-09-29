@@ -106,9 +106,6 @@
   top: 20%;
 }
 
-@media (max-width: 1380px) {
-}
-
 @media (max-width: 768px) {
   .cert-card-reveal {
     flex-basis: 100%;

@@ -33,7 +33,7 @@ src/
   portfolio.js                 # Nguồn dữ liệu nội dung chính của portfolio
   theme.js                     # 14 bảng theme màu, chosenTheme chọn theme đang dùng
   containers/Main.js           # HashRouter + layout route, các trang nạp lazy (React.lazy) theo route
-  components/                  # Header, card, chart, social, footer, pageLayout... (đều là function component)
+  components/                  # Header, card, chart, social, pageLayout... (đều là function component)
   components/pageLayout/       # Layout route: Header + <Outlet/> (Suspense) + TopButton, mount một lần
   containers/                  # Section tái sử dụng cho Home/Open Source (greeting, skills, charts...)
   pages/                       # Màn hình route-level (home, certifications, experience, projects, opensource, contact, splash, errors)
@@ -41,7 +41,7 @@ src/
   assests/                     # images, fonts (tên cố ý sai chính tả, không đổi thành "assets")
 ```
 
-Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việt (`// Tóm tắt:` hoặc khối `/* ... */`); CSS/SCSS tự viết cũng có header mô tả vai trò stylesheet.
+Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việt (`// Tóm tắt:` hoặc khối `/* ... */`); CSS tự viết cũng có header mô tả vai trò stylesheet.
 
 ## Luồng chạy chính
 

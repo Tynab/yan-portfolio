@@ -31,9 +31,6 @@
   transform: translate(0px, -5px);
 }
 
-@media (max-width: 1380px) {
-}
-
 @media (max-width: 768px) {
   .organizations-img {
     width: 60px;

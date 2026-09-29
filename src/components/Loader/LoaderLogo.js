@@ -1,5 +1,4 @@
 import React from "react";
-import "./LoaderLogo.css";
 
 // Tóm tắt: SVG logo động dùng trong splash screen, nhận màu trực tiếp từ theme.
 function LogoLoader({ theme }) {

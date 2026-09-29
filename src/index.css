@@ -72,6 +72,15 @@ body {
     line-height: normal;
   }
 }
+/* Danh sách icon kỹ năng/hồ sơ dùng chung (SoftwareSkill ở Home, CompetitiveSites ở Certifications). */
+.dev-icons {
+  padding-left: 0;
+  list-style: none;
+  font-size: 3rem;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+}
 /* Khung section dùng chung cho nhiều trang (Skills, Certifications). */
 .main {
   width: 90%;

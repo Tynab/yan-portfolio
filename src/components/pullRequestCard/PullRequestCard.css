@@ -42,7 +42,6 @@
 
 .pr-header {
   width: 80%;
-  float: top-left;
   text-align: left;
 }
 
@@ -179,9 +178,6 @@
   width: auto;
 }
 
-@media (max-width: 1380px) {
-}
-
 @media (max-width: 768px) {
   .pull-request-card {
     width: 85%;
@@ -221,10 +217,6 @@
     white-space: normal;
     overflow: hidden;
     font-size: 15px;
-  }
-  .pr-subtitile {
-    font-size: 12px;
-    margin-top: 3px;
   }
 
   .pr-down {

@@ -62,13 +62,7 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
             className="experience-card"
             style={{ background: `${theme.body}` }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+            <div className="experience-card-header">
               <div>
                 <h3
                   className="experience-card-title"
@@ -89,33 +83,24 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
                   </a>
                 </p>
               </div>
-              <div>
-                <div className="experience-card-heading-right">
-                  <p
-                    className="experience-card-duration"
-                    style={{ color: theme.secondaryText }}
-                  >
-                    {experience["duration"]}
-                  </p>
-                  <p
-                    className="experience-card-location"
-                    style={{ color: theme.secondaryText }}
-                  >
-                    {experience["location"]}
-                  </p>
-                </div>
+              <div className="experience-card-heading-right">
+                <p
+                  className="experience-card-duration"
+                  style={{ color: theme.secondaryText }}
+                >
+                  {experience["duration"]}
+                </p>
+                <p
+                  className="experience-card-location"
+                  style={{ color: theme.secondaryText }}
+                >
+                  {experience["location"]}
+                </p>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                marginTop: 20,
-              }}
-            >
-              <div className="repo-description" />
+            <p className="experience-card-description">
               {experience["description"]}
-            </div>
+            </p>
           </div>
         </div>
       </Fade>
