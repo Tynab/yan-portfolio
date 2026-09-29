@@ -45,13 +45,12 @@ function Contact({ theme }) {
               >
                 {ContactData["description"]}
               </p>
-              <SocialMedia theme={theme} />
+              <SocialMedia />
               <div className="resume-btn-div">
                 <Button
                   text="See My Resume"
                   newTab={true}
                   href={greeting.resumeLink}
-                  theme={theme}
                 />
               </div>
             </div>
@@ -74,7 +73,6 @@ function Contact({ theme }) {
                   text="Visit My Blogsite"
                   newTab={true}
                   href={blogSection.link}
-                  theme={theme}
                 />
               </div>
             </div>
@@ -118,7 +116,6 @@ function Contact({ theme }) {
                   text="Visit on Google Maps"
                   newTab={true}
                   href={addressSection.location_map_link}
-                  theme={theme}
                 />
               </div>
             </div>

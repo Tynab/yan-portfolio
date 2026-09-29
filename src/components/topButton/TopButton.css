@@ -4,9 +4,47 @@
   position: fixed;
   bottom: 1.2rem;
   right: 1.5rem;
+  z-index: 10;
   cursor: pointer;
   padding: 15px;
-  outline: none;
   border-radius: 2rem;
   font-size: 1.5rem;
+  color: var(--color-body);
+  background-color: var(--color-text);
+  border: solid 1px var(--color-text);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: color 0.3s ease-in, background-color 0.3s ease-in,
+    opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+}
+
+#topButton.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: color 0.3s ease-in, background-color 0.3s ease-in,
+    opacity 0.3s ease, transform 0.3s ease;
+}
+
+#topButton:focus-visible {
+  color: var(--color-text);
+  background-color: var(--color-body);
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  #topButton:hover {
+    color: var(--color-text);
+    background-color: var(--color-body);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #topButton,
+  #topButton.is-visible {
+    transform: none;
+    transition: none;
+  }
 }

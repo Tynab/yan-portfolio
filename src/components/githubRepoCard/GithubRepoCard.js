@@ -5,29 +5,17 @@ import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card repository tĩnh, dùng cho trang Projects và danh sách repo phụ.
 export default function GithubRepoCard({ repo, theme }) {
-  function openRepoInNewTab(url) {
-    const win = window.open(url, "_blank", "noopener,noreferrer");
-    if (win) {
-      win.focus();
-    }
-  }
-
-  function handleKeyDown(event) {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openRepoInNewTab(repo.url);
-    }
-  }
-
+  // Cả card là một <a> thật: vùng bấm phủ cả padding, hỗ trợ middle-click / mở tab mới / copy link.
   return (
-    <div className="repo-card-div" style={{ backgroundColor: theme.highlight }}>
+    <a
+      className="repo-card-div"
+      href={repo.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ backgroundColor: theme.highlight }}
+    >
       <Fade direction="up" duration={2000} triggerOnce>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() => openRepoInNewTab(repo.url)}
-          onKeyDown={handleKeyDown}
-        >
+        <div>
           <div className="repo-name-div">
             <svg
               aria-hidden="true"
@@ -63,6 +51,6 @@ export default function GithubRepoCard({ repo, theme }) {
           </div>
         </div>
       </Fade>
-    </div>
+    </a>
   );
 }

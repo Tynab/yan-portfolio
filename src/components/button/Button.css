@@ -1,8 +1,8 @@
 /* Tóm tắt: Style cho Button trong components/button. */
 .main-button {
-  background-color: #55198b;
-  border: solid 1px #55198b;
-  color: white;
+  background-color: var(--color-text);
+  border: solid 1px var(--color-text);
+  color: var(--color-body);
   font-weight: 500;
   line-height: 1.1;
   width: max-content;
@@ -18,11 +18,21 @@
   font-size: 18px;
   cursor: pointer;
   letter-spacing: 2px;
+  /* transition đặt ở selector gốc để hiệu ứng chạy cả lúc vào lẫn lúc ra. */
+  transition: color 0.3s ease-in, background-color 0.3s ease-in;
 }
-.main-button:hover {
-  /* background-color: #ffffff; */
-  /* color: black; */
-  transition: ease-in 0.3s;
+.main-button:focus-visible {
+  color: var(--color-text);
+  background-color: var(--color-body);
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+/* Chỉ áp dụng hover trên thiết bị có chuột, tránh màu bị "kẹt" sau khi chạm trên mobile. */
+@media (hover: hover) {
+  .main-button:hover {
+    color: var(--color-text);
+    background-color: var(--color-body);
+  }
 }
 .project-button {
   display: flex;

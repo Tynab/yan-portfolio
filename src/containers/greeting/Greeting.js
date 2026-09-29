@@ -29,13 +29,12 @@ export default function Greeting(props) {
               >
                 {greeting.subTitle}
               </p>
-              <SocialMedia theme={theme} />
+              <SocialMedia />
               <div className="portfolio-repo-btn-div">
                 <Button
                   text="⭐ Star Me On GitHub"
                   newTab={true}
                   href={greeting.portfolio_repository}
-                  theme={theme}
                   className="portfolio-repo-btn"
                 />
               </div>

@@ -13,37 +13,52 @@
   padding: 0;
   list-style: none;
   overflow: hidden;
-  /* background-color: #fff; */
-}
-.grey-color {
-  color: #868e96;
+  background-color: var(--color-body);
 }
 
 .header li a {
   display: block;
   padding: 20px 20px;
-  /* color: black; */
+  color: var(--color-text);
   text-decoration: none;
+  transition: background-color 0.2s ease-out;
 }
 
-.header li a:hover,
-.header .menu-btn:hover {
-  /* background-color: #A6E1FA; */
+.header li a.active {
+  font-weight: bold;
+}
+
+.header li a:focus-visible {
+  background-color: var(--color-highlight);
+  outline: 2px solid var(--color-text);
+  outline-offset: -2px;
+}
+
+@media (hover: hover) {
+  .header li a:hover {
+    background-color: var(--color-highlight);
+  }
 }
 
 .header .logo {
   display: block;
   float: left;
   font-size: 1.5em;
+  color: var(--color-text);
   text-decoration: none;
   margin-top: 10px;
   line-height: normal;
 }
+
+.header .logo:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
 .header .logo-name {
   font-family: "Agustina Regular";
   font-weight: bold;
   padding: 0 10px;
-  /* color: #55198b; */
 }
 
 /* menu */
@@ -52,15 +67,27 @@
   font-family: "Google Sans Regular";
 }
 
+/* Menu thu gọn phải visibility:hidden để Tab không đi vào các link đang bị ẩn. */
 .header .menu {
   clear: both;
   max-height: 0;
+  visibility: hidden;
+  transition: max-height 0.2s ease-out, visibility 0s linear 0.2s;
+}
+
+.header .menu.menu-open {
+  max-height: 370px;
+  visibility: visible;
   transition: max-height 0.2s ease-out;
 }
 
 /* menu icon */
 
 .header .menu-icon {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-radius: 6px;
   cursor: pointer;
   display: inline-block;
   float: right;
@@ -69,8 +96,13 @@
   user-select: none;
 }
 
+.header .menu-icon:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: -4px;
+}
+
 .header .menu-icon .navicon {
-  background: #333;
+  background: var(--color-text);
   display: block;
   height: 2px;
   position: relative;
@@ -80,7 +112,7 @@
 
 .header .menu-icon .navicon:before,
 .header .menu-icon .navicon:after {
-  background: #333;
+  background: var(--color-text);
   content: "";
   display: block;
   height: 100%;
@@ -97,30 +129,17 @@
   top: -5px;
 }
 
-/* menu btn */
-
-.header .menu-btn {
-  display: none;
-}
-
-.header .menu-btn:checked ~ .menu {
-  max-height: 370px;
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon {
+.header .menu-icon[aria-expanded="true"] .navicon {
   background: transparent;
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon:before {
+.header .menu-icon[aria-expanded="true"] .navicon:before {
   transform: rotate(-45deg);
+  top: 0;
 }
 
-.header .menu-btn:checked ~ .menu-icon .navicon:after {
+.header .menu-icon[aria-expanded="true"] .navicon:after {
   transform: rotate(45deg);
-}
-
-.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
-.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   top: 0;
 }
 
@@ -137,6 +156,7 @@
   }
   .header .menu {
     max-height: none;
+    visibility: visible;
   }
   .header .menu-icon {
     display: none;

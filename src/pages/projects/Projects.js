@@ -45,7 +45,6 @@ function Projects({ theme }) {
         className="project-button"
         href={greeting.github_repo}
         newTab={true}
-        theme={theme}
       />
     </PageLayout>
   );

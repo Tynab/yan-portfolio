@@ -16,12 +16,7 @@ function Error({ theme }) {
           <Link
             className="main-button"
             to="/home"
-            style={{
-              color: theme.body,
-              backgroundColor: theme.text,
-              border: `solid 1px ${theme.text}`,
-              display: "inline-flex",
-            }}
+            style={{ display: "inline-flex" }}
           >
             Go Home
           </Link>
