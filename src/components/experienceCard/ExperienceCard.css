@@ -105,7 +105,6 @@
 .arrow-left {
   width: 0;
   height: 0;
-  margin-top: 40px;
   margin-left: 10px;
   margin-right: -10px;
   border-top: 10px solid transparent;
@@ -118,13 +117,50 @@
   margin-top: -10px;
 }
 
-.experience-card-stepper {
+.experience-card-reveal {
+  min-width: 0;
+}
+
+.experience-card-row {
   display: flex;
   flex-direction: row;
-  position: relative;
   align-items: center;
+}
+
+.experience-card-stepper {
+  display: flex;
   flex-direction: column;
-  margin-top: -40px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.experience-card-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+}
+
+.experience-card-line {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+}
+
+/* -50px = CARD_GAP trong ExperienceCard.js: nối liền với đoạn dưới của card phía trên. */
+.experience-card-line-top {
+  top: -50px;
+  bottom: 50%;
+}
+
+.experience-card-line-bottom {
+  top: 50%;
+  bottom: 0;
 }
 
 .experience-card-body-div {
@@ -281,9 +317,14 @@
 
 @media (max-width: 768px) {
   .experience-card {
-    /* margin-bottom:10px; */
+    min-width: 0;
+    margin-left: 0;
     flex-direction: column;
     text-align: center;
+  }
+
+  .experience-card-reveal {
+    width: 100%;
   }
 
   .arrow-left {

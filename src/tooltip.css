@@ -1,0 +1,99 @@
+/* Tóm tắt: Style tối thiểu cho Tooltip của react-bootstrap (không nạp toàn bộ Bootstrap CSS để tránh reboot style cả trang). */
+.tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1080;
+  display: block;
+  margin: 0;
+  font-family: "Google Sans Regular", sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  pointer-events: none;
+}
+
+.tooltip.fade {
+  transition: opacity 0.15s linear;
+}
+
+.tooltip.fade:not(.show) {
+  opacity: 0;
+}
+
+.tooltip.show {
+  opacity: 0.95;
+}
+
+.tooltip-inner {
+  max-width: 220px;
+  padding: 4px 10px;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+  border-radius: 6px;
+}
+
+.tooltip .tooltip-arrow {
+  position: absolute;
+  display: block;
+  width: 12px;
+  height: 6px;
+}
+
+.tooltip .tooltip-arrow::before {
+  position: absolute;
+  content: "";
+  border-color: transparent;
+  border-style: solid;
+}
+
+.bs-tooltip-top {
+  padding: 6px 0;
+}
+.bs-tooltip-top .tooltip-arrow {
+  bottom: 0;
+}
+.bs-tooltip-top .tooltip-arrow::before {
+  top: -1px;
+  border-width: 6px 6px 0;
+  border-top-color: #000;
+}
+
+.bs-tooltip-bottom {
+  padding: 6px 0;
+}
+.bs-tooltip-bottom .tooltip-arrow {
+  top: 0;
+}
+.bs-tooltip-bottom .tooltip-arrow::before {
+  bottom: -1px;
+  border-width: 0 6px 6px;
+  border-bottom-color: #000;
+}
+
+.bs-tooltip-start,
+.bs-tooltip-end {
+  padding: 0 6px;
+}
+.bs-tooltip-start .tooltip-arrow,
+.bs-tooltip-end .tooltip-arrow {
+  width: 6px;
+  height: 12px;
+}
+.bs-tooltip-start .tooltip-arrow {
+  right: 0;
+}
+.bs-tooltip-start .tooltip-arrow::before {
+  left: -1px;
+  border-width: 6px 0 6px 6px;
+  border-left-color: #000;
+}
+.bs-tooltip-end .tooltip-arrow {
+  left: 0;
+}
+.bs-tooltip-end .tooltip-arrow::before {
+  right: -1px;
+  border-width: 6px 6px 6px 0;
+  border-right-color: #000;
+}

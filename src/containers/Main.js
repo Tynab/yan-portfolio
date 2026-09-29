@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes, HashRouter } from "react-router-dom";
+import { Navigate, Route, Routes, HashRouter } from "react-router-dom";
 import Home from "../pages/home/HomeComponent";
 import Splash from "../pages/splash/Splash";
 import Education from "../pages/certifications/EducationComponent";
@@ -23,6 +23,11 @@ export default function Main({ theme }) {
         <Route path="/home" element={<Home theme={theme} />} />
         <Route path="/experience" element={<Experience theme={theme} />} />
         <Route path="/certifications" element={<Education theme={theme} />} />
+        {/* Giữ link cũ (bookmark, kết quả tìm kiếm) từ trước khi đổi tên route. */}
+        <Route
+          path="/education"
+          element={<Navigate to="/certifications" replace />}
+        />
         <Route path="/opensource" element={<Opensource theme={theme} />} />
         <Route path="/contact" element={<Contact theme={theme} />} />
         <Route path="/projects" element={<Projects theme={theme} />} />

@@ -179,16 +179,6 @@
   width: auto;
 }
 
-#tooltip-top > .tooltip-inner {
-  background-color: #000;
-  color: #fff;
-  border: 1px solid #062e56;
-}
-
-#tooltip-top > .tooltip-arrow {
-  border-top: 5px solid #062e56;
-}
-
 @media (max-width: 1380px) {
 }
 

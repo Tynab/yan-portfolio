@@ -1,6 +1,6 @@
 /* Tóm tắt: Style cho Error trong pages/errors/error404. */
 .error-main {
-  width: 100vw;
+  width: 100%;
 }
 
 .error-main > .error-class {
@@ -11,10 +11,12 @@
   display: block;
 }
 
-.error-main > .error-class > .error-404 {
+/* Fade bọc mỗi phần tử trong một div riêng nên dùng descendant selector, không dùng ">". */
+.error-main > .error-class .error-404 {
   font-size: 7em;
+  line-height: 1;
   overflow: hidden;
-  padding-top: 10px 0;
+  padding: 10px 0;
   margin: 10px 0;
 }
 
@@ -24,8 +26,7 @@
 }
 
 @media screen and (min-width: 1364px) {
-  .error-main > .error-class > .error-404 {
-    height: 175px;
+  .error-main > .error-class .error-404 {
     padding-top: 60px;
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import "./IssueCard.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toDomId } from "../../utils/domId";
 import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card mô tả issue GitHub, gồm trạng thái, repo nguồn và assignee đầu tiên.
@@ -30,9 +31,8 @@ function IssueCard({ issue }) {
       <OverlayTrigger
         key={name}
         placement={"top"}
-        style={{ marginBottom: "5px" }}
         overlay={
-          <Tooltip id={`issue-assignee-${issue["id"]}`}>
+          <Tooltip id={toDomId("issue-assignee", issue["id"])}>
             <strong>{`Assigned to ${name}`}</strong>
           </Tooltip>
         }

@@ -1,6 +1,7 @@
 import React from "react";
 import "./CompetitiveSites.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toDomId } from "../../utils/domId";
 
 // Tóm tắt: Render các hồ sơ luyện tập/chứng chỉ online trong trang Education.
 function CompetitiveSites({ logos = [] }) {
@@ -12,9 +13,8 @@ function CompetitiveSites({ logos = [] }) {
             <OverlayTrigger
               key={logo.siteName}
               placement={"top"}
-              style={{ marginBottom: "5px" }}
               overlay={
-                <Tooltip id={`competitive-site-${logo.siteName}`}>
+                <Tooltip id={toDomId("competitive-site", logo.siteName)}>
                   <strong>{logo.siteName}</strong>
                 </Tooltip>
               }

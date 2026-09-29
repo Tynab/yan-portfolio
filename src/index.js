@@ -6,6 +6,7 @@ import { Client as Styletron } from "styletron-engine-atomic";
 import { HelmetProvider } from "react-helmet-async";
 
 import "./index.css";
+import "./tooltip.css";
 import App from "./App";
 import "./assests/font-awesome/css/all.css";
 

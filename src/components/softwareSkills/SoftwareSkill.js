@@ -1,6 +1,7 @@
 import React from "react";
 import "./SoftwareSkill.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toDomId } from "../../utils/domId";
 
 // Chuỗi cache-bust: nginx phục vụ /skills/ với no-cache nên phải bump giá trị này mỗi khi đổi PNG kỹ năng.
 const skillAssetVersion = "2026-06-29-lfs-refresh";
@@ -17,7 +18,7 @@ function SoftwareSkill({ logos = [] }) {
                 key={logo.skillName}
                 placement={"top"}
                 overlay={
-                  <Tooltip id={`software-skill-${logo.skillName}`}>
+                  <Tooltip id={toDomId("software-skill", logo.skillName)}>
                     <strong>{logo.skillName}</strong>
                   </Tooltip>
                 }

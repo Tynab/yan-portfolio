@@ -76,8 +76,8 @@
     font-size: 16px;
     text-align: center;
   }
-  .skills-image-div {
-    /* display: none; */
+  /* Wrapper của Fade mới là flex item, nên order phải đặt lên wrapper. */
+  .skills-image-reveal {
     order: 2;
   }
   .skills-image-div > * {
