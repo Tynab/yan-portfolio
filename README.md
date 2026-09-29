@@ -8,7 +8,7 @@ YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường A
 
 ## Stack kỹ thuật
 
-- **React 18** + `react-dom` 18 (`createRoot`), **react-router-dom 6** với `HashRouter` (route dạng `/#/...`).
+- **React 18** + `react-dom` 18 (`createRoot`), **react-router-dom 7** với `HashRouter` (route dạng `/#/...`).
 - **Vite 7** (`@vitejs/plugin-react`) làm build tool/dev server, thay cho Create React App; một plugin nội bộ (`jsAsJsx` trong `vite.config.js`) cho phép JSX tồn tại trong file `.js` để không phải đổi tên hàng loạt.
 - `styled-components` 6 cho theme (`ThemeProvider`, `GlobalStyles`); `GlobalStyles` còn xuất màu theme thành CSS variable (`--color-body`, `--color-text`, `--color-highlight`...) để hover/focus viết bằng CSS thuần. Accordion trang Experience dùng `<details>`/`<summary>` gốc (không còn `baseui`/`styletron`).
 - `react-awesome-reveal` + `@emotion/react` cho animation cuộn trang (thay cho `react-reveal`, không còn tương thích React 18).
@@ -47,7 +47,7 @@ Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việ
 
 1. `src/index.js` bọc `HelmetProvider` rồi `createRoot(...).render(<App />)`.
 2. `App` bọc `ThemeProvider` (styled-components) + `GlobalStyles`, truyền `chosenTheme` xuống `Main`.
-3. `Main` (`containers/Main.js`) dùng `HashRouter` + `Routes` (react-router-dom 6); landing route chọn theo `settings.isSplash` (đang tắt — `"/"` render thẳng Home); còn lại là route cho Home, Certifications (`/education` cũ tự chuyển hướng sang `/certifications`), Experience, Projects, Open Source, Contact và `Error404` bắt mọi path không khớp. Mỗi trang là một chunk riêng (`React.lazy`).
+3. `Main` (`containers/Main.js`) dùng `HashRouter` + `Routes` (react-router-dom 7); landing route chọn theo `settings.isSplash` (đang tắt — `"/"` render thẳng Home); còn lại là route cho Home, Certifications (`/education` cũ tự chuyển hướng sang `/certifications`), Experience, Projects, Open Source, Contact và `Error404` bắt mọi path không khớp. Mỗi trang là một chunk riêng (`React.lazy`).
 4. Mọi trang (trừ Splash) nằm dưới layout route `PageLayout` (Header + `<Outlet/>` + `TopButton`), nên Header không remount khi chuyển trang; trang lấy dữ liệu từ `portfolio.js` hoặc snapshot trong `src/shared/opensource`.
 5. `SeoHeader` set `<title>` và JSON-LD Person qua `react-helmet-async`; description/Open Graph để tĩnh trong `index.html` cho crawler không chạy JS.
 
@@ -105,5 +105,5 @@ Build Docker chạy `scripts/verify-lfs-assets.js` và **fail** nếu còn asset
 ## Ghi chú bảo trì
 
 - `base: "./"` + `build.outDir: "build"` trong `vite.config.js` là phần thực sự điều khiển đường dẫn asset tương đối và thư mục output (Vite không đọc field `homepage` của CRA). `package.json` vẫn còn `"homepage": "."` như một field thừa từ thời CRA — không dựa vào nó, và nếu dọn thì phải kiểm tra cả hai chỗ nhất quán.
-- `overrides` trong `package.json` ghim version một số dependency transitive để vá lỗ hổng bảo mật — không gỡ khi không cần thiết.
+- Không còn dùng `overrides` trong `package.json`: các bản ghim cứng (vd. `js-yaml@4.2.0`, `postcss@8.5.15`) từng chặn chính các bản vá bảo mật mới hơn. Khi cần vá dependency gián tiếp, ưu tiên `npm update <pkg>`; nếu buộc phải dùng `overrides` thì ghi dạng range (`^x.y.z`) thay vì phiên bản cứng, và chạy `npm audit` sau mỗi lần cập nhật lockfile.
 - `src/serviceWorker.js` (từ thời CRA, luôn ở trạng thái unregister) đã bị xóa hẳn khi migrate sang Vite — không thêm lại service worker vì sẽ phá vỡ chiến lược no-cache/deploy hiện tại.
