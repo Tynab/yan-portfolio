@@ -15,14 +15,12 @@ const Contact = lazy(() => import("../pages/contact/ContactComponent"));
 const Projects = lazy(() => import("../pages/projects/Projects"));
 const Error404 = lazy(() => import("../pages/errors/error404/Error"));
 
-// Tóm tắt: Router chính (v6) — layout route giữ Header/TopButton cố định, các trang render qua <Outlet/>.
+// Tóm tắt: Router chính (react-router v7) — layout route giữ Header/TopButton cố định, các trang render qua <Outlet/>.
 export default function Main({ theme }) {
   // isSplash đang tắt (false) nên "/" render thẳng Home; bật settings.isSplash để dùng màn splash làm landing.
   const Landing = settings.isSplash ? Splash : Home;
   return (
-    <HashRouter
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
+    <HashRouter>
       <Routes>
         {settings.isSplash && (
           <Route path="/" element={<Landing theme={theme} />} />
