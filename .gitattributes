@@ -9,3 +9,6 @@
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.eot filter=lfs diff=lfs merge=lfs -text
 *.ico filter=lfs diff=lfs merge=lfs -text
+# Font web trong src/ lưu dạng blob Git thường (như các TTF trước đây), không qua LFS:
+# file nhỏ (~40-85 kB) và không bị phụ thuộc hạn mức LFS của tài khoản.
+src/assests/fonts/*.woff2 !filter !diff !merge -text

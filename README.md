@@ -38,7 +38,7 @@ src/
   containers/                  # Section tái sử dụng cho Home/Open Source (greeting, skills, charts...)
   pages/                       # Màn hình route-level (home, certifications, experience, projects, opensource, contact, splash, errors)
   shared/opensource/*.json     # Snapshot organizations, pull_requests, issues, projects
-  assests/                     # images, fonts (tên cố ý sai chính tả, không đổi thành "assets")
+  assests/                     # images, fonts (WOFF2) — tên cố ý sai chính tả, không đổi thành "assets"
 ```
 
 Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việt (`// Tóm tắt:` hoặc khối `/* ... */`); CSS tự viết cũng có header mô tả vai trò stylesheet.

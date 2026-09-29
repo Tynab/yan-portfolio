@@ -5,49 +5,49 @@
   font-style: normal;
   font-weight: normal;
   src: local("Agustina Regular"),
-    url("./assests/fonts/Agustina.woff") format("woff");
+    url("./assests/fonts/Agustina.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Montserrat";
   src: local("Montserrat"),
-    url("./assests/fonts/Montserrat-Regular.ttf") format("truetype");
+    url("./assests/fonts/Montserrat-Regular.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Google Sans Bold";
   src: local("Google Sans Bold"),
-    url("./assests/fonts/GoogleSans-Bold.ttf") format("truetype");
+    url("./assests/fonts/GoogleSans-Bold.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Google Sans Bold Italic";
   src: local("Google Sans Bold Italic"),
-    url("./assests/fonts/GoogleSans-BoldItalic.ttf") format("truetype");
+    url("./assests/fonts/GoogleSans-BoldItalic.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Google Sans Italic";
   src: local("Google Sans Italic"),
-    url("./assests/fonts/GoogleSans-Italic.ttf") format("truetype");
+    url("./assests/fonts/GoogleSans-Italic.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Google Sans Medium";
   src: local("Google Sans Medium"),
-    url("./assests/fonts/GoogleSans-Medium.ttf") format("truetype");
+    url("./assests/fonts/GoogleSans-Medium.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Google Sans Medium Italic";
   src: local("Google Sans Medium Italic"),
-    url("./assests/fonts/GoogleSans-MediumItalic.ttf") format("truetype");
+    url("./assests/fonts/GoogleSans-MediumItalic.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
   font-family: "Google Sans Regular";
   src: local("Google Sans Regular"),
-    url("./assests/fonts/GoogleSans-Regular.ttf") format("truetype");
+    url("./assests/fonts/GoogleSans-Regular.woff2") format("woff2");
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
