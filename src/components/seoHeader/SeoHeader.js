@@ -9,6 +9,9 @@ import {
   certifications,
 } from "../../portfolio.js";
 
+// Chuỗi rỗng trong portfolio.js -> undefined để JSON.stringify bỏ hẳn key (schema.org coi "" là giá trị không hợp lệ).
+const orUndefined = (value) => value || undefined;
+
 // Tóm tắt: Gắn meta SEO và JSON-LD Person dựa trên dữ liệu portfolio trung tâm.
 function SeoHeader() {
   const sameAs = socialMediaLinks
@@ -41,7 +44,7 @@ function SeoHeader() {
     name: greeting.title,
     url: seo?.og?.url,
     email: mail,
-    telephone: contactPageData.phoneSection?.subtitle,
+    telephone: orUndefined(contactPageData.phoneSection?.subtitle),
     sameAs: sameAs,
     jobTitle: job?.title,
     worksFor: {
@@ -50,11 +53,11 @@ function SeoHeader() {
     },
     address: {
       "@type": "PostalAddress",
-      addressLocality: contactPageData.addressSection?.locality,
-      addressRegion: contactPageData.addressSection?.region,
-      addressCountry: contactPageData.addressSection?.country,
-      postalCode: contactPageData.addressSection?.postalCode,
-      streetAddress: contactPageData.addressSection?.streetAddress,
+      addressLocality: orUndefined(contactPageData.addressSection?.locality),
+      addressRegion: orUndefined(contactPageData.addressSection?.region),
+      addressCountry: orUndefined(contactPageData.addressSection?.country),
+      postalCode: orUndefined(contactPageData.addressSection?.postalCode),
+      streetAddress: orUndefined(contactPageData.addressSection?.streetAddress),
     },
     hasCredential: credentials,
   };

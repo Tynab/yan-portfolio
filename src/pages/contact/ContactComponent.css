@@ -61,6 +61,14 @@
   height: auto;
 }
 
+.contact-profile-img {
+  width: min(360px, 80%);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.35);
+}
+
 .blog-heading-img-div > * {
   max-width: 100%;
   height: auto;
@@ -76,6 +84,7 @@
 }
 
 .blog-heading-text {
+  margin-bottom: 0.67em;
   font-size: 56px;
   font-weight: 400;
   font-family: "Google Sans Medium";
@@ -85,6 +94,7 @@
 }
 
 .address-heading-text {
+  margin-top: 0.67em;
   font-size: 30px;
   font-family: "Google Sans Regular";
   text-align: center;

@@ -11,7 +11,7 @@ function Error() {
       <div className="error-class">
         <Fade direction="up" duration={2000} triggerOnce>
           <h1>Oops</h1>
-          <h1 className="error-404">404</h1>
+          <p className="error-404">404</p>
           <p>The requested page is unavailable at the moment!</p>
           <Link
             className="main-button"

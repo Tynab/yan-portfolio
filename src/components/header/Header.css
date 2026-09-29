@@ -143,9 +143,8 @@
   top: 0;
 }
 
-/* 48em = 768px */
-
-@media (min-width: 48em) {
+/* 769px: khớp với các block @media (max-width: 768px) của nội dung (768px vẫn là mobile). */
+@media (min-width: 769px) {
   .header li {
     float: left;
   }
@@ -162,8 +161,11 @@
     display: none;
   }
 }
-@media (max-width: 960px) and (min-width: 768px) {
+@media (max-width: 960px) and (min-width: 769px) {
   .header {
-    font-size: 12px;
+    font-size: 15px;
+  }
+  .header li a {
+    padding: 20px 14px;
   }
 }

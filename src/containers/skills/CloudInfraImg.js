@@ -31,7 +31,7 @@ export default function CloudInfraImg({ theme }) {
           y1="623"
           x2="309.42"
           y2="461"
-          // xlink:href="#e6219774-622b-406f-ae45-f26a74b1f5cd"
+          href="#e6219774-622b-406f-ae45-f26a74b1f5cd"
         />
         <linearGradient
           id="894cb520-7283-4f65-92a7-edb841614828"
@@ -39,7 +39,7 @@ export default function CloudInfraImg({ theme }) {
           y1="549"
           x2="773.42"
           y2="387"
-          // xlink:href="#e6219774-622b-406f-ae45-f26a74b1f5cd"
+          href="#e6219774-622b-406f-ae45-f26a74b1f5cd"
         />
         <linearGradient
           id="43bfcda2-dcfb-4411-a28b-16db327cb63c"
@@ -47,7 +47,7 @@ export default function CloudInfraImg({ theme }) {
           y1="277"
           x2="664.42"
           y2="115"
-          // xlink:href="#e6219774-622b-406f-ae45-f26a74b1f5cd"
+          href="#e6219774-622b-406f-ae45-f26a74b1f5cd"
         />
       </defs>
       <title>cloud hosting</title>

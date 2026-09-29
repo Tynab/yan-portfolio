@@ -72,6 +72,10 @@ body {
   margin: 0px auto;
   margin-top: 4rem;
 }
+/* Chừa chỗ dưới cùng cho #topButton (position: fixed) để không che nội dung cuối trang. */
+main {
+  padding-bottom: 80px;
+}
 /* Giữ chỗ trong lúc chunk của trang đang tải để footer/TopButton không nhảy. */
 .page-loading {
   min-height: 100vh;

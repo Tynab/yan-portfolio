@@ -4,6 +4,8 @@
 .cert-card-reveal {
   flex: 0 0 30%;
   margin-bottom: 30px;
+  /* flex để .cert-card giãn đủ chiều cao hàng: các card cùng hàng cao bằng nhau. */
+  display: flex;
 }
 
 .cert-card {
@@ -38,6 +40,7 @@
 }
 
 .cert-body-subtitle {
+  font-weight: bold;
   font-family: "Google Sans Regular";
   font-size: 18px;
   color: #808080;
@@ -87,13 +90,33 @@
   transition: all 0.3s ease-in-out 0s;
 }
 
+/* Focus bàn phím: link bị .content (overflow:hidden) cắt mất outline mặc định,
+   nên hiện overlay giống hover và vẽ outline vào trong. */
+.content:has(a:focus-visible) .content-overlay {
+  opacity: 1;
+}
+
+.content a:focus-visible {
+  outline: none;
+}
+
+.cert-card:has(a:focus-visible) {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.content:has(a:focus-visible) .content-details,
 .content:hover .content-details {
   top: 50%;
   left: 50%;
   opacity: 1;
 }
 
-.content-details h3 {
+/* Nhãn overlay là <span> (không phải heading) nên tự đặt block/cỡ chữ như h3 cũ. */
+.content-details .content-title {
+  display: block;
+  font-size: 1.17em;
+  margin-top: 1em;
   color: #fff;
   font-weight: 500;
   font-family: "Google Sans Regular";

@@ -4,6 +4,7 @@
 }
 
 .error-main > .error-class {
+  font-family: "Google Sans Regular", sans-serif;
   width: 90%;
   margin: auto 5%;
   /* min-height: calc(100vh - 192px); */
@@ -12,7 +13,13 @@
 }
 
 /* Fade bọc mỗi phần tử trong một div riêng nên dùng descendant selector, không dùng ">". */
+.error-main > .error-class h1 {
+  font-family: "Google Sans Bold", sans-serif;
+  font-weight: normal;
+}
+
 .error-main > .error-class .error-404 {
+  font-family: "Google Sans Bold", sans-serif;
   font-size: 7em;
   line-height: 1;
   overflow: hidden;

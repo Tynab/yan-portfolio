@@ -40,7 +40,7 @@ export default function GithubRepoCard({ repo, theme }) {
           <div className="repo-details">
             <p
               className="repo-creation-date subTitle"
-              style={{ color: theme.secondaryText }}
+              style={{ color: theme.text }}
             >
               Created on {repo.createdAt?.split("T")[0]}
             </p>

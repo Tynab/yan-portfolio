@@ -64,12 +64,12 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
           >
             <div className="experience-card-header">
               <div>
-                <h3
+                <h2
                   className="experience-card-title"
                   style={{ color: theme.text }}
                 >
                   {experience["title"]}
-                </h3>
+                </h2>
                 <p
                   className="experience-card-company"
                   style={{ color: theme.text }}

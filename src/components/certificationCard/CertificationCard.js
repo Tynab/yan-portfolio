@@ -36,9 +36,9 @@ function CertificationCard({ certificate, theme }) {
               />
             </div>
             <div className="content-details fadeIn-top">
-              <h3 className="content-title" style={{ color: theme.body }}>
+              <span className="content-title" style={{ color: theme.body }}>
                 Certificate
-              </h3>
+              </span>
             </div>
           </a>
         </div>
@@ -46,12 +46,12 @@ function CertificationCard({ certificate, theme }) {
           <h2 className="cert-body-title" style={{ color: theme.text }}>
             {certificate.title}
           </h2>
-          <h3
+          <p
             className="cert-body-subtitle"
             style={{ color: theme.secondaryText }}
           >
             {certificate.subtitle}
-          </h3>
+          </p>
         </div>
       </div>
     </Fade>

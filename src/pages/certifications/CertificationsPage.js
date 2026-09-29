@@ -20,9 +20,9 @@ function CertificationsPage({ theme }) {
               <h1 className="heading-text" style={{ color: theme.text }}>
                 Certifications
               </h1>
-              <h3 className="heading-sub-text" style={{ color: theme.text }}>
+              <p className="heading-sub-text" style={{ color: theme.text }}>
                 Professional Certifications and Skill Assessments
-              </h3>
+              </p>
               <CompetitiveSites logos={competitiveSites.competitiveSites} />
             </div>
           </div>

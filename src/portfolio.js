@@ -13,7 +13,8 @@ const seo = {
   og: {
     title: "Yami An Portfolio",
     type: "website",
-    url: "https://yamiannephilim.com/",
+    // Domain thật của site: yamiannephilim.com/* bị Cloudflare worker chuyển hướng (xem cloudflare/).
+    url: "https://portfolio.yamiannephilim.com/",
   },
 };
 
@@ -1060,7 +1061,8 @@ const projectsHeader = {
 const contactPageData = {
   contactSection: {
     title: "Contact Me",
-    profile_image_path: "animated_ashutosh.png",
+    // Ảnh đại diện lấy trực tiếp từ GitHub để luôn khớp avatar hiện tại.
+    profile_image_url: "https://github.com/Tynab.png?size=460",
     description:
       "I am available through the social profiles below for software architecture, full-stack engineering, AI/data, cloud infrastructure, and DevOps collaboration.",
   },

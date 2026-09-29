@@ -4,7 +4,9 @@
   overflow: hidden;
 }
 
+/* Mỗi trang chỉ một h1 (tên ở Greeting): section là h2, nhóm kỹ năng là h3; margin giữ như h1 cũ. */
 .skills-header {
+  margin: 0.67em 0;
   font-size: 60px;
   line-height: normal;
   font-family: "Google Sans Regular";
@@ -32,6 +34,7 @@
 }
 
 .skills-heading {
+  margin: 0.67em 0;
   font-size: 56px;
   font-weight: 400;
   font-family: "Google Sans Regular";
