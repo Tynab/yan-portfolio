@@ -9,12 +9,6 @@
 }
 @font-face {
   font-display: swap;
-  font-family: "Montserrat";
-  src: local("Montserrat"),
-    url("./assests/fonts/Montserrat-Regular.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
   font-family: "Google Sans Bold";
   src: local("Google Sans Bold"),
     url("./assests/fonts/GoogleSans-Bold.woff2") format("woff2");
@@ -27,21 +21,9 @@
 }
 @font-face {
   font-display: swap;
-  font-family: "Google Sans Italic";
-  src: local("Google Sans Italic"),
-    url("./assests/fonts/GoogleSans-Italic.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
   font-family: "Google Sans Medium";
   src: local("Google Sans Medium"),
     url("./assests/fonts/GoogleSans-Medium.woff2") format("woff2");
-}
-@font-face {
-  font-display: swap;
-  font-family: "Google Sans Medium Italic";
-  src: local("Google Sans Medium Italic"),
-    url("./assests/fonts/GoogleSans-MediumItalic.woff2") format("woff2");
 }
 @font-face {
   font-display: swap;
@@ -60,7 +42,9 @@ body {
 }
 body {
   margin: 0;
-  font: 19px / 23px Montserrat, "Montserrat", sans-serif;
+  /* font-family lấy từ GlobalStyles (global.js); ở đây chỉ đặt cỡ chữ/line-height gốc. */
+  font-size: 19px;
+  line-height: 23px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
