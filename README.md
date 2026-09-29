@@ -87,7 +87,7 @@ Không còn `npm start` / `react-scripts` — dự án đã rời Create React A
 
 ## Git LFS
 
-Asset nhị phân (`svg`, `png`, `jpg`, `gif`, `woff`, `woff2`, `ttf`, `eot`, `ico`) được theo dõi bằng Git LFS theo khai báo trong `.gitattributes`. Sau khi clone repo, chạy:
+Asset nhị phân (`svg`, `png`, `jpg`, `gif`, `woff`, `woff2`, `ttf`, `eot`, `ico`) được theo dõi bằng Git LFS theo khai báo trong `.gitattributes`. Ngoại lệ: font web `src/assests/fonts/*.woff2` lưu dạng blob Git thường (file nhỏ, không phụ thuộc hạn mức LFS). Sau khi clone repo, chạy:
 
 ```bash
 git lfs install
