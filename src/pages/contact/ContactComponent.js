@@ -21,14 +21,12 @@ function Contact({ theme }) {
           <div className="contact-heading-div">
             <div className="contact-heading-img-div">
               <img
-                // new URL(..., import.meta.url): cách Vite nạp ảnh động thay cho require() của CRA.
-                src={
-                  new URL(
-                    `../../assests/images/${ContactData["profile_image_path"]}`,
-                    import.meta.url
-                  ).href
-                }
-                alt={ContactData["title"]}
+                className="contact-profile-img"
+                src={ContactData["profile_image_url"]}
+                alt={greeting.title}
+                width="460"
+                height="460"
+                loading="lazy"
               />
             </div>
             <div className="contact-heading-text-div">
@@ -58,9 +56,9 @@ function Contact({ theme }) {
         <Fade direction="up" duration={1000} triggerOnce>
           <div className="blog-heading-div">
             <div className="blog-heading-text-div">
-              <h1 className="blog-heading-text" style={{ color: theme.text }}>
+              <h2 className="blog-heading-text" style={{ color: theme.text }}>
                 {blogSection["title"]}
-              </h1>
+              </h2>
               <p
                 className="blog-header-detail-text subTitle"
                 style={{ color: theme.secondaryText }}
@@ -86,30 +84,34 @@ function Contact({ theme }) {
               <AddressImg theme={theme} />
             </div>
             <div className="address-heading-text-div">
-              <h1
+              <h2
                 className="address-heading-text"
                 style={{ color: theme.text }}
               >
                 {addressSection["title"]}
-              </h1>
+              </h2>
               <p
                 className="contact-header-detail-text subTitle"
                 style={{ color: theme.secondaryText }}
               >
                 {addressSection["subtitle"]}
               </p>
-              <h1
-                className="address-heading-text"
-                style={{ color: theme.text }}
-              >
-                {phoneSection["title"]}
-              </h1>
-              <p
-                className="contact-header-detail-text subTitle"
-                style={{ color: theme.secondaryText }}
-              >
-                {phoneSection["subtitle"]}
-              </p>
+              {phoneSection["title"] && (
+                <>
+                  <h2
+                    className="address-heading-text"
+                    style={{ color: theme.text }}
+                  >
+                    {phoneSection["title"]}
+                  </h2>
+                  <p
+                    className="contact-header-detail-text subTitle"
+                    style={{ color: theme.secondaryText }}
+                  >
+                    {phoneSection["subtitle"]}
+                  </p>
+                </>
+              )}
               <div className="address-btn-div">
                 <Button
                   text="Visit on Google Maps"

@@ -39,9 +39,9 @@ function SkillSection({ theme }) {
 
             <div className="skills-text-div">
               <Fade direction="right" duration={1000} triggerOnce>
-                <h1 className="skills-heading" style={{ color: theme.text }}>
+                <h3 className="skills-heading" style={{ color: theme.text }}>
                   {skill.title}
-                </h1>
+                </h3>
               </Fade>
               <Fade direction="right" duration={1500} triggerOnce>
                 <SoftwareSkill logos={skill.softwareSkills} />

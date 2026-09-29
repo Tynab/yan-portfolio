@@ -31,7 +31,7 @@ export default function DesignImg({ theme }) {
           y1="533.62"
           x2="458.12"
           y2="533.62"
-          // xlink:href="#ac59aa7e-40f5-4d5f-b82f-fdd6bf7d03ee"
+          href="#ac59aa7e-40f5-4d5f-b82f-fdd6bf7d03ee"
         />
         <linearGradient
           id="060ac890-45f2-497a-b51d-740a183b02f3"
@@ -40,7 +40,7 @@ export default function DesignImg({ theme }) {
           x2="-1193.63"
           y2="383.52"
           gradientTransform="translate(1997.33)"
-          // xlink:href="#ac59aa7e-40f5-4d5f-b82f-fdd6bf7d03ee"
+          href="#ac59aa7e-40f5-4d5f-b82f-fdd6bf7d03ee"
         />
       </defs>
       <title>design tools</title>

@@ -10,9 +10,9 @@ export default function Skills(props) {
     <div className="main" id="skills">
       <div className="skills-header-div">
         <Fade direction="up" duration={2000} triggerOnce>
-          <h1 className="skills-header" style={{ color: theme.text }}>
+          <h2 className="skills-header" style={{ color: theme.text }}>
             What I Do?
-          </h1>
+          </h2>
         </Fade>
       </div>
       <SkillSection theme={theme} />

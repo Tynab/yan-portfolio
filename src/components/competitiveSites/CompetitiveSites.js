@@ -24,8 +24,10 @@ function CompetitiveSites({ logos = [] }) {
                   href={logo.profileLink}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={logo.siteName}
                 >
                   <span
+                    aria-hidden="true"
                     className="iconify"
                     data-icon={logo.iconifyClassname}
                     style={logo.style}

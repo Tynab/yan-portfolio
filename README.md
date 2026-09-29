@@ -1,6 +1,6 @@
 # YAN Portfolio
 
-YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường An (Yami An)**, xây bằng React 18 + Vite. Toàn bộ nội dung tập trung trong `src/portfolio.js` và các file JSON snapshot dưới `src/shared/opensource/`; component chỉ nhận dữ liệu qua props và render lại — muốn đổi nội dung thì sửa data, không sửa component.
+YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường An (Yami An)**, xây bằng React 18 + Vite. Toàn bộ nội dung tập trung trong `src/portfolio.js` và snapshot danh sách project `src/shared/opensource/projects.json`; component chỉ nhận dữ liệu qua props và render lại — muốn đổi nội dung thì sửa data, không sửa component.
 
 - Portfolio trực tuyến: https://yamiannephilim.com/
 - Hồ sơ/CV: [Google Drive](https://drive.google.com/file/d/1HqRpwMKDX9vYGbZFWkyDungwJ_pgMFe_/view?usp=sharing)
@@ -14,7 +14,6 @@ YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường A
 - `react-awesome-reveal` + `@emotion/react` cho animation cuộn trang (thay cho `react-reveal`, không còn tương thích React 18).
 - `react-bootstrap` 2 cho tooltip/overlay; không nạp Bootstrap CSS, style tooltip tối thiểu nằm trong `src/tooltip.css`.
 - `react-helmet-async` (`HelmetProvider`) cho meta tag SEO và JSON-LD Person.
-- `chart.js` 4 + `react-chartjs-2` 5 cho biểu đồ đóng góp open-source.
 - `Vitest` 5 (cần Node `^22.12` hoặc `>=24`, khai báo trong `engines`) + `@testing-library/react` + `jsdom` cho test; ESLint cấu hình độc lập (`.eslintrc.cjs`, không còn dùng preset `react-app`).
 - Font Awesome 6 nạp từ CDN trong `index.html` (không bundle); icon/ảnh kỹ năng nằm trong `public/skills`.
 
@@ -33,11 +32,11 @@ src/
   portfolio.js                 # Nguồn dữ liệu nội dung chính của portfolio
   theme.js                     # 14 bảng theme màu, chosenTheme chọn theme đang dùng
   containers/Main.js           # HashRouter + layout route, các trang nạp lazy (React.lazy) theo route
-  components/                  # Header, card, chart, social, pageLayout... (đều là function component)
+  components/                  # Header, card, social, pageLayout... (đều là function component)
   components/pageLayout/       # Layout route: Header + <Outlet/> (Suspense) + TopButton, mount một lần
-  containers/                  # Section tái sử dụng cho Home/Open Source (greeting, skills, charts...)
-  pages/                       # Màn hình route-level (home, certifications, experience, projects, opensource, contact, splash, errors)
-  shared/opensource/*.json     # Snapshot organizations, pull_requests, issues, projects
+  containers/                  # Section tái sử dụng (greeting, skills, certifications, experience accordion)
+  pages/                       # Màn hình route-level (home, certifications, experience, projects, contact, splash, errors)
+  shared/opensource/projects.json # Snapshot các repository hiển thị ở trang Projects
   assests/                     # images, fonts (WOFF2) — tên cố ý sai chính tả, không đổi thành "assets"
 ```
 
@@ -47,15 +46,16 @@ Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việ
 
 1. `src/index.js` bọc `HelmetProvider` rồi `createRoot(...).render(<App />)`.
 2. `App` bọc `ThemeProvider` (styled-components) + `GlobalStyles`, truyền `chosenTheme` xuống `Main`.
-3. `Main` (`containers/Main.js`) dùng `HashRouter` + `Routes` (react-router-dom 7); landing route chọn theo `settings.isSplash` (đang tắt — `"/"` render thẳng Home); còn lại là route cho Home, Certifications (`/education` cũ tự chuyển hướng sang `/certifications`), Experience, Projects, Open Source, Contact và `Error404` bắt mọi path không khớp. Mỗi trang là một chunk riêng (`React.lazy`).
-4. Mọi trang (trừ Splash) nằm dưới layout route `PageLayout` (Header + `<Outlet/>` + `TopButton`), nên Header không remount khi chuyển trang; trang lấy dữ liệu từ `portfolio.js` hoặc snapshot trong `src/shared/opensource`.
+3. `Main` (`containers/Main.js`) dùng `HashRouter` + `Routes` (react-router-dom 7); `"/"` chuyển hướng sang `/home` (hoặc `/splash` nếu bật `settings.isSplash`) để menu đánh dấu đúng mục Home; còn lại là route cho Home, Certifications (`/education` cũ tự chuyển hướng sang `/certifications`), Experience, Projects, Contact và `Error404` bắt mọi path không khớp. Mỗi trang là một chunk riêng (`React.lazy`).
+4. Mọi trang (trừ Splash) nằm dưới layout route `PageLayout` (Header + `<Outlet/>` + `TopButton`), nên Header không remount khi chuyển trang; trang lấy dữ liệu từ `portfolio.js` hoặc `src/shared/opensource/projects.json`.
 5. `SeoHeader` set `<title>` và JSON-LD Person qua `react-helmet-async`; description/Open Graph để tĩnh trong `index.html` cho crawler không chạy JS.
 
 ## Cấu hình nội dung
 
 - Thông tin cá nhân, social links, SEO, kỹ năng, chứng chỉ, kinh nghiệm, project header và contact nằm trong `src/portfolio.js`.
 - Danh sách project trên trang Projects lấy từ `src/shared/opensource/projects.json`.
-- Trang Open Source dùng `organizations.json`, `pull_requests.json`, `issues.json` để render logo tổ chức, chart và card đóng góp. Các file này là snapshot tĩnh, import lúc build — không gọi API lúc runtime.
+- Trang Open Source (chart PR/issue, tổ chức) đã được gỡ: dữ liệu snapshot trong đó là của tác giả template gốc, không phải của chủ portfolio.
+- Ảnh trang Contact lấy từ `contactSection.profile_image_url` (avatar GitHub).
 - Theme hiện tại là `blueTheme` trong số 14 palette khai báo ở `src/theme.js`; đổi `chosenTheme` để reskin toàn bộ site.
 - `settings.isSplash = false`: route `/` render thẳng Home. Đặt `true` để dùng màn splash làm landing.
 
@@ -78,10 +78,9 @@ npm test               # vitest run — chạy test một lần
 npm run test:watch     # vitest ở chế độ watch
 npm run build          # vite build -> thư mục build/
 npm run preview        # Preview bản build production cục bộ
-npm run deploy         # predeploy chạy build, sau đó gh-pages publish build/ lên branch gh-pages
 ```
 
-Chỉ có `src/App.test.js` (smoke test render App), nên `npm test` xanh không đồng nghĩa với coverage đầy đủ.
+Test gồm `src/App.test.js` (smoke test render App) và `cloudflare/redirect-worker.test.js` (logic chuyển hướng theo giờ), nên `npm test` xanh không đồng nghĩa với coverage đầy đủ.
 
 Không còn `npm start` / `react-scripts` — dự án đã rời Create React App, dùng Vite làm build tool.
 
@@ -98,9 +97,9 @@ Build Docker chạy `scripts/verify-lfs-assets.js` và **fail** nếu còn asset
 
 ## CI, Docker và deploy
 
-- `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, cài dependency bằng `npm ci`, verify LFS rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` copy `build/` vào `/usr/share/nginx/html` và serve trên cổng `80` theo `nginx.conf` (SPA fallback `try_files ... /index.html`, bật gzip; `index.html` `no-cache`, `/assets/` (tên có hash) và `/skills/` (có `?v=`) cache 1 năm `immutable`, asset tĩnh khác cache 7 ngày).
-- `Jenkinsfile`: build Docker image → push lên Docker Hub (`yamiannephilim/portfolio`) → dừng/xóa container cũ → chạy container mới trên network `yan`, kèm thông báo Telegram ở mỗi bước.
-- Ngoài Docker, `npm run deploy` publish `build/` lên branch `gh-pages` để host qua GitHub Pages.
+- `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, cài dependency bằng `npm ci`, verify LFS, chạy `npm run lint && npm test` (lỗi là dừng build, không deploy) rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` copy `build/` vào `/usr/share/nginx/html` và serve trên cổng `80` theo `nginx.conf` (SPA fallback `try_files ... /index.html`, bật gzip; `index.html` `no-cache`, `/assets/` (tên có hash) và `/skills/` (có `?v=`) cache 1 năm `immutable`, asset tĩnh khác cache 7 ngày).
+- `Jenkinsfile`: build Docker image → push lên Docker Hub (`yamiannephilim/portfolio`) → dừng/xóa container cũ → chạy container mới trên network `yan`, kèm thông báo Telegram ở mỗi bước. Lệnh `curl` dùng chuỗi nháy đơn để shell đọc `TOKEN`/`TEXT_*` từ biến môi trường — không nội suy commit message vào lệnh shell.
+- Site thật chạy ở `https://portfolio.yamiannephilim.com/`; `yamiannephilim.com/*` được Cloudflare worker (`cloudflare/`) chuyển hướng theo giờ, nên URL Open Graph/JSON-LD phải dùng domain `portfolio.`. Không còn deploy GitHub Pages (`gh-pages` đã gỡ).
 
 ## Ghi chú bảo trì
 

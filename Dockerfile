@@ -8,6 +8,8 @@ RUN npm ci
 
 COPY . .
 RUN node scripts/verify-lfs-assets.js
+# Chặn deploy khi lint/test lỗi (repo không có CI riêng; Jenkins build image này).
+RUN npm run lint && npm test
 RUN npm run build
 
 FROM nginx:1.27-alpine

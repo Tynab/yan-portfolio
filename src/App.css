@@ -1,4 +1,4 @@
 /* Tóm tắt: Style dùng chung toàn app (class tiện ích dùng ở nhiều trang). */
 .subTitle {
-  color: #868e96;
+  color: var(--color-secondary-text);
 }

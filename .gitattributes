@@ -12,3 +12,11 @@
 # Font web trong src/ lưu dạng blob Git thường (như các TTF trước đây), không qua LFS:
 # file nhỏ (~40-85 kB) và không bị phụ thuộc hạn mức LFS của tài khoản.
 src/assests/fonts/*.woff2 !filter !diff !merge -text
+# Icon/ảnh dưới đây vốn được commit dạng blob Git thường (không phải con trỏ LFS).
+# Khai báo ngoại lệ để `git add` không lặng lẽ chuyển chúng sang LFS (hạn mức LFS đã hết).
+public/icons/* !filter !diff !merge -text
+src/assests/images/* !filter !diff !merge -text
+# Ba ảnh này thực sự nằm trên LFS nên giữ filter LFS (dòng sau ghi đè dòng trước).
+src/assests/images/devopseduvn.png filter=lfs diff=lfs merge=lfs -text
+src/assests/images/hacksplaining.png filter=lfs diff=lfs merge=lfs -text
+src/assests/images/udemy.png filter=lfs diff=lfs merge=lfs -text

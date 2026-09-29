@@ -22,7 +22,6 @@
 
 .experience-card-logo-div {
   margin: 10px;
-  margin-top: -10px;
 }
 
 .experience-card-reveal {
@@ -79,6 +78,7 @@
 
 .experience-card-title {
   font-family: "Google Sans Regular";
+  font-size: 1.17em;
   margin-top: 10px;
   margin-bottom: 2px;
   margin-left: 0px;
@@ -99,7 +99,7 @@
   margin-left: 0px;
   margin-right: 0px;
   text-align: right;
-  color: #868e96;
+  color: var(--color-secondary-text);
 }
 
 .experience-card-header {
@@ -117,27 +117,18 @@
   font-family: "Google Sans Regular";
   margin: 0;
   text-align: right;
-  color: #868e96;
+  color: var(--color-secondary-text);
 }
 
 .experience-card-description {
   margin: 20px 0 0;
 }
 
+/* Link công ty theo màu chữ của card (theme), gạch chân chạy ra khi hover/focus. */
 .experience-card-company > a {
   position: relative;
-  color: #000;
+  color: inherit;
   text-decoration: none;
-}
-
-.experience-card-company > a:hover {
-  color: #000;
-}
-
-.experience-card-company > a:hover:before {
-  visibility: visible;
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
 }
 
 .experience-card-company > a:before {
@@ -147,12 +138,19 @@
   height: 1px;
   bottom: 0;
   left: 0;
-  background-color: #000;
-  visibility: hidden;
-  -webkit-transform: scaleX(0);
+  background-color: currentColor;
   transform: scaleX(0);
-  -webkit-transition: all 0.3s ease-in-out 0s;
-  transition: all 0.3s ease-in-out 0s;
+  transition: transform 0.3s ease-in-out;
+}
+
+.experience-card-company > a:hover:before,
+.experience-card-company > a:focus-visible:before {
+  transform: scaleX(1);
+}
+
+.experience-card-company > a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .experience-list-item {
@@ -187,6 +185,11 @@
 
   .experience-card-logo {
     width: 100px;
+  }
+
+  /* Mobile: logo nằm trên card (không có timeline) nên giữ khoảng cách gọn như trước. */
+  .experience-card-logo-div {
+    margin-top: -10px;
   }
 
   .experience-card-header {
