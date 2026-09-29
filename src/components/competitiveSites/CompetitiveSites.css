@@ -1,13 +1,4 @@
 /* Tóm tắt: Style cho CompetitiveSites trong components/competitiveSites. */
-.dev-icons {
-  padding-left: 0;
-  list-style: none;
-  font-size: 3rem;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  text-align: center;
-}
-
 .competitive-sites-inline {
   display: inline-block;
   margin-right: 20px;

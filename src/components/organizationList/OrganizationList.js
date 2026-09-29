@@ -1,6 +1,7 @@
 import React from "react";
 import "./OrganizationList.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toDomId } from "../../utils/domId";
 import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Danh sách logo tổ chức GitHub kèm tooltip tên tổ chức.
@@ -13,9 +14,8 @@ function OrganizationList({ logos = [] }) {
             <OverlayTrigger
               key={logo["login"]}
               placement={"top"}
-              style={{ marginBottom: "5px" }}
               overlay={
-                <Tooltip id={`organization-${logo["login"]}`}>
+                <Tooltip id={toDomId("organization", logo["login"])}>
                   <strong>{logo["login"]}</strong>
                 </Tooltip>
               }

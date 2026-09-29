@@ -46,9 +46,6 @@
   .skills-header {
     font-size: 50px;
   }
-  /* .skills-image-div > img {
-    margin-top: 0px;
-  } */
 }
 @media (max-width: 768px) {
   .skills-heading {
@@ -57,10 +54,6 @@
   }
   .skills-header {
     font-size: 30px;
-  }
-  .greeting-text-p {
-    font-size: 16px;
-    line-height: normal;
   }
   .skills-main-div {
     flex-direction: column;
@@ -72,12 +65,8 @@
   .skills-text {
     font-size: 16px;
   }
-  .skills-text-subtitle {
-    font-size: 16px;
-    text-align: center;
-  }
-  .skills-image-div {
-    /* display: none; */
+  /* Wrapper của Fade mới là flex item, nên order phải đặt lên wrapper. */
+  .skills-image-reveal {
     order: 2;
   }
   .skills-image-div > * {

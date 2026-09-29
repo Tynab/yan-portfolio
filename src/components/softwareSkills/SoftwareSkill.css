@@ -1,13 +1,4 @@
 /* Tóm tắt: Style cho SoftwareSkill trong components/softwareSkills. */
-.dev-icons {
-  padding-left: 0;
-  list-style: none;
-  font-size: 3rem;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  text-align: center;
-}
-
 .software-skill-inline {
   display: inline-block;
   margin-right: 20px;

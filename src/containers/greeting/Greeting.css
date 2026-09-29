@@ -1,21 +1,9 @@
 /* Tóm tắt: Style cho Greeting trong containers/greeting. */
-.main {
-  width: 90%;
-  padding: 20px 10px;
-  margin: 0px auto;
-  margin-top: 4rem;
-}
 .greet-main {
   width: 90%;
   padding: 20px 10px;
   margin: 0px auto;
   margin-top: 2rem;
-}
-
-.gretting-main {
-  width: 90%;
-  padding: 20px 10px;
-  margin: 0px auto;
 }
 
 .greeting-main {
@@ -25,10 +13,6 @@
 .greeting-main > * {
   flex: 1;
   margin-bottom: 30px;
-}
-.button-greeting-div {
-  display: flex;
-  margin-top: 20px;
 }
 
 .greeting-text {
@@ -66,9 +50,6 @@
   }
 }
 @media (max-width: 768px) {
-  .button-greeting-div {
-    justify-content: space-around;
-  }
   .greeting-text {
     font-size: 30px;
     margin-top: 0px;

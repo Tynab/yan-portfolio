@@ -3,14 +3,15 @@
   font-size: 2em;
 }
 
-.icon-button i {
-  color: white;
-}
 .icon-button {
+  display: inline-block;
   margin-bottom: 10px;
+  border-radius: 2.6rem;
 }
 
 .icon-button i {
+  color: white;
+  background-color: var(--icon-bg);
   border-radius: 2.6rem;
   cursor: pointer;
   display: inline-block;
@@ -20,48 +21,26 @@
   margin: 0 5px;
   position: relative;
   text-align: center;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   width: 2.6rem;
-  margin-bottom: 10px;
+  transition: background-color 0.3s ease-in;
 }
 
-/* .facebook i {
-  background-color: #3b5998;
+.icon-button:focus-visible {
+  outline: none;
 }
 
-.linkedin i {
-  background-color: #0e76a8;
+.icon-button:focus-visible i {
+  background-color: var(--color-text);
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
 }
 
-.github i {
-  background-color: #333;
+@media (hover: hover) {
+  .icon-button:hover i {
+    background-color: var(--color-text);
+  }
 }
-
-.gitlab i {
-  background-color: #fca326;
-}
-
-.google i {
-  background-color: #ea4335;
-}
-
-.twitter i {
-  background-color: #1da1f2;
-}
-
-.instagram i {
-  background-color: #E4405F;
-} */
-
-/*Hover Transition*/
-/* .twitter i:hover, .google i:hover, .gitlab i:hover,
-.github i:hover ,.linkedin i:hover ,.facebook i:hover, .instagram i:hover{
-  background-color: black;
-  transition: 0.3s ease-in;
-} */
 
 /* Media Query */
 @media (max-width: 768px) {

@@ -1,6 +1,7 @@
 import React from "react";
 import "./ProjectLanguages.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toDomId } from "../../utils/domId";
 
 // Tóm tắt: Hiển thị icon ngôn ngữ/công nghệ của từng repository.
 function ProjectLanguages({ logos = [] }) {
@@ -14,7 +15,7 @@ function ProjectLanguages({ logos = [] }) {
                 key={logo.name}
                 placement={"top"}
                 overlay={
-                  <Tooltip id={`language-tooltip-${logo.name}`}>
+                  <Tooltip id={toDomId("language-tooltip", logo.name)}>
                     <strong>{logo.name}</strong>
                   </Tooltip>
                 }

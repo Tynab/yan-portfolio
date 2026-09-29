@@ -1,6 +1,7 @@
 import React from "react";
 import "./PullRequestCard.css";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { toDomId } from "../../utils/domId";
 import { Fade } from "react-awesome-reveal";
 
 // Tóm tắt: Card mô tả pull request, trạng thái merge và số dòng thay đổi.
@@ -39,9 +40,8 @@ function PullRequestCard({ pullRequest }) {
       <OverlayTrigger
         key={name}
         placement={"top"}
-        style={{ marginBottom: "5px" }}
         overlay={
-          <Tooltip id={`pull-request-merged-by-${pullRequest["id"]}`}>
+          <Tooltip id={toDomId("pull-request-merged-by", pullRequest["id"])}>
             <strong>{`Merged by ${name}`}</strong>
           </Tooltip>
         }

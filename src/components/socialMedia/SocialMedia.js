@@ -1,33 +1,9 @@
 import React from "react";
 import "./SocialMedia.css";
 import { socialMediaLinks } from "../../portfolio";
-import styled from "styled-components";
-
-// styled-components v6 chuyển tiếp mọi prop xuống DOM; chỉ giữ lại các prop
-// hợp lệ cho <span> để tránh cảnh báo "unknown attribute" (backgroundColor,
-// fontAwesomeIcon, link, name... chỉ dùng cho style/logic, không phải HTML).
-const nonDomProps = new Set([
-  "backgroundColor",
-  "fontAwesomeIcon",
-  "link",
-  "name",
-  "theme",
-  "onToggle",
-]);
-const IconWrapper = styled.span.withConfig({
-  shouldForwardProp: (prop) => !nonDomProps.has(prop),
-})`
-  i {
-    background-color: ${(props) => props.backgroundColor};
-  }
-  &:hover i {
-    background-color: ${({ theme }) => theme.text};
-    transition: 0.3s ease-in;
-  }
-`;
 
 // Tóm tắt: Render các kênh liên hệ xã hội từ cấu hình portfolio.js.
-export default function SocialMedia(props) {
+export default function SocialMedia() {
   return (
     <div className="social-media-div">
       {socialMediaLinks.map((media) => {
@@ -46,9 +22,12 @@ export default function SocialMedia(props) {
             title={media.name}
             {...newTabProps}
           >
-            <IconWrapper {...media} {...props}>
-              <i className={`fab ${media.fontAwesomeIcon}`}></i>
-            </IconWrapper>
+            {/* Màu nền riêng của từng mạng xã hội truyền qua CSS variable; hover/focus xử lý trong CSS. */}
+            <i
+              className={`fab ${media.fontAwesomeIcon}`}
+              style={{ "--icon-bg": media.backgroundColor }}
+              aria-hidden="true"
+            ></i>
           </a>
         );
       })}

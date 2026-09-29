@@ -12,7 +12,7 @@ module.exports = {
   rules: {
     "react/prop-types": "off",
   },
-  ignorePatterns: ["build/", "src/assests/font-awesome/**"],
+  ignorePatterns: ["build/"],
   overrides: [
     {
       // Vitest cung cấp các global (test, expect, describe...) khi bật globals: true.

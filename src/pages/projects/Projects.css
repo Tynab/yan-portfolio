@@ -41,13 +41,6 @@
   margin-top: 80px;
 }
 
-.projects-heading-sub-text {
-  font-size: 30px;
-  font-family: "Google Sans Regular";
-  text-align: center;
-  margin-bottom: 10px;
-}
-
 .projects-header-detail-text {
   font-size: 20px;
   line-height: 30px;
@@ -55,16 +48,6 @@
   margin-left: 20px;
   margin-right: 20px;
   font-family: "Google Sans Medium";
-}
-.publications-heading-text-div {
-  text-align: center;
-  font-family: "Google Sans Regular";
-  margin-top: 70px;
-}
-
-.publications-heading-text {
-  font-size: 56px;
-  font-weight: 600;
 }
 .repo-cards-div-main {
   display: flex;
@@ -81,20 +64,12 @@
     font-size: 50px;
     margin-top: 80px;
   }
-  .projects-heading-sub-text {
-    font-size: 25px;
-  }
 }
 
 @media (max-width: 768px) {
-  .projects-heading-text,
-  .publications-heading-text {
+  .projects-heading-text {
     font-size: 30px;
     margin-top: 20px;
-  }
-
-  .projects-heading-sub-text {
-    font-size: 20px;
   }
 
   .projects-heading-div {
@@ -110,7 +85,6 @@
   }
 
   .repo-cards-div-main {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 30px;

@@ -26,7 +26,12 @@ function SkillSection({ theme }) {
       {skills.data.map((skill, i) => {
         return (
           <div key={i} className="skills-main-div">
-            <Fade direction="left" duration={2000} triggerOnce>
+            <Fade
+              direction="left"
+              duration={2000}
+              className="skills-image-reveal"
+              triggerOnce
+            >
               <div className="skills-image-div">
                 <GetSkillSvg fileName={skill.fileName} theme={theme} />
               </div>

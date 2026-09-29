@@ -1,5 +1,4 @@
 import React from "react";
-import PageLayout from "../../components/pageLayout/PageLayout";
 import SocialMedia from "../../components/socialMedia/SocialMedia";
 import Button from "../../components/button/Button";
 import BlogsImg from "./BlogsImg";
@@ -16,7 +15,7 @@ const phoneSection = contactPageData.phoneSection;
 // Tóm tắt: Trang Contact hiển thị kênh liên hệ, link hồ sơ và vị trí hiện tại.
 function Contact({ theme }) {
   return (
-    <PageLayout theme={theme} className="contact-main">
+    <div className="contact-main">
       <div className="basic-contact">
         <Fade direction="up" duration={1000} triggerOnce>
           <div className="contact-heading-div">
@@ -45,13 +44,12 @@ function Contact({ theme }) {
               >
                 {ContactData["description"]}
               </p>
-              <SocialMedia theme={theme} />
+              <SocialMedia />
               <div className="resume-btn-div">
                 <Button
                   text="See My Resume"
                   newTab={true}
                   href={greeting.resumeLink}
-                  theme={theme}
                 />
               </div>
             </div>
@@ -74,7 +72,6 @@ function Contact({ theme }) {
                   text="Visit My Blogsite"
                   newTab={true}
                   href={blogSection.link}
-                  theme={theme}
                 />
               </div>
             </div>
@@ -118,14 +115,13 @@ function Contact({ theme }) {
                   text="Visit on Google Maps"
                   newTab={true}
                   href={addressSection.location_map_link}
-                  theme={theme}
                 />
               </div>
             </div>
           </div>
         </Fade>
       </div>
-    </PageLayout>
+    </div>
   );
 }
 

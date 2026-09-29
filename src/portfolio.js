@@ -617,7 +617,7 @@ const skills = {
   ],
 };
 
-// Education Page
+// Certifications Page
 const competitiveSites = {
   competitiveSites: [
     {

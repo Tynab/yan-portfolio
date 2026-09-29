@@ -2,12 +2,15 @@ import React from "react";
 import "./ExperienceCard.css";
 import { Fade } from "react-awesome-reveal";
 
+// Khoảng cách giữa các card; đoạn nối trên của timeline dùng đúng giá trị này (xem ExperienceCard.css).
+const CARD_GAP = 50;
+
 // Tóm tắt: Timeline card mô tả một vai trò công việc/kỳ thực tập và logo công ty.
 function ExperienceCard({ experience, index, totalCards, theme }) {
   return (
     <div
       className="experience-list-item"
-      style={{ marginTop: index === 0 ? 30 : 50 }}
+      style={{ marginTop: index === 0 ? 30 : CARD_GAP }}
     >
       <Fade direction="left" duration={2000} triggerOnce>
         <div className="experience-card-logo-div">
@@ -25,29 +28,32 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
         </div>
       </Fade>
       <div className="experience-card-stepper">
+        {/* Đoạn nối trên kéo lên qua khoảng margin-top của card, đoạn dưới chạy tới đáy card,
+            nên timeline liền mạch bất kể chiều cao từng card. */}
+        {index !== 0 && (
+          <div
+            className="experience-card-line experience-card-line-top"
+            style={{ backgroundColor: theme.headerColor }}
+          />
+        )}
         <div
-          style={{
-            width: 20,
-            height: 20,
-            backgroundColor: `${theme.headerColor}`,
-            borderRadius: 50,
-            zIndex: 100,
-          }}
+          className="experience-card-dot"
+          style={{ backgroundColor: theme.headerColor }}
         />
         {index !== totalCards - 1 && (
           <div
-            style={{
-              height: 190,
-              width: 2,
-              backgroundColor: `${theme.headerColor}`,
-              position: "absolute",
-              marginTop: 20,
-            }}
+            className="experience-card-line experience-card-line-bottom"
+            style={{ backgroundColor: theme.headerColor }}
           />
         )}
       </div>
-      <Fade direction="right" duration={2000} triggerOnce>
-        <div style={{ display: "flex", flexDirection: "row" }}>
+      <Fade
+        direction="right"
+        duration={2000}
+        className="experience-card-reveal"
+        triggerOnce
+      >
+        <div className="experience-card-row">
           <div
             className="arrow-left"
             style={{ borderRight: `10px solid ${theme.body}` }}
@@ -56,13 +62,7 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
             className="experience-card"
             style={{ background: `${theme.body}` }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+            <div className="experience-card-header">
               <div>
                 <h3
                   className="experience-card-title"
@@ -83,33 +83,24 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
                   </a>
                 </p>
               </div>
-              <div>
-                <div className="experience-card-heading-right">
-                  <p
-                    className="experience-card-duration"
-                    style={{ color: theme.secondaryText }}
-                  >
-                    {experience["duration"]}
-                  </p>
-                  <p
-                    className="experience-card-location"
-                    style={{ color: theme.secondaryText }}
-                  >
-                    {experience["location"]}
-                  </p>
-                </div>
+              <div className="experience-card-heading-right">
+                <p
+                  className="experience-card-duration"
+                  style={{ color: theme.secondaryText }}
+                >
+                  {experience["duration"]}
+                </p>
+                <p
+                  className="experience-card-location"
+                  style={{ color: theme.secondaryText }}
+                >
+                  {experience["location"]}
+                </p>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                marginTop: 20,
-              }}
-            >
-              <div className="repo-description" />
+            <p className="experience-card-description">
               {experience["description"]}
-            </div>
+            </p>
           </div>
         </div>
       </Fade>

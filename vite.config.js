@@ -1,32 +1,23 @@
-import { defineConfig } from "vite";
+import { defineConfig, normalizePath, transformWithEsbuild } from "vite";
 import react from "@vitejs/plugin-react";
 import { readFileSync } from "node:fs";
-import { transformWithEsbuild } from "vite";
+import { fileURLToPath } from "node:url";
 
 // Tóm tắt: Plugin bắt buộc esbuild transform JSX trong file .js của src/ trước khi rollup phân tích import.
 // (plugin-react/esbuild.loader không áp dụng cho bước import-analysis khi build production.)
-// Chỉ áp dụng cho src/ của chính project — loại trừ node_modules và font-awesome đã vendor sẵn.
-const projectSrcJsRE = new RegExp(
-  `^${process.cwd().replace(/[\\/]/g, "[\\\\/]")}[\\\\/]src[\\\\/].*\\.js$`
-);
+// So khớp bằng tiền tố đường dẫn (không dùng RegExp) để thư mục chứa ký tự như "(", "+" vẫn build được.
+const srcDir = normalizePath(fileURLToPath(new URL("./src/", import.meta.url)));
 const jsAsJsx = {
   name: "load-js-as-jsx",
   enforce: "pre",
   async load(id) {
-    const [filepath] = id.split("?");
-    if (
-      filepath.includes("/node_modules/") ||
-      filepath.includes("\\node_modules\\")
-    )
-      return null;
-    if (
-      filepath.includes("assests/font-awesome/") ||
-      filepath.includes("assests\\font-awesome\\")
-    )
-      return null;
-    if (!projectSrcJsRE.test(filepath)) return null;
+    const filepath = normalizePath(id.split("?")[0]);
+    if (!filepath.startsWith(srcDir) || !filepath.endsWith(".js")) return null;
     const code = readFileSync(filepath, "utf-8");
-    return transformWithEsbuild(code, filepath, { loader: "jsx" });
+    return transformWithEsbuild(code, filepath, {
+      loader: "jsx",
+      jsx: "automatic",
+    });
   },
 };
 
@@ -37,8 +28,7 @@ export default defineConfig({
   base: "./",
   build: { outDir: "build" },
   server: { port: 3000 },
-  // Cho phép cú pháp JSX trong file .js (tránh đổi tên hàng loạt file) khi chạy dev/optimize.
-  esbuild: { loader: "jsx", include: /src\/.*\.js$/ },
+  // Quét dependency (dev) cũng phải hiểu JSX trong .js của src/.
   optimizeDeps: { esbuildOptions: { loader: { ".js": "jsx" } } },
   test: {
     globals: true,

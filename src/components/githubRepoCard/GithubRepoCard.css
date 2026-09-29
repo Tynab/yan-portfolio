@@ -1,42 +1,24 @@
 /* Tóm tắt: Style cho GithubRepoCard trong components/githubRepoCard. */
 .repo-card-div {
+  display: block;
   color: rgb(88, 96, 105);
+  text-decoration: none;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 30px -15px;
   padding: 2rem;
   cursor: pointer;
   flex: 1 1 25%;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
-.repo-card-div:hover {
+.repo-card-div:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px -10px;
 }
-
-.repo-stats {
-  display: flex;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  font-size: 13px;
-  color: rgb(106, 115, 125);
-}
-
-.repo-left-stat {
-  -webkit-box-flex: 1;
-  flex-grow: 1;
-  display: flex;
-}
-
-.language-color {
-  width: 10px;
-  height: 10px;
-  background-color: blue;
-  margin-right: 0.25rem;
-  border-radius: 100%;
-}
-
-.repo-left-stat span {
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  margin-right: 0.75rem;
+@media (hover: hover) {
+  .repo-card-div:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px -10px;
+    transform: translateY(-2px);
+  }
 }
 
 .repo-name-div {
@@ -60,10 +42,6 @@
   overflow: hidden;
   line-height: 1.2;
   margin: 0px;
-}
-
-.repo-star-svg {
-  margin-right: 0.3rem;
 }
 
 .repo-description {
