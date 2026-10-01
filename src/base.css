@@ -15,11 +15,4 @@ body {
   transition: background-color 0.25s linear, color 0.25s linear;
 }
 
-/* Người dùng chọn giảm chuyển động: tắt cuộn mượt toàn cục (index.css bật scroll-behavior: smooth cho html/body).
-   Dùng :root để thắng specificity của selector html/body bất kể thứ tự nạp file CSS. */
-@media (prefers-reduced-motion: reduce) {
-  :root,
-  :root body {
-    scroll-behavior: auto;
-  }
-}
+/* Cuộn mượt (scroll-behavior) do index.css bật, chỉ khi người dùng không chọn "giảm chuyển động". */

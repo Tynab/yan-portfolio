@@ -1,0 +1,5 @@
+# Tóm tắt: Cấu hình actionlint — khai báo nhãn của self-hosted runner trên server portfolio
+# (dùng ở .github/workflows/deploy.yml) để actionlint không báo "unknown runner label".
+self-hosted-runner:
+  labels:
+    - portfolio

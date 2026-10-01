@@ -48,7 +48,7 @@ body {
 }
 body {
   margin: 0;
-  /* font-family lấy từ GlobalStyles (global.js); ở đây chỉ đặt cỡ chữ/line-height gốc.
+  /* font-family lấy từ src/base.css; ở đây chỉ đặt cỡ chữ/line-height gốc.
      line-height 23px là giá trị tuyệt đối (giữ nhịp lưới icon/chữ nhỏ trên màn > 1380px): mọi class có
      font-size > 23px PHẢI tự đặt line-height (~1.2), nếu không các dòng xuống hàng sẽ chồng lên nhau. */
   font-size: 19px;

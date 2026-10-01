@@ -126,3 +126,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Cloudflare wrangler (thư mục tạm khi deploy/dry-run Worker trong cloudflare/)
+.wrangler/
+
+# Python cache (scripts/generate-icons.py)
+__pycache__/
