@@ -6,6 +6,25 @@
   font-family: "Google Sans Regular";
 }
 
+/* Vùng focus/hover ôm sát icon: line-height 0 bỏ khoảng trống dòng chữ quanh ảnh, baseline vẫn ở đáy ảnh như trước. */
+.software-skill-icon {
+  display: inline-block;
+  line-height: 0;
+  border-radius: 4px;
+}
+
+/* Click chuột không hiện viền; trình duyệt không hiểu :focus-visible sẽ bỏ cả rule này nên vẫn giữ viền mặc định. */
+.software-skill-icon:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.software-skill-icon:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+/* Cao cố định 48px; width auto để icon không vuông vẫn đúng tỉ lệ (thuộc tính width/height chỉ để giữ chỗ). */
 .skill-image {
   height: 48px;
+  width: auto;
 }

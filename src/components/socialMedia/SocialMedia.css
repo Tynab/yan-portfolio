@@ -9,7 +9,10 @@
   border-radius: 2.6rem;
 }
 
-.icon-button i {
+/* Vòng tròn 2.6rem, icon SVG cao 1em (= 1.3rem) ở giữa.
+   line-height: 0 + padding 0.65rem: dòng chứa đúng khối SVG (ascent 0.875em, descent 0.125em như glyph Font Awesome)
+   nên baseline của vòng tròn trùng với bản dùng font icon trước đây => vị trí trên trang không đổi. */
+.icon-button .social-icon {
   color: white;
   background-color: var(--icon-bg);
   border-radius: 2.6rem;
@@ -17,8 +20,9 @@
   display: inline-block;
   font-size: 1.3rem;
   height: 2.6rem;
-  line-height: 2.6rem;
+  line-height: 0;
   margin: 0 5px;
+  padding: 0.65rem 0;
   position: relative;
   text-align: center;
   user-select: none;
@@ -30,15 +34,21 @@
   outline: none;
 }
 
-.icon-button:focus-visible i {
+.icon-button:focus-visible .social-icon {
   background-color: var(--color-text);
   outline: 2px solid var(--color-text);
   outline-offset: 2px;
 }
 
 @media (hover: hover) {
-  .icon-button:hover i {
+  .icon-button:hover .social-icon {
     background-color: var(--color-text);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-button .social-icon {
+    transition: none;
   }
 }
 

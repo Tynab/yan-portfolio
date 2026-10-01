@@ -1,20 +1,12 @@
 import React from "react";
 import "./App.css";
 import Main from "./containers/Main";
-import { ThemeProvider } from "styled-components";
 import { chosenTheme } from "./theme";
-import { GlobalStyles } from "./global";
 
-// Tóm tắt: App là root composition, nơi gắn theme toàn cục và router chính.
+// Tóm tắt: App là root composition, truyền theme đang dùng xuống router chính.
+// Màu toàn cục (CSS variable) đã được applyTheme() gắn trong index.js trước khi render.
 function App() {
-  return (
-    <ThemeProvider theme={chosenTheme}>
-      <>
-        <GlobalStyles />
-        <Main theme={chosenTheme} />
-      </>
-    </ThemeProvider>
-  );
+  return <Main theme={chosenTheme} />;
 }
 
 export default App;

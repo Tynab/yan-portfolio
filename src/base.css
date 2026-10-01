@@ -1,0 +1,25 @@
+/* Tóm tắt: Style nền toàn cục (thay GlobalStyles của styled-components) — reset box model, màu/font của body theo CSS variable do applyTheme() gắn. */
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+/* body giữ layout block: #root phải rộng đúng bằng viewport, nếu body là flex
+   thì #root co theo nội dung và node tooltip (portal) chèn vào <body> thành flex item gây reflow. */
+body {
+  background: var(--color-body);
+  color: var(--color-text);
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  transition: background-color 0.25s linear, color 0.25s linear;
+}
+
+/* Người dùng chọn giảm chuyển động: tắt cuộn mượt toàn cục (index.css bật scroll-behavior: smooth cho html/body).
+   Dùng :root để thắng specificity của selector html/body bất kể thứ tự nạp file CSS. */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root body {
+    scroll-behavior: auto;
+  }
+}

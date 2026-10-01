@@ -1,0 +1,7 @@
+/* Tóm tắt: Căn icon SVG inline giống glyph font Font Awesome (ascent 448/512, descent 64/512 => lệch baseline -0.125em). */
+.svg-icon {
+  display: inline-block;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
