@@ -1,3 +1,6 @@
+// Tóm tắt: Chặn build (Docker/CI) nếu asset nhị phân trong public/ hoặc src/assests/ là file con trỏ Git LFS.
+// Repo không còn dùng Git LFS (hạn mức tài khoản đã hết, mọi asset đều nhỏ và lưu dạng blob Git thường),
+// nên gặp con trỏ LFS nghĩa là checkout hỏng/cũ (từ commit trước khi bỏ LFS), không phải do thiếu `git lfs pull`.
 const fs = require("fs");
 const path = require("path");
 
@@ -8,6 +11,8 @@ const binaryExtensions = new Set([
   ".ico",
   ".jpg",
   ".jpeg",
+  ".otf",
+  ".pdf",
   ".png",
   ".svg",
   ".ttf",
@@ -47,7 +52,7 @@ const unresolvedAssets = assetRoots
 
 if (unresolvedAssets.length > 0) {
   console.error(
-    "Git LFS assets are not resolved. Run `git lfs install` and `git lfs pull` before building Docker."
+    "Found Git LFS pointer files instead of real assets. This repo no longer uses Git LFS (all binaries are plain Git blobs), so the checkout is broken or predates the LFS removal: check out a current commit again."
   );
   unresolvedAssets
     .slice(0, 20)
@@ -58,4 +63,4 @@ if (unresolvedAssets.length > 0) {
   process.exit(1);
 }
 
-console.log("Git LFS asset check passed.");
+console.log("Asset check passed: no Git LFS pointer files.");
