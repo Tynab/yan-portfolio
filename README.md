@@ -121,7 +121,7 @@ Repo **không còn dùng Git LFS**: hạn mức LFS của tài khoản đã hế
 - GitHub Actions (`.github/workflows/`):
   - `ci.yml` — mỗi push (`main`/`develop`) và pull request: `npm ci`, verify asset, lint, test, build, rồi build thử Docker image (không push). Không dùng secret.
   - `deploy.yml` — push `main` hoặc Run workflow (tùy chọn `image_tag` để deploy lại/rollback), chỉ chạy khi biến repo `DEPLOY_ENABLED` = `true`: build & push `yamiannephilim/portfolio` (`latest` + `sha-<7 ký tự>`) lên Docker Hub, rồi **self-hosted runner trên server** chạy lại container `yan-portfolio` (tên mà Cloudflare Tunnel trỏ tới), chờ HEALTHCHECK `healthy` (lỗi thì rollback image cũ) và báo Telegram.
-  - `deploy-worker.yml` — push `main` có đổi `cloudflare/**` hoặc Run workflow, chỉ chạy khi `WORKER_DEPLOY_ENABLED` = `true`: test Worker → `npx wrangler@4 deploy` → smoke test.
+  - `deploy-worker.yml` — push `main` có đổi `cloudflare/**` hoặc chính file workflow, hoặc Run workflow, chỉ chạy khi `WORKER_DEPLOY_ENABLED` = `true`: test Worker → `npx wrangler@4 deploy` → xác nhận qua API version mới nhận 100% traffic → smoke test (Cloudflare chặn IP runner ở edge thì chỉ cảnh báo — khi đó phải `curl -sI https://yamiannephilim.com` tay từ máy nhà).
 - `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, `npm ci`, chạy `scripts/verify-lfs-assets.js`, `npm run lint && npm test` (lỗi là dừng build) rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` serve `build/` trên cổng `80`, kèm `HEALTHCHECK` gọi `/healthz`.
 - `nginx.conf`: SPA fallback `try_files ... /index.html`, bật gzip; `/healthz` trả `200 ok` (`no-store`, không ghi log); `/favicon.ico` trả `icons/favicon.ico`. Cache: `index.html`, `manifest.json`, `robots.txt` `no-cache`; `/assets/` (tên có hash) và `/skills/` (có `?v=`) 1 năm `immutable`; asset tĩnh khác 7 ngày.
 - `Jenkinsfile` (build image → push Docker Hub → chạy lại container `portfolio` trên network `yan`, báo Telegram) **vẫn là đường deploy production** cho tới khi cutover sang GitHub Actions theo `docs/DEPLOY.md`; sau đó tắt job và xóa file. Lệnh `curl` dùng chuỗi nháy đơn để shell đọc `TOKEN`/`TEXT_*` từ biến môi trường — không nội suy commit message vào lệnh shell.
@@ -130,7 +130,7 @@ Repo **không còn dùng Git LFS**: hạn mức LFS của tài khoản đã hế
 
 ## Cloudflare Worker (`cloudflare/`)
 
-Worker `yan-schedule-redirect` (`redirect-worker.js`, route khai báo trong `wrangler.toml`) chuyển hướng theo **tình trạng server**:
+Worker `yan-failover-redirect` (`redirect-worker.js`, route khai báo trong `wrangler.toml`) chuyển hướng theo **tình trạng server**:
 
 - `yamiannephilim.com/*` và `www.yamiannephilim.com/*` → `302` (`no-store`) tới `https://portfolio.yamiannephilim.com`; chỉ khi probe `GET /healthz` lỗi kết nối, quá 3 giây hoặc trả `502`/`503`/`504`/`520–526`/`530` thì chuyển sang `https://github.com/Tynab`. Kết quả probe được nhớ 30 giây trong mỗi isolate.
 - `www.yamiannephilim.com/wedding-card` giữ nguyên: luôn → `https://tynab.github.io/Yami-Buzzy` (không probe).

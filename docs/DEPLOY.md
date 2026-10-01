@@ -32,7 +32,7 @@ Internet ─► Cloudflare ─► (thành phần gắn vào network docker "yan"
                                :latest + :sha-<7 ký tự>                   │
                                     │                                     ▼
                             ② deploy (self-hosted runner         Cloudflare Worker
-                               trên 192.168.100.6)               "yan-schedule-redirect"
+                               trên 192.168.100.6)               "yan-failover-redirect"
                                docker pull :sha-xxxxxxx          yamiannephilim.com/* , www
                                chạy lại "yan-portfolio"          probe /healthz:
                                chờ HEALTHCHECK = healthy           server sống → 302 portfolio
@@ -58,11 +58,11 @@ Internet ─► Cloudflare ─► Tunnel (container cloudflare-tunnel-yan, netwo
 
 ## 3. Các workflow
 
-| File                                  | Trigger                                          | Runner                                   | Việc làm                                                                                                                                           | Gate                                                               |
-| ------------------------------------- | ------------------------------------------------ | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `.github/workflows/ci.yml`            | push `main`/`develop`, mọi pull request          | GitHub-hosted                            | `npm ci`, verify asset, lint, test, build; build thử Docker image (không push)                                                                     | Không — luôn chạy, không có secret                                 |
-| `.github/workflows/deploy.yml`        | push `main`, Run workflow (tùy chọn `image_tag`) | GitHub-hosted + **self-hosted** (deploy) | build & push Docker Hub → deploy lên server, chờ healthy, rollback nếu lỗi, dọn image cũ (giữ 3 bản) → Telegram                                    | `vars.DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main`        |
-| `.github/workflows/deploy-worker.yml` | push `main` có đổi `cloudflare/**`, Run workflow | GitHub-hosted                            | `npx vitest run cloudflare` → `npx wrangler@4 deploy --config cloudflare/wrangler.toml` → smoke test `https://yamiannephilim.com` 302 + `no-store` | `vars.WORKER_DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main` |
+| File                                  | Trigger                                                                   | Runner                                   | Việc làm                                                                                                                                                                      | Gate                                                               |
+| ------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `.github/workflows/ci.yml`            | push `main`/`develop`, mọi pull request                                   | GitHub-hosted                            | `npm ci`, verify asset, lint, test, build; build thử Docker image (không push)                                                                                                | Không — luôn chạy, không có secret                                 |
+| `.github/workflows/deploy.yml`        | push `main`, Run workflow (tùy chọn `image_tag`)                          | GitHub-hosted + **self-hosted** (deploy) | build & push Docker Hub → deploy lên server, chờ healthy, rollback nếu lỗi, dọn image cũ (giữ 3 bản) → Telegram                                                               | `vars.DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main`        |
+| `.github/workflows/deploy-worker.yml` | push `main` có đổi `cloudflare/**` hoặc chính file workflow, Run workflow | GitHub-hosted                            | `npx vitest run cloudflare` → `npx wrangler@4 deploy --config cloudflare/wrangler.toml` → xác nhận version qua API → smoke test `https://yamiannephilim.com` 302 + `no-store` | `vars.WORKER_DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main` |
 
 Khi biến gate chưa đặt, workflow hiện trạng thái _skipped_ — merge các file này trước khi có secret/runner là an toàn.
 
@@ -138,18 +138,18 @@ Biến môi trường của `bootstrap-runner.sh` (chỉ trên máy bạn, khôn
 
 ## 6. Deploy Cloudflare Worker
 
-Worker `yan-schedule-redirect` (code `cloudflare/redirect-worker.js`, cấu hình `cloudflare/wrangler.toml`) chuyển `yamiannephilim.com/*` và `www` sang portfolio khi server sống (probe `/healthz`), sang GitHub khi server chết.
+Worker `yan-failover-redirect` (code `cloudflare/redirect-worker.js`, cấu hình `cloudflare/wrangler.toml`) chuyển `yamiannephilim.com/*` và `www` sang portfolio khi server sống (probe `/healthz`), sang GitHub khi server chết.
 
-1. Đảm bảo `cloudflare/wrangler.toml` đã có trên `main` (`name = "yan-schedule-redirect"`, `main = "redirect-worker.js"`).
+1. Đảm bảo `cloudflare/wrangler.toml` đã có trên `main` (`name = "yan-failover-redirect"`, `main = "redirect-worker.js"`).
 2. Thêm secret `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` (mục 4), rồi variable `WORKER_DEPLOY_ENABLED` = `true`.
 3. Actions → **Deploy Worker → Run workflow** (về sau, mỗi push lên `main` có đổi `cloudflare/**` sẽ tự deploy).
-4. Workflow chạy test Worker, `npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml`, rồi smoke test: `https://yamiannephilim.com` phải trả **302** với `Location` đúng bằng `https://portfolio.yamiannephilim.com` hoặc `https://github.com/Tynab` và `Cache-Control: no-store` (worker cũ theo giờ/Page Rules không có no-store nên sẽ bị phát hiện).
+4. Workflow chạy test Worker, `npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml`, xác nhận qua API (`wrangler deployments status --json`) rằng `Current Version ID` vừa deploy đang nhận 100% traffic, rồi smoke test: `https://yamiannephilim.com` phải trả **302** với `Location` đúng bằng `https://portfolio.yamiannephilim.com` hoặc `https://github.com/Tynab` và `Cache-Control: no-store` (Page Rules forwarding cũ không có no-store nên sẽ bị phát hiện). Nếu bảo vệ bot của Cloudflare chặn IP datacenter của runner (`403` không có `Location`, 3 lần liên tiếp), smoke test chỉ cảnh báo: bước API chỉ xác nhận version, Page Rules/Redirect Rules chưa được kiểm tra — **bắt buộc** chạy tay `curl -sI https://yamiannephilim.com` từ máy nhà (kỳ vọng `302` + `no-store`).
 
 Chọn `npx wrangler@4` thay vì `cloudflare/wrangler-action`: cùng lệnh với khi deploy tay, không thêm action bên thứ ba nào cầm Cloudflare token, vẫn ghim major version 4.
 
 Deploy tay từ máy local (khi cần): `npx --yes wrangler@4 login` (đăng nhập OAuth trên trình duyệt, không cần dán token) rồi `npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml`.
 
-Rollback Worker: Cloudflare dashboard → Workers & Pages → `yan-schedule-redirect` → **Deployments** → chọn bản trước → _Rollback_ (hoặc `npx --yes wrangler@4 rollback --config cloudflare/wrangler.toml`). Hướng dẫn chi tiết về route/Page Rules: `cloudflare/README.md`.
+Rollback Worker: Cloudflare dashboard → Workers & Pages → `yan-failover-redirect` → **Deployments** → chọn bản trước → _Rollback_ (hoặc `npx --yes wrangler@4 rollback --config cloudflare/wrangler.toml`). Muốn gỡ hẳn Worker: đặt `WORKER_DEPLOY_ENABLED` = `false` **trước**, rồi làm theo mục _Rollback_ trong `cloudflare/README.md` — nếu không, lần deploy CI sau sẽ gắn route trở lại.
 
 ## 7. Rollback portfolio
 

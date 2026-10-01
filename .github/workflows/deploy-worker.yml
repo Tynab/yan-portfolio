@@ -1,5 +1,6 @@
-# Tóm tắt: Deploy Cloudflare Worker "yan-schedule-redirect" (cloudflare/wrangler.toml) khi code Worker trên main
-# thay đổi hoặc bấm tay — chạy unit test Worker trước, deploy bằng wrangler 4, rồi smoke test yamiannephilim.com.
+# Tóm tắt: Deploy Cloudflare Worker "yan-failover-redirect" (cloudflare/wrangler.toml) khi code Worker trên main
+# thay đổi hoặc bấm tay — chạy unit test Worker trước, deploy bằng wrangler 4, xác nhận qua API bản vừa deploy
+# đang nhận 100% traffic, rồi smoke test yamiannephilim.com.
 #
 # Chọn "npx wrangler@4" thay vì cloudflare/wrangler-action: cùng một lệnh với khi deploy tay ở máy local
 # (docs/DEPLOY.md), không thêm action bên thứ ba nào được cầm Cloudflare token, và vẫn ghim major version 4.
@@ -53,6 +54,7 @@ jobs:
         run: npx vitest run cloudflare
 
       - name: Deploy Worker
+        id: deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -62,21 +64,61 @@ jobs:
             echo "::error::Thiếu secret CLOUDFLARE_API_TOKEN hoặc CLOUDFLARE_ACCOUNT_ID (xem docs/DEPLOY.md)."
             exit 1
           fi
-          npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml
+          log="${RUNNER_TEMP}/wrangler-deploy.log"
+          npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml 2>&1 | tee "${log}"
+          # wrangler in "Current Version ID: <uuid>" sau khi deploy — bước kế tiếp dùng nó để đối chiếu qua API.
+          # "|| true": grep không khớp không được làm step thoát ngay (pipefail) — để kiểm tra -z bên dưới báo lỗi rõ.
+          version_id="$(sed 's/\x1b\[[0-9;]*m//g' "${log}" | { grep -oE 'Current Version ID: [0-9a-f-]{36}' || true; } | tail -n 1 | awk '{ print $4 }')"
+          if [ -z "${version_id}" ]; then
+            echo "::error::Không đọc được 'Current Version ID' từ output của wrangler deploy."
+            exit 1
+          fi
+          echo "version_id=${version_id}" >> "$GITHUB_OUTPUT"
 
-      # Worker luôn trả 302 cho apex (về portfolio khi server sống, về GitHub khi server chết) => chỉ kiểm tra
-      # 302 + có Location. Thử lại vài lần vì bản mới có thể mất vài giây để lan ra mọi PoP.
-      - name: Smoke test https://yamiannephilim.com
-        # Worker mới luôn trả 302 + "Cache-Control: no-store" và Location đúng một trong hai đích (không có "/" cuối).
-        # Worker cũ (theo giờ) / Page Rules cũng trả 302 tới github.com/Tynab nhưng KHÔNG có no-store
-        # => kiểm tra cả Cache-Control mới phân biệt được code mới đã chạy hay chưa.
+      # Xác nhận qua Cloudflare API (không phụ thuộc mạng của runner) rằng bản vừa upload đang nhận 100% traffic.
+      - name: Verify active deployment
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VERSION_ID: ${{ steps.deploy.outputs.version_id }}
         run: |
           set -euo pipefail
+          status_json="${RUNNER_TEMP}/deployment-status.json"
+          npx --yes wrangler@4 deployments status --config cloudflare/wrangler.toml --json > "${status_json}"
+          node -e '
+            // Chỉ lấy khối JSON (phòng wrangler in thêm dòng thông báo trước/sau).
+            const text = require("fs").readFileSync(process.argv[1], "utf8");
+            const status = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
+            const versions = Array.isArray(status.versions) ? status.versions : [];
+            const active = versions.find((v) => v.version_id === process.env.VERSION_ID);
+            console.log("Deployment " + status.id + ": " + versions.map((v) => v.version_id + " " + v.percentage + "%").join(", "));
+            if (!active || active.percentage !== 100) {
+              console.log("::error::Bản vừa deploy (" + process.env.VERSION_ID + ") không nhận 100% traffic.");
+              process.exit(1);
+            }
+          ' "${status_json}"
+
+      # Worker luôn trả 302 + "Cache-Control: no-store" cho apex, Location đúng một trong hai đích (không có "/"
+      # cuối). Page Rules forwarding cũ cũng trả 302 nhưng KHÔNG có no-store => kiểm tra cả Cache-Control.
+      # Thử lại vài lần vì bản mới có thể mất vài giây để lan ra mọi PoP.
+      - name: Smoke test https://yamiannephilim.com
+        # Bảo vệ bot của Cloudflare có thể chặn IP datacenter của runner GitHub-hosted (403, không có Location)
+        # TRƯỚC khi request tới Worker. Khi đó không kiểm tra HTTP được từ đây => chỉ cảnh báo: bước "Verify active
+        # deployment" chỉ xác nhận VERSION; route do chính wrangler deploy đảm bảo (lỗi nếu route gắn Worker khác),
+        # còn Page Rules/Redirect Rules chặn trước Worker thì KHÔNG kiểm tra được — phải curl tay từ máy nhà.
+        # Không chạy bước này trên self-hosted runner: hook gha-runner-guard.sh chỉ nhận job của deploy.yml.
+        # Mọi phản hồi khác 302 + no-store đúng đích => lỗi.
+        run: |
+          set -euo pipefail
+          blocked=0
           for attempt in 1 2 3 4 5 6; do
-            headers="$(curl -sI --max-time 15 https://yamiannephilim.com | tr -d '\r' || true)"
+            headers="$(curl -sS -o /dev/null -D - --max-time 15 https://yamiannephilim.com | tr -d '\r' || true)"
             status="$(printf '%s\n' "${headers}" | awk 'NR == 1 { print $2 }')"
             location="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "location:" { print $2 }')"
             cache="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "cache-control:" { $1 = ""; sub(/^ /, ""); print tolower($0) }')"
+            server="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "server:" { print tolower($2) }')"
+            mitigated="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "cf-mitigated:" { print $2 }')"
+            ray="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "cf-ray:" { print $2 }')"
             case "${location}" in
               https://portfolio.yamiannephilim.com | https://github.com/Tynab) location_ok=1 ;;
               *) location_ok=0 ;;
@@ -85,8 +127,19 @@ jobs:
               echo "OK: HTTP ${status} -> ${location} (cache-control: ${cache})"
               exit 0
             fi
-            echo "Lần ${attempt}: status=${status:-<none>} location=${location:-<none>} cache-control=${cache:-<none>}, thử lại sau 10 giây..."
+            echo "Lần ${attempt}: status=${status:-<none>} location=${location:-<none>} cache-control=${cache:-<none>} server=${server:-<none>} cf-mitigated=${mitigated:-<none>} cf-ray=${ray:-<none>}"
+            if [ "${status}" = "403" ] && [ -z "${location}" ] && [ "${server}" = "cloudflare" ]; then
+              blocked=$((blocked + 1))
+              # Ba lần liên tiếp bị chặn ở edge => runner này bị bảo vệ bot chặn, thử thêm cũng vô ích.
+              [ "${blocked}" -ge 3 ] && break
+            else
+              blocked=0
+            fi
             sleep 10
           done
+          if [ "${blocked}" -ge 3 ]; then
+            echo "::warning::Cloudflare chặn runner GitHub-hosted ở edge (403, cf-mitigated=${mitigated:-<none>}) trước khi tới Worker — bỏ qua smoke test HTTP. API đã xác nhận version mới nhận 100% traffic, nhưng Page Rules/Redirect Rules CHƯA được kiểm tra: chạy tay curl -sI https://yamiannephilim.com từ máy nhà (kỳ vọng 302 + cache-control: no-store)."
+            exit 0
+          fi
           echo "::error::https://yamiannephilim.com chưa trả 302 + no-store tới portfolio/GitHub — Worker mới chưa chạy (còn route/Page Rule cũ?)."
           exit 1
