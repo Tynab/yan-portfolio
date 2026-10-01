@@ -3,7 +3,7 @@ import ProjectLanguages from "../../components/projectLanguages/ProjectLanguages
 import "./GithubRepoCard.css";
 import { Fade } from "react-awesome-reveal";
 
-// Tóm tắt: Card repository tĩnh, dùng cho trang Projects và danh sách repo phụ.
+// Tóm tắt: Card repository tĩnh cho trang Projects (dữ liệu từ snapshot projects.json).
 export default function GithubRepoCard({ repo, theme }) {
   // Cả card là một <a> thật: vùng bấm phủ cả padding, hỗ trợ middle-click / mở tab mới / copy link.
   return (
@@ -44,10 +44,7 @@ export default function GithubRepoCard({ repo, theme }) {
             >
               Created on {repo.createdAt?.split("T")[0]}
             </p>
-            <ProjectLanguages
-              className="repo-languages"
-              logos={repo.languages || []}
-            />
+            <ProjectLanguages logos={repo.languages || []} />
           </div>
         </div>
       </Fade>

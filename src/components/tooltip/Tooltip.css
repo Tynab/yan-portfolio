@@ -1,0 +1,75 @@
+/* Tóm tắt: Style cho Tooltip — bong bóng nền tối có mũi tên, position: fixed (toạ độ do Tooltip.js tính) nên không bị overflow của section cắt. */
+.tooltip-bubble {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1080;
+  /* Rộng theo nội dung, không phụ thuộc vị trí left; tối đa 220px và không vượt viewport (chừa 8px mỗi bên). */
+  width: max-content;
+  max-width: min(220px, calc(100vw - 16px));
+  /* Phần đệm trong suốt chứa mũi tên và nối liền bong bóng với trigger => rê chuột sang bong bóng không bị mất. */
+  padding: 6px 0;
+  font-family: "Google Sans Regular", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* Thuộc tính hidden phải thắng display của class (mặc định UA chỉ là [hidden] { display: none } độ ưu tiên thấp). */
+.tooltip-bubble[hidden] {
+  display: none;
+}
+
+.tooltip-bubble-inner {
+  padding: 4px 10px;
+  color: #fff;
+  background-color: #000;
+  border-radius: 6px;
+}
+
+/* Mũi tên: tam giác 12x6px nằm trong phần đệm, hướng về trigger, chỉ đúng tâm trigger kể cả khi bong bóng bị kẹp vào mép. */
+.tooltip-bubble::after {
+  position: absolute;
+  left: var(--tooltip-arrow-x, 50%);
+  width: 0;
+  height: 0;
+  margin-left: -6px;
+  content: "";
+  border: 6px solid transparent;
+}
+
+.tooltip-bubble[data-placement="top"]::after {
+  bottom: 0;
+  border-bottom-width: 0;
+  border-top-color: #000;
+}
+
+.tooltip-bubble[data-placement="bottom"]::after {
+  top: 0;
+  border-top-width: 0;
+  border-bottom-color: #000;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tooltip-bubble {
+    animation: tooltip-fade-in 0.15s linear;
+  }
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Chế độ tương phản cao (Windows): nền/viền do hệ thống quyết định, thêm viền để bong bóng vẫn có ranh giới. */
+@media (forced-colors: active) {
+  .tooltip-bubble-inner {
+    border: 1px solid CanvasText;
+  }
+}

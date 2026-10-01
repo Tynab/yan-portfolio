@@ -1,6 +1,10 @@
+// Tóm tắt: Pipeline Jenkins hiện tại — build image yamiannephilim/portfolio:latest, push Docker Hub rồi chạy lại
+// container "portfolio" trên network "yan" của chính server Jenkins, báo Telegram từng bước.
+// Sẽ NGỪNG dùng (tắt job rồi xóa file này) sau khi cutover sang GitHub Actions (.github/workflows/deploy.yml)
+// theo các bước trong docs/DEPLOY.md. Trước cutover đây vẫn là đường deploy production duy nhất.
 pipeline {
     agent any
-    
+
     environment {
         // Cấu hình Telegram credential dùng để gửi trạng thái pipeline.
         TOKEN = credentials('telegram_token')
@@ -50,10 +54,13 @@ pipeline {
                 sh 'curl -sS -o /dev/null --request POST "https://api.telegram.org/bot${TOKEN}/sendMessage" --data-urlencode "text=${TEXT_CLEAN}" --data-urlencode "chat_id=${CHAT_ID}"'
 
                 script {
-                    def containerId = sh(returnStdout: true, script: 'docker ps -aqf "name=portfolio"').trim()
+                    // Filter "name=" của Docker khớp CHUỖI CON (vd. "portfolio-old" cũng khớp), nhiều ID xuống dòng
+                    // sẽ làm hỏng lệnh kế tiếp => neo ^...$ để chỉ khớp đúng container "portfolio".
+                    def containerId = sh(returnStdout: true, script: 'docker ps -aq --filter "name=^portfolio$"').trim()
                     if (containerId) {
-                        sh "docker stop $containerId"
-                        sh "docker rm $containerId"
+                        echo "Removing container portfolio (${containerId})"
+                        // rm -f = stop + rm, không lỗi nếu container vừa biến mất.
+                        sh 'docker rm -f portfolio || true'
                     }
                 }
             }
@@ -62,9 +69,10 @@ pipeline {
         stage('Run') {
             steps {
                 sh 'curl -sS -o /dev/null --request POST "https://api.telegram.org/bot${TOKEN}/sendMessage" --data-urlencode "text=${TEXT_RUN}" --data-urlencode "chat_id=${CHAT_ID}"'
-                sh 'docker container stop portfolio || echo "this container does not exist"'
                 sh 'docker network create yan || echo "this network exist"'
-                sh 'echo y | docker container prune'
+                // KHÔNG dùng "docker container prune": lệnh đó xóa MỌI container đang dừng trên server, không chỉ portfolio.
+                // Chỉ xóa đúng container "portfolio" (phòng trường hợp nó được tạo lại sau stage Clean).
+                sh 'docker rm -f portfolio || true'
                 sh 'docker run --name portfolio --network yan --restart=unless-stopped -d yamiannephilim/portfolio:latest'
             }
         }

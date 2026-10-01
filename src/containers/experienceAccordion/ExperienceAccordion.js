@@ -2,7 +2,7 @@ import React from "react";
 import ExperienceCard from "../../components/experienceCard/ExperienceCard.js";
 import "./ExperienceAccordion.css";
 
-// Tóm tắt: Accordion gom kinh nghiệm theo nhóm Work/Internship/Volunteer.
+// Tóm tắt: Accordion gom kinh nghiệm theo từng nhóm trong experience.sections (portfolio.js).
 // Dùng <details>/<summary> gốc thay cho baseui: có sẵn bàn phím + ARIA, không cần tải baseui/styletron.
 // name chung => trình duyệt hỗ trợ sẽ chỉ mở một nhóm tại một thời điểm (giống Accordion của baseui).
 function ExperienceAccordion({ theme, sections }) {

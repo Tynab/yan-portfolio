@@ -24,7 +24,7 @@ const jsAsJsx = {
 // Tóm tắt: Cấu hình Vite — base tương đối, output vào build/, cho phép JSX trong .js, và cấu hình Vitest.
 export default defineConfig({
   plugins: [jsAsJsx, react()],
-  // base tương đối + outDir "build": giữ nguyên đường dẫn asset và tên thư mục mà Dockerfile/nginx.conf/gh-pages đang kỳ vọng.
+  // base tương đối + outDir "build": giữ nguyên đường dẫn asset và tên thư mục mà Dockerfile/nginx.conf đang kỳ vọng.
   base: "./",
   build: { outDir: "build" },
   server: { port: 3000 },

@@ -7,7 +7,7 @@
   padding: 2rem;
   cursor: pointer;
   flex: 1 1 25%;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.3s ease;
 }
 .repo-card-div:focus-visible {
   outline: 2px solid var(--color-text);
@@ -17,6 +17,19 @@
 @media (hover: hover) {
   .repo-card-div:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px -10px;
+  }
+}
+/* Hiệu ứng nhấc card (hover chuột và focus bàn phím) chỉ chạy khi không bật "giảm chuyển động". */
+@media (prefers-reduced-motion: no-preference) {
+  .repo-card-div {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .repo-card-div:focus-visible {
+    transform: translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .repo-card-div:hover {
     transform: translateY(-2px);
   }
 }
@@ -65,11 +78,6 @@
   font-weight: 400;
   margin-left: 0px;
   margin-right: auto;
-}
-
-.repo-languages {
-  margin-left: auto;
-  margin-right: 0px;
 }
 
 @media (max-width: 1200px) {

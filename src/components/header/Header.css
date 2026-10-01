@@ -1,11 +1,20 @@
 /* Tóm tắt: Style cho Header trong components/header. */
 /* header */
 
+/* Mobile: grid 2 cột [logo | nút menu], menu chiếm cả hàng dưới. Logo co lại (cắt bằng "…") thay vì
+   đẩy nút menu xuống hàng mới khi font Agustina chưa tải xong; logo căn giữa theo nút menu (58px, cao hơn logo)
+   nên chiều cao hàng đầu không phụ thuộc font -> header không đổi chiều cao (không CLS). */
 .header {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   max-width: 90%;
   padding: 20px 10px;
   margin: 0px auto;
+}
+
+.header nav {
+  grid-column: 1 / -1;
 }
 
 .header ul {
@@ -42,11 +51,15 @@
 
 .header .logo {
   display: block;
-  float: left;
+  justify-self: start;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 1.5em;
   color: var(--color-text);
   text-decoration: none;
-  margin-top: 10px;
   line-height: normal;
 }
 
@@ -69,7 +82,6 @@
 
 /* Menu thu gọn phải visibility:hidden để Tab không đi vào các link đang bị ẩn. */
 .header .menu {
-  clear: both;
   max-height: 0;
   visibility: hidden;
   transition: max-height 0.2s ease-out, visibility 0s linear 0.2s;
@@ -90,7 +102,6 @@
   border-radius: 6px;
   cursor: pointer;
   display: inline-block;
-  float: right;
   padding: 28px 20px;
   position: relative;
   user-select: none;
@@ -152,6 +163,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
+  }
+  /* Menu không co/xuống dòng; nếu thiếu chỗ thì logo co lại trước. */
+  .header nav {
+    flex: none;
+  }
+  .header .logo {
+    margin-top: 10px;
   }
   .header .menu {
     max-height: none;
@@ -161,11 +180,32 @@
     display: none;
   }
 }
+/* > 1380px body lên 19px nên dòng logo dùng font Agustina cao 60px (fallback chỉ 33px) => header 110px
+   khi font tải xong. Giữ sẵn chiều cao này để font swap không đẩy <main> xuống (CLS).
+   Dùng min-height thay vì line-height: baseline của font fallback và Agustina khác nhau nên line-height
+   cố định vẫn làm dòng giãn ra. */
+@media (min-width: 1381px) {
+  .header {
+    min-height: 110px;
+  }
+}
+/* Giảm chuyển động: menu mobile mở/đóng và icon hamburger đổi trạng thái ngay, không animation. */
+@media (prefers-reduced-motion: reduce) {
+  .header .menu,
+  .header .menu.menu-open,
+  .header .menu-icon .navicon,
+  .header .menu-icon .navicon:before,
+  .header .menu-icon .navicon:after,
+  .header li a {
+    transition: none;
+  }
+}
+/* 769–960px: 5 mục menu + logo phải vừa một hàng ở cỡ chữ 15px. */
 @media (max-width: 960px) and (min-width: 769px) {
   .header {
     font-size: 15px;
   }
   .header li a {
-    padding: 20px 14px;
+    padding: 20px 12px;
   }
 }

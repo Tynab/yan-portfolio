@@ -6,11 +6,13 @@ import { greeting, projectsHeader } from "../../portfolio.js";
 import ProjectsData from "../../shared/opensource/projects.json";
 import "./Projects.css";
 import ProjectsImg from "./ProjectsImg";
+import PageTitle from "../../components/seoHeader/PageTitle";
 
 // Tóm tắt: Trang Projects render danh sách repository nổi bật từ snapshot JSON nội bộ.
 function Projects({ theme }) {
   return (
     <div className="projects-main">
+      <PageTitle title={projectsHeader.title} />
       <div className="basic-projects">
         <Fade direction="up" duration={2000} triggerOnce>
           <div className="projects-heading-div">

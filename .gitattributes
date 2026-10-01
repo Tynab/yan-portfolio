@@ -1,22 +1,26 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-*.svg filter=lfs diff=lfs merge=lfs -text
-*.png filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.gif filter=lfs diff=lfs merge=lfs -text
-*.woff filter=lfs diff=lfs merge=lfs -text
-*.woff2 filter=lfs diff=lfs merge=lfs -text
-*.ttf filter=lfs diff=lfs merge=lfs -text
-*.eot filter=lfs diff=lfs merge=lfs -text
-*.ico filter=lfs diff=lfs merge=lfs -text
-# Font web trong src/ lưu dạng blob Git thường (như các TTF trước đây), không qua LFS:
-# file nhỏ (~40-85 kB) và không bị phụ thuộc hạn mức LFS của tài khoản.
-src/assests/fonts/*.woff2 !filter !diff !merge -text
-# Icon/ảnh dưới đây vốn được commit dạng blob Git thường (không phải con trỏ LFS).
-# Khai báo ngoại lệ để `git add` không lặng lẽ chuyển chúng sang LFS (hạn mức LFS đã hết).
-public/icons/* !filter !diff !merge -text
-src/assests/images/* !filter !diff !merge -text
-# Ba ảnh này thực sự nằm trên LFS nên giữ filter LFS (dòng sau ghi đè dòng trước).
-src/assests/images/devopseduvn.png filter=lfs diff=lfs merge=lfs -text
-src/assests/images/hacksplaining.png filter=lfs diff=lfs merge=lfs -text
-src/assests/images/udemy.png filter=lfs diff=lfs merge=lfs -text
+
+# Script/config chạy trên Linux (server, Docker, Jenkins) luôn checkout với LF, kể cả trên Windows
+# có core.autocrlf=true — CRLF làm bash báo lỗi "$'\r': command not found".
+*.sh text eol=lf
+*.conf text eol=lf
+Dockerfile text eol=lf
+Jenkinsfile text eol=lf
+
+# Repo KHÔNG còn dùng Git LFS: hạn mức LFS của tài khoản GitHub đã hết (push object LFS mới bị từ chối)
+# và mọi file nhị phân đều nhỏ (icon kỹ năng WebP 96px, icon site, ảnh logo, font web), nên tất cả
+# được lưu dạng blob Git thường. Đừng thêm lại rule `filter=lfs`.
+# Khai báo nhị phân để Git không chuẩn hoá xuống dòng hay cố diff/merge dạng văn bản.
+*.png binary
+*.webp binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.pdf binary

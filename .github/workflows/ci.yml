@@ -1,0 +1,79 @@
+# Tóm tắt: CI cho mọi push (main/develop) và pull request — kiểm tra asset, lint, test, build site,
+# và build thử Docker image (không push) để bắt sớm lỗi Dockerfile/nginx.conf.
+# Workflow này KHÔNG có secret và chỉ chạy trên runner GitHub-hosted, nên an toàn với PR từ fork.
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+permissions:
+  contents: read
+
+# Push mới lên cùng ref thì hủy lần chạy cũ (chỉ kết quả commit mới nhất là quan trọng).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint, test & build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Không cài git hook của husky trên runner CI.
+      HUSKY: "0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Mọi asset đã là blob Git thường (không còn qua LFS) => không cần tải LFS.
+          lfs: false
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify assets are not LFS pointers
+        run: node scripts/verify-lfs-assets.js
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  docker-build:
+    name: Docker build (no push)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          persist-credentials: false
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build đủ 2 stage (trong đó có lint + test) nhưng không push; cache layer qua GitHub Actions cache,
+      # dùng chung scope với workflow Deploy để build trên main nhanh hơn.
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: yamiannephilim/portfolio:ci
+          cache-from: type=gha,scope=portfolio
+          cache-to: type=gha,scope=portfolio,mode=max

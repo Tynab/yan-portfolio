@@ -4,11 +4,13 @@ import "./Experience.css";
 import { experience } from "../../portfolio.js";
 import { Fade } from "react-awesome-reveal";
 import ExperienceImg from "./ExperienceImg";
+import PageTitle from "../../components/seoHeader/PageTitle";
 
 // Tóm tắt: Trang Experience hiển thị phần giới thiệu và accordion kinh nghiệm làm việc.
 function Experience({ theme }) {
   return (
     <div className="experience-main">
+      <PageTitle title={experience.title} />
       <div className="basic-experience">
         <Fade direction="up" duration={2000} triggerOnce>
           <div className="experience-heading-div">

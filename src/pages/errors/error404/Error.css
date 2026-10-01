@@ -16,6 +16,7 @@
 .error-main > .error-class h1 {
   font-family: "Google Sans Bold", sans-serif;
   font-weight: normal;
+  line-height: 1.2;
 }
 
 .error-main > .error-class .error-404 {
@@ -29,6 +30,7 @@
 
 .error-main > .error-class p {
   font-size: 1.4em;
+  line-height: 1.2;
   margin-top: 0;
 }
 

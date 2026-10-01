@@ -1,6 +1,6 @@
 import React from "react";
 import "./CompetitiveSites.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Tooltip from "../tooltip/Tooltip";
 import { toDomId } from "../../utils/domId";
 
 // Tóm tắt: Render các hồ sơ luyện tập/chứng chỉ online trong trang Certifications.
@@ -10,16 +10,12 @@ function CompetitiveSites({ logos = [] }) {
       <ul className="dev-icons">
         {logos.map((logo) => {
           return (
-            <OverlayTrigger
-              key={logo.siteName}
-              placement={"top"}
-              overlay={
-                <Tooltip id={toDomId("competitive-site", logo.siteName)}>
-                  <strong>{logo.siteName}</strong>
-                </Tooltip>
-              }
-            >
-              <li className="competitive-sites-inline" name={logo.siteName}>
+            <li className="competitive-sites-inline" key={logo.siteName}>
+              {/* Trigger là chính link (focus được bằng Tab) nên aria-describedby gắn đúng phần tử đang focus. */}
+              <Tooltip
+                id={toDomId("competitive-site", logo.siteName)}
+                content={logo.siteName}
+              >
                 <a
                   href={logo.profileLink}
                   target="_blank"
@@ -34,8 +30,8 @@ function CompetitiveSites({ logos = [] }) {
                     data-inline="false"
                   ></span>
                 </a>
-              </li>
-            </OverlayTrigger>
+              </Tooltip>
+            </li>
           );
         })}
       </ul>

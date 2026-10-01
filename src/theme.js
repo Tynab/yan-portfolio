@@ -197,3 +197,20 @@ export const materialTealTheme = {
 };
 
 export const chosenTheme = blueTheme;
+
+// Ánh xạ CSS variable dùng chung -> khóa trong object theme (tên biến là contract với CSS các component).
+const themeCssVariables = {
+  "--color-body": "body",
+  "--color-text": "text",
+  "--color-secondary-text": "secondaryText",
+  "--color-highlight": "highlight",
+  "--color-header": "headerColor",
+};
+
+// Gắn màu theme thành CSS variable trên <html>; gọi trước khi render để trang không bị nháy màu mặc định.
+// Thay cho ThemeProvider + createGlobalStyle (styled-components) vì chosenTheme không đổi lúc runtime.
+export function applyTheme(theme, root = document.documentElement) {
+  Object.entries(themeCssVariables).forEach(([variable, key]) => {
+    root.style.setProperty(variable, theme[key]);
+  });
+}

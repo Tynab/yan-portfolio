@@ -1,0 +1,92 @@
+# Tóm tắt: Deploy Cloudflare Worker "yan-schedule-redirect" (cloudflare/wrangler.toml) khi code Worker trên main
+# thay đổi hoặc bấm tay — chạy unit test Worker trước, deploy bằng wrangler 4, rồi smoke test yamiannephilim.com.
+#
+# Chọn "npx wrangler@4" thay vì cloudflare/wrangler-action: cùng một lệnh với khi deploy tay ở máy local
+# (docs/DEPLOY.md), không thêm action bên thứ ba nào được cầm Cloudflare token, và vẫn ghim major version 4.
+# Chỉ trigger từ main / workflow_dispatch (không có pull_request) để token Cloudflare không bao giờ chạm code từ PR.
+name: Deploy Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cloudflare/**"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy-worker:
+    name: Test, deploy & smoke test Worker
+    # Gate bằng biến repo: merge file này khi chưa cấu hình Cloudflare thì workflow chỉ "skipped".
+    if: vars.WORKER_DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://yamiannephilim.com
+    timeout-minutes: 10
+    env:
+      HUSKY: "0"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test Worker
+        run: npx vitest run cloudflare
+
+      - name: Deploy Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID}" ]; then
+            echo "::error::Thiếu secret CLOUDFLARE_API_TOKEN hoặc CLOUDFLARE_ACCOUNT_ID (xem docs/DEPLOY.md)."
+            exit 1
+          fi
+          npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml
+
+      # Worker luôn trả 302 cho apex (về portfolio khi server sống, về GitHub khi server chết) => chỉ kiểm tra
+      # 302 + có Location. Thử lại vài lần vì bản mới có thể mất vài giây để lan ra mọi PoP.
+      - name: Smoke test https://yamiannephilim.com
+        # Worker mới luôn trả 302 + "Cache-Control: no-store" và Location đúng một trong hai đích (không có "/" cuối).
+        # Worker cũ (theo giờ) / Page Rules cũng trả 302 tới github.com/Tynab nhưng KHÔNG có no-store
+        # => kiểm tra cả Cache-Control mới phân biệt được code mới đã chạy hay chưa.
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5 6; do
+            headers="$(curl -sI --max-time 15 https://yamiannephilim.com | tr -d '\r' || true)"
+            status="$(printf '%s\n' "${headers}" | awk 'NR == 1 { print $2 }')"
+            location="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "location:" { print $2 }')"
+            cache="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "cache-control:" { $1 = ""; sub(/^ /, ""); print tolower($0) }')"
+            case "${location}" in
+              https://portfolio.yamiannephilim.com | https://github.com/Tynab) location_ok=1 ;;
+              *) location_ok=0 ;;
+            esac
+            if [ "${status}" = "302" ] && [ "${location_ok}" = "1" ] && [ "${cache}" = "no-store" ]; then
+              echo "OK: HTTP ${status} -> ${location} (cache-control: ${cache})"
+              exit 0
+            fi
+            echo "Lần ${attempt}: status=${status:-<none>} location=${location:-<none>} cache-control=${cache:-<none>}, thử lại sau 10 giây..."
+            sleep 10
+          done
+          echo "::error::https://yamiannephilim.com chưa trả 302 + no-store tới portfolio/GitHub — Worker mới chưa chạy (còn route/Page Rule cũ?)."
+          exit 1
