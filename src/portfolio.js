@@ -2,17 +2,14 @@
 
 // Thiết lập website: bật/tắt splash screen mà không cần sửa router.
 const settings = {
-  isSplash: false, // Change this to false if you don't want Splash screen.
+  isSplash: false, // false: "/" vào thẳng /home; đặt true để mở màn splash trước.
 };
 
-// Dữ liệu SEO dùng bởi react-helmet và JSON-LD.
+// Dữ liệu SEO cho SeoHeader: title mặc định (react-helmet-async) và url trong JSON-LD.
+// description/Open Graph để tĩnh trong index.html (nhớ cập nhật ở đó khi đổi greeting.subTitle).
 const seo = {
   title: "Yami An's Portfolio",
-  description:
-    "A passionate individual who always strives to work on end-to-end products which develop sustainable and scalable social and technical systems to create impact.",
   og: {
-    title: "Yami An Portfolio",
-    type: "website",
     // Domain thật của site: yamiannephilim.com/* bị Cloudflare worker chuyển hướng (xem cloudflare/).
     url: "https://portfolio.yamiannephilim.com/",
   },
@@ -24,7 +21,7 @@ const greeting = {
   logo_name: "yamiannephilim",
   nickname: "Yami An",
   subTitle:
-    "A passionate individual who always strives to work on end-to-end products which develop sustainable and scalable social and technical systems to create impact.",
+    "Technical Leader focused on software architecture, full-stack development with .NET, Spring and React, cloud and DevOps on AWS and Kubernetes, and AI/data solutions.",
   resumeLink:
     "https://drive.google.com/file/d/1HqRpwMKDX9vYGbZFWkyDungwJ_pgMFe_/view?usp=sharing",
   portfolio_repository: "https://github.com/Tynab/YAN-Portfolio",
@@ -78,107 +75,107 @@ const skills = {
       softwareSkills: [
         {
           skillName: "Anaconda",
-          imageSrc: "Anaconda.png",
+          imageSrc: "Anaconda.webp",
         },
         {
           skillName: "Jupyter Notebook",
-          imageSrc: "JupyterNotebook.png",
+          imageSrc: "JupyterNotebook.webp",
         },
         {
           skillName: "TensorFlow",
-          imageSrc: "TensorFlow.png",
+          imageSrc: "TensorFlow.webp",
         },
         {
           skillName: "PyTorch",
-          imageSrc: "PyTorch.png",
+          imageSrc: "PyTorch.webp",
         },
         {
           skillName: "Ray",
-          imageSrc: "Ray.png",
+          imageSrc: "Ray.webp",
         },
         {
           skillName: "RLlib",
-          imageSrc: "RLlib.png",
+          imageSrc: "RLlib.webp",
         },
         {
           skillName: "Hugging Face",
-          imageSrc: "HuggingFace.png",
+          imageSrc: "HuggingFace.webp",
         },
         {
           skillName: "LangChain",
-          imageSrc: "LangChain.png",
+          imageSrc: "LangChain.webp",
         },
         {
           skillName: "LangGraph",
-          imageSrc: "LangGraph.png",
+          imageSrc: "LangGraph.webp",
         },
         {
           skillName: "MLflow",
-          imageSrc: "MLflow.png",
+          imageSrc: "MLflow.webp",
         },
         {
           skillName: "Seldon Core",
-          imageSrc: "SeldonCore.png",
+          imageSrc: "SeldonCore.webp",
         },
         {
           skillName: "Ollama",
-          imageSrc: "Ollama.png",
+          imageSrc: "Ollama.webp",
         },
         {
           skillName: "Groq",
-          imageSrc: "Groq.png",
+          imageSrc: "Groq.webp",
         },
         {
           skillName: "Open WebUI",
-          imageSrc: "OpenWebUI.png",
+          imageSrc: "OpenWebUI.webp",
         },
         {
           skillName: "ComfyUI",
-          imageSrc: "ComfyUI.png",
+          imageSrc: "ComfyUI.webp",
         },
         {
           skillName: "Claude",
-          imageSrc: "Claude.png",
+          imageSrc: "Claude.webp",
         },
         {
           skillName: "Codex",
-          imageSrc: "Codex.png",
+          imageSrc: "Codex.webp",
         },
         {
           skillName: "GitHub Copilot",
-          imageSrc: "Copilot.png",
+          imageSrc: "Copilot.webp",
         },
         {
           skillName: "Cursor",
-          imageSrc: "Cursor.png",
+          imageSrc: "Cursor.webp",
         },
         {
           skillName: "Cline",
-          imageSrc: "Cline.png",
+          imageSrc: "Cline.webp",
         },
         {
           skillName: "Qdrant",
-          imageSrc: "Qdrant.png",
+          imageSrc: "Qdrant.webp",
         },
         {
           skillName: "Neo4j",
-          imageSrc: "Neo4j.png",
+          imageSrc: "Neo4j.webp",
         },
         {
           skillName: "Elastic Stack",
-          imageSrc: "Elastic.png",
+          imageSrc: "Elastic.webp",
         },
         {
           skillName: "ClickHouse",
-          imageSrc: "ClickHouse.png",
+          imageSrc: "ClickHouse.webp",
         },
         {
           skillName: "Snowflake",
-          imageSrc: "Snowflake.png",
+          imageSrc: "Snowflake.webp",
         },
         {
           skillName: "Superset",
-          imageSrc: "Superset.png",
+          imageSrc: "Superset.webp",
         },
       ],
     },
@@ -193,171 +190,171 @@ const skills = {
       softwareSkills: [
         {
           skillName: "HTML",
-          imageSrc: "HTML.png",
+          imageSrc: "HTML.webp",
         },
         {
           skillName: "CSS",
-          imageSrc: "CSS.png",
+          imageSrc: "CSS.webp",
         },
         {
           skillName: "JavaScript",
-          imageSrc: "JS.png",
+          imageSrc: "JS.webp",
         },
         {
           skillName: "TypeScript",
-          imageSrc: "TypeScript.png",
+          imageSrc: "TypeScript.webp",
         },
         {
           skillName: "React",
-          imageSrc: "React.png",
+          imageSrc: "React.webp",
         },
         {
           skillName: "Bootstrap",
-          imageSrc: "Bootstrap.png",
+          imageSrc: "Bootstrap.webp",
         },
         {
           skillName: "Angular",
-          imageSrc: "Angular.png",
+          imageSrc: "Angular.webp",
         },
         {
           skillName: "NextJS",
-          imageSrc: "NextJS.png",
+          imageSrc: "NextJS.webp",
         },
         {
           skillName: "Blazor",
-          imageSrc: "Blazor.png",
+          imageSrc: "Blazor.webp",
         },
         {
           skillName: "NodeJS",
-          imageSrc: "Nodejs.png",
+          imageSrc: "Nodejs.webp",
         },
         {
           skillName: "NestJS",
-          imageSrc: "NestJS.png",
+          imageSrc: "NestJS.webp",
         },
         {
           skillName: ".NET",
-          imageSrc: "dotNet.png",
+          imageSrc: "dotNet.webp",
         },
         {
           skillName: "ABP",
-          imageSrc: "ABP.png",
+          imageSrc: "ABP.webp",
         },
         {
           skillName: "Spring",
-          imageSrc: "Spring.png",
+          imageSrc: "Spring.webp",
         },
         {
           skillName: "Thymeleaf",
-          imageSrc: "Thymeleaf.png",
+          imageSrc: "Thymeleaf.webp",
         },
         {
           skillName: "OpenAPI",
-          imageSrc: "OpenAPI.png",
+          imageSrc: "OpenAPI.webp",
         },
         {
           skillName: "AsyncAPI",
-          imageSrc: "AsyncAPI.png",
+          imageSrc: "AsyncAPI.webp",
         },
         {
           skillName: "SignalR",
-          imageSrc: "SignalR.png",
+          imageSrc: "SignalR.webp",
         },
         {
           skillName: "Hangfire",
-          imageSrc: "Hangfire.png",
+          imageSrc: "Hangfire.webp",
         },
         {
           skillName: "C",
-          imageSrc: "C.png",
+          imageSrc: "C.webp",
         },
         {
           skillName: "C++",
-          imageSrc: "CPP.png",
+          imageSrc: "CPP.webp",
         },
         {
           skillName: "C#",
-          imageSrc: "CS.png",
+          imageSrc: "CS.webp",
         },
         {
           skillName: "Java",
-          imageSrc: "Java.png",
+          imageSrc: "Java.webp",
         },
         {
           skillName: "Go",
-          imageSrc: "Go.png",
+          imageSrc: "Go.webp",
         },
         {
           skillName: "Rust",
-          imageSrc: "Rust.png",
+          imageSrc: "Rust.webp",
         },
         {
           skillName: "Python",
-          imageSrc: "Python.png",
+          imageSrc: "Python.webp",
         },
         {
           skillName: "Lua",
-          imageSrc: "Lua.png",
+          imageSrc: "Lua.webp",
         },
         {
           skillName: "Visual Basic",
-          imageSrc: "VB.png",
+          imageSrc: "VB.webp",
         },
         {
           skillName: "Swift",
-          imageSrc: "Swift.png",
+          imageSrc: "Swift.webp",
         },
         {
           skillName: "Objective-C",
-          imageSrc: "ObjectiveC.png",
+          imageSrc: "ObjectiveC.webp",
         },
         {
           skillName: "Android SDK",
-          imageSrc: "Android.png",
+          imageSrc: "Android.webp",
         },
         {
           skillName: "Xamarin",
-          imageSrc: "Xamarin.png",
+          imageSrc: "Xamarin.webp",
         },
         {
           skillName: "MAUI",
-          imageSrc: "MAUI.png",
+          imageSrc: "MAUI.webp",
         },
         {
           skillName: "Realm",
-          imageSrc: "Realm.png",
+          imageSrc: "Realm.webp",
         },
         {
           skillName: "PostgreSQL",
-          imageSrc: "Postgre.png",
+          imageSrc: "Postgre.webp",
         },
         {
           skillName: "MySQL",
-          imageSrc: "MySQL.png",
+          imageSrc: "MySQL.webp",
         },
         {
           skillName: "Microsoft SQL Server",
-          imageSrc: "MSSS.png",
+          imageSrc: "MSSS.webp",
         },
         {
           skillName: "SQLite",
-          imageSrc: "SqLite.png",
+          imageSrc: "SqLite.webp",
         },
         {
           skillName: "Supabase",
-          imageSrc: "Supabase.png",
+          imageSrc: "Supabase.webp",
         },
         {
           skillName: "MongoDB",
-          imageSrc: "MongoDb.png",
+          imageSrc: "MongoDb.webp",
         },
         {
           skillName: "Redis",
-          imageSrc: "Redis.png",
+          imageSrc: "Redis.webp",
         },
         {
           skillName: "n8n",
-          imageSrc: "n8n.png",
+          imageSrc: "n8n.webp",
         },
       ],
     },
@@ -365,198 +362,198 @@ const skills = {
       title: "Cloud Infra-Architecture",
       fileName: "CloudInfraImg",
       skills: [
-        "⚡ Experience working on multiple cloud platforms",
-        "⚡ Hosting and maintaining websites on virtual machine instances along with integration of databases",
-        "⚡ Setting up streaming jobs from DB to Server or vice-versa on GCP and AWS",
+        "⚡ Experienced in implementing AWS cloud solutions and working with Microsoft Azure, Cloudflare, and Heroku",
+        "⚡ Containerizing and orchestrating services with Docker, Kubernetes, and Helm, and automating CI/CD and infrastructure with Jenkins, Argo, Terraform, and Ansible",
+        "⚡ Monitoring and securing systems with OpenTelemetry, Prometheus, Grafana, Wazuh, and Keycloak",
       ],
       softwareSkills: [
         {
           skillName: "MinIO",
-          imageSrc: "MinIO.png",
+          imageSrc: "MinIO.webp",
         },
         {
           skillName: "RabbitMQ",
-          imageSrc: "RabbitMq.png",
+          imageSrc: "RabbitMq.webp",
         },
         {
           skillName: "Docker",
-          imageSrc: "Docker.png",
+          imageSrc: "Docker.webp",
         },
         {
           skillName: "Docker Compose",
-          imageSrc: "DockerCompose.png",
+          imageSrc: "DockerCompose.webp",
         },
         {
           skillName: "Docker Swarm",
-          imageSrc: "DockerSwarm.png",
+          imageSrc: "DockerSwarm.webp",
         },
         {
           skillName: "Podman",
-          imageSrc: "Podman.png",
+          imageSrc: "Podman.webp",
         },
         {
           skillName: "Kubernetes",
-          imageSrc: "K8s.png",
+          imageSrc: "K8s.webp",
         },
         {
           skillName: "K3s",
-          imageSrc: "K3s.png",
+          imageSrc: "K3s.webp",
         },
         {
           skillName: "Minikube",
-          imageSrc: "Minikube.png",
+          imageSrc: "Minikube.webp",
         },
         {
           skillName: "K9s",
-          imageSrc: "K9s.png",
+          imageSrc: "K9s.webp",
         },
         {
           skillName: "Velero",
-          imageSrc: "Velero.png",
+          imageSrc: "Velero.webp",
         },
         {
           skillName: "Helm",
-          imageSrc: "Helm.png",
+          imageSrc: "Helm.webp",
         },
         {
           skillName: "KEDA",
-          imageSrc: "KEDA.png",
+          imageSrc: "KEDA.webp",
         },
         {
           skillName: "Argo",
-          imageSrc: "Argo.png",
+          imageSrc: "Argo.webp",
         },
         {
           skillName: "Jenkins",
-          imageSrc: "Jenkins.png",
+          imageSrc: "Jenkins.webp",
         },
         {
           skillName: "Terraform",
-          imageSrc: "Terraform.png",
+          imageSrc: "Terraform.webp",
         },
         {
           skillName: "Ansible",
-          imageSrc: "Ansible.png",
+          imageSrc: "Ansible.webp",
         },
         {
           skillName: "Vagrant",
-          imageSrc: "Vagrant.png",
+          imageSrc: "Vagrant.webp",
         },
         {
           skillName: "Portainer",
-          imageSrc: "Portainer.png",
+          imageSrc: "Portainer.webp",
         },
         {
           skillName: "Watchtower",
-          imageSrc: "Watchtower.png",
+          imageSrc: "Watchtower.webp",
         },
         {
           skillName: "OpenTelemetry",
-          imageSrc: "OpenTelemetry.png",
+          imageSrc: "OpenTelemetry.webp",
         },
         {
           skillName: "Prometheus",
-          imageSrc: "Prometheus.png",
+          imageSrc: "Prometheus.webp",
         },
         {
           skillName: "Grafana",
-          imageSrc: "Grafana.png",
+          imageSrc: "Grafana.webp",
         },
         {
           skillName: "Zabbix",
-          imageSrc: "Zabbix.png",
+          imageSrc: "Zabbix.webp",
         },
         {
           skillName: "Wazuh",
-          imageSrc: "Wazuh.png",
+          imageSrc: "Wazuh.webp",
         },
         {
           skillName: "Kyverno",
-          imageSrc: "Kyverno.png",
+          imageSrc: "Kyverno.webp",
         },
         {
           skillName: "Keycloak",
-          imageSrc: "Keycloak.png",
+          imageSrc: "Keycloak.webp",
         },
         {
           skillName: "Project Calico",
-          imageSrc: "Calico.png",
+          imageSrc: "Calico.webp",
         },
         {
           skillName: "Kong Gateway",
-          imageSrc: "Kong.png",
+          imageSrc: "Kong.webp",
         },
         {
           skillName: "Konga",
-          imageSrc: "Konga.png",
+          imageSrc: "Konga.webp",
         },
         {
           skillName: "NGINX",
-          imageSrc: "NGINX.png",
+          imageSrc: "NGINX.webp",
         },
         {
           skillName: "NGINX Proxy Manager",
-          imageSrc: "NGINXProxyManager.png",
+          imageSrc: "NGINXProxyManager.webp",
         },
         {
           skillName: "ngrok",
-          imageSrc: "ngrok.png",
+          imageSrc: "ngrok.webp",
         },
         {
           skillName: "Apache",
-          imageSrc: "Apache.png",
+          imageSrc: "Apache.webp",
         },
         {
           skillName: "Cloudflare",
-          imageSrc: "Cloudflare.png",
+          imageSrc: "Cloudflare.webp",
         },
         {
           skillName: "Git",
-          imageSrc: "Git.png",
+          imageSrc: "Git.webp",
         },
         {
           skillName: "Git LFS",
-          imageSrc: "LFS.png",
+          imageSrc: "LFS.webp",
         },
         {
           skillName: "GitHub",
-          imageSrc: "GitHub.png",
+          imageSrc: "GitHub.webp",
         },
         {
           skillName: "GitLab",
-          imageSrc: "GitLab.png",
+          imageSrc: "GitLab.webp",
         },
         {
           skillName: "npm",
-          imageSrc: "npm.png",
+          imageSrc: "npm.webp",
         },
         {
           skillName: "NuGet",
-          imageSrc: "NuGet.png",
+          imageSrc: "NuGet.webp",
         },
         {
           skillName: "Atlassian",
-          imageSrc: "Atlassian.png",
+          imageSrc: "Atlassian.webp",
         },
         {
           skillName: "Jam.dev",
-          imageSrc: "JamDev.png",
+          imageSrc: "JamDev.webp",
         },
         {
           skillName: "Amazon Web Services",
-          imageSrc: "AWS.png",
+          imageSrc: "AWS.webp",
         },
         {
           skillName: "Microsoft Azure",
-          imageSrc: "Azure.png",
+          imageSrc: "Azure.webp",
         },
         {
           skillName: "Google",
-          imageSrc: "Google.png",
+          imageSrc: "Google.webp",
         },
         {
           skillName: "Heroku",
-          imageSrc: "Heroku.png",
+          imageSrc: "Heroku.webp",
         },
       ],
     },
@@ -571,47 +568,47 @@ const skills = {
       softwareSkills: [
         {
           skillName: "Unity",
-          imageSrc: "Unity.png",
+          imageSrc: "Unity.webp",
         },
         {
           skillName: "Godot",
-          imageSrc: "Godot.png",
+          imageSrc: "Godot.webp",
         },
         {
           skillName: "Open Match",
-          imageSrc: "OpenMatch.png",
+          imageSrc: "OpenMatch.webp",
         },
         {
           skillName: "Agones",
-          imageSrc: "Agones.png",
+          imageSrc: "Agones.webp",
         },
         {
           skillName: "Blender",
-          imageSrc: "Blender.png",
+          imageSrc: "Blender.webp",
         },
         {
           skillName: "Tripo 3D",
-          imageSrc: "Tripo3D.png",
+          imageSrc: "Tripo3D.webp",
         },
         {
           skillName: "Meshy",
-          imageSrc: "Meshy.png",
+          imageSrc: "Meshy.webp",
         },
         {
           skillName: "Adobe",
-          imageSrc: "Adobe.png",
+          imageSrc: "Adobe.webp",
         },
         {
           skillName: "Figma",
-          imageSrc: "Figma.png",
+          imageSrc: "Figma.webp",
         },
         {
           skillName: "draw.io",
-          imageSrc: "drawio.png",
+          imageSrc: "drawio.webp",
         },
         {
           skillName: "Cimetrix Control",
-          imageSrc: "CCF.png",
+          imageSrc: "CCF.webp",
         },
       ],
     },
@@ -959,10 +956,9 @@ const certifications = {
 // Experience Page
 const experience = {
   title: "Experience",
-  subtitle: "Work, Internship and Volunteership",
+  subtitle: "Professional Experience, Internships and Additional Experience",
   description:
     "My extensive tech experience spans real estate, retail, and construction tech solutions, overseeing projects in management and marketing systems. I specialize in .NET, Spring, DevOps, and cloud tech, complemented by a deep proficiency in ML and DL, enhancing my mentorship role in guiding students through advanced analytical methods at the academy.",
-  header_image_path: "experience.svg",
   sections: [
     {
       title: "Professional Experience",
@@ -977,7 +973,6 @@ const experience = {
           location: "Tan Binh District, Ho Chi Minh City",
           description:
             "At Terralogic, I led digital transformation projects in the education domain for GIIS, including SDP, Helpdesk, Scholarship, and TMS systems. My responsibilities focused on architectural design, data flow optimization, system integration, and the implementation of AWS cloud solutions to improve administrative efficiency, school management operations, and digital interactions between educational stakeholders.",
-          color: "#ee3c26",
         },
         {
           title: "Technical Leader",
@@ -988,7 +983,6 @@ const experience = {
           location: "District 2, Thu Duc City",
           description:
             "At Hoozing, I spearheaded the development of the Hoozing Integrated Platform & System, which included projects such as HzWebsite, HzAgentWebsite, and HzExternalAgent. I provided architectural design, optimized code quality and performance, and led technical workshops to support an integrated platform that simplifies property management, marketing, buying, selling, and renting processes for customers, real estate agents, and external partners.",
-          color: "#0879bf",
         },
         {
           title: "Team Leader",
@@ -999,7 +993,6 @@ const experience = {
           location: "District 7, Ho Chi Minh City",
           description:
             "At FPT Retail, I contributed to a large-scale digital transformation initiative for Long Chau and FPT Shop. As a maintainer of key systems including Inventory, POS Wrapper, and OSR, I supported system stability, integration, and operational efficiency. I also participated in integrating multiple business streams such as OMS, helping ensure a smooth transition from traditional retail operations to a more scalable and unified digital platform.",
-          color: "#9b1578",
         },
         {
           title: "Team Leader",
@@ -1010,7 +1003,6 @@ const experience = {
           location: "District 8, Ho Chi Minh City",
           description:
             "At Emar Viet Nam, within Emar Group's construction and engineering division, I handled structural analysis, reviewed foundational documentation, and performed technical calculations for Japanese construction projects involving clients such as 住友林業, 三菱, 小田急, 東急, and ヤマビコ. My work included calculating spacer blocks, reinforcement slab areas, steel reinforcement, unit dimensions, mass inputs, and raw timber quantity estimation. In addition, I developed an internal HRM system, provided architectural design, technical guidance, and code optimization to improve internal operational efficiency.",
-          color: "#fc1f20",
         },
       ],
     },
@@ -1026,7 +1018,6 @@ const experience = {
           location: "Tan Binh, Ho Chi Minh City",
           description:
             "At AMPM, an electronic equipment trading company, I worked as an Embedded Intern focusing on embedded programming and embedded systems. I gained hands-on experience in developing, testing, and fine-tuning software for embedded devices, while building practical knowledge of how software interacts with electronic hardware in real-world device applications.",
-          color: "#000000",
         },
       ],
     },
@@ -1042,7 +1033,6 @@ const experience = {
           location: "District 1, Ho Chi Minh City",
           description:
             "At CyberSoft Academy, I mentored students in data analysis and was later invited to become a lecturer. My role involved guiding students through core data analysis methods, sharing practical techniques, supporting their learning process, and helping them strengthen analytical thinking, data interpretation skills, and problem-solving capabilities within an academic and hands-on training environment.",
-          color: "#4285F4",
         },
       ],
     },
@@ -1053,8 +1043,7 @@ const experience = {
 const projectsHeader = {
   title: "Projects",
   description:
-    "My projects make use of a vast variety of the latest technology tools. My best experience is to create Data Science projects and deploy them to web applications using cloud infrastructure.",
-  avatar_image_path: "projects_image.svg",
+    "Selected public repositories: an offline RAG and multi-agent platform, .NET NuGet libraries, a Snowflake ID generator, a Pygame board game with AI opponents, and a data analysis dashboard.",
 };
 
 // Contact Page
@@ -1071,7 +1060,6 @@ const contactPageData = {
     subtitle:
       "Technical notes, source code, and project references are maintained through public profiles and repositories.",
     link: greeting.githubProfile,
-    avatar_image_path: "blogs_image.svg",
   },
   addressSection: {
     title: "Location",
@@ -1081,7 +1069,6 @@ const contactPageData = {
     region: "Ho Chi Minh City",
     postalCode: "",
     streetAddress: "",
-    avatar_image_path: "address_image.svg",
     location_map_link: "https://www.google.com/maps/place/Ho+Chi+Minh+City",
   },
   phoneSection: {

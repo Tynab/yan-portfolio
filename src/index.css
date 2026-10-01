@@ -37,12 +37,20 @@ code {
 }
 html,
 body {
-  scroll-behavior: smooth;
   overflow-x: hidden;
+}
+/* Cuộn mượt chỉ khi người dùng không bật "giảm chuyển động". */
+@media (prefers-reduced-motion: no-preference) {
+  html,
+  body {
+    scroll-behavior: smooth;
+  }
 }
 body {
   margin: 0;
-  /* font-family lấy từ GlobalStyles (global.js); ở đây chỉ đặt cỡ chữ/line-height gốc. */
+  /* font-family lấy từ GlobalStyles (global.js); ở đây chỉ đặt cỡ chữ/line-height gốc.
+     line-height 23px là giá trị tuyệt đối (giữ nhịp lưới icon/chữ nhỏ trên màn > 1380px): mọi class có
+     font-size > 23px PHẢI tự đặt line-height (~1.2), nếu không các dòng xuống hàng sẽ chồng lên nhau. */
   font-size: 19px;
   line-height: 23px;
   -webkit-font-smoothing: antialiased;
@@ -72,9 +80,15 @@ body {
   margin: 0px auto;
   margin-top: 4rem;
 }
-/* Chừa chỗ dưới cùng cho #topButton (position: fixed) để không che nội dung cuối trang. */
+/* Chừa chỗ dưới cùng cho #topButton (position: fixed) để không che nội dung cuối trang.
+   flow-root: margin-top của trang con (vd .greet-main) không "lọt" qua <main>, tránh nhảy 32px khi chunk trang thay .page-loading. */
 main {
+  display: flow-root;
   padding-bottom: 80px;
+}
+/* <main> nhận focus bằng script khi đổi route (PageLayout) — không cần viền focus cho vùng nội dung lớn này. */
+main:focus {
+  outline: none;
 }
 /* Giữ chỗ trong lúc chunk của trang đang tải để footer/TopButton không nhảy. */
 .page-loading {

@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Thẻ SEO/Open Graph tĩnh cho crawler không chạy JS (Facebook, LinkedIn, Zalo);
-         SeoHeader (Helmet) chỉ bổ sung <title> và JSON-LD, không lặp lại các thẻ này. -->
-    <meta name="description" content="A passionate individual who always strives to work on end-to-end products which develop sustainable and scalable social and technical systems to create impact." />
+         Helmet (SeoHeader + từng trang) chỉ bổ sung <title> và JSON-LD, không lặp lại các thẻ này.
+         description/og:description = greeting.subTitle trong src/portfolio.js (giữ hai nơi giống nhau). -->
+    <meta name="description" content="Technical Leader focused on software architecture, full-stack development with .NET, Spring and React, cloud and DevOps on AWS and Kubernetes, and AI/data solutions." />
     <meta property="og:title" content="Yami An Portfolio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://portfolio.yamiannephilim.com/" />
-    <meta property="og:description" content="A passionate individual who always strives to work on end-to-end products which develop sustainable and scalable social and technical systems to create impact." />
+    <meta property="og:description" content="Technical Leader focused on software architecture, full-stack development with .NET, Spring and React, cloud and DevOps on AWS and Kubernetes, and AI/data solutions." />
     <meta property="og:image" content="https://portfolio.yamiannephilim.com/icons/ms-icon-310x310.png" />
     <meta name="keywords" content="Yami An, Portfolio, YAN-Portfolio, Yami An's Portfolio" />
     <meta name="author" content="Yami An" />
@@ -51,10 +52,6 @@
       gtag('config', 'AW-825508380');
     </script>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
     <!-- defer: không chặn first paint; Iconify tự quét và theo dõi DOM sau khi React render. -->
     <script defer src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
 

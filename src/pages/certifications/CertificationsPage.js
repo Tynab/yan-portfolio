@@ -5,11 +5,13 @@ import CertificationsImg from "./CertificationsImg";
 import { certifications, competitiveSites } from "../../portfolio";
 import "./CertificationsPage.css";
 import { Fade } from "react-awesome-reveal";
+import PageTitle from "../../components/seoHeader/PageTitle";
 
 // Tóm tắt: Trang Certifications — hồ sơ luyện tập và danh sách chứng chỉ.
 function CertificationsPage({ theme }) {
   return (
     <div className="certifications-main">
+      <PageTitle title="Certifications" />
       <div className="basic-certifications">
         <Fade direction="up" duration={2000} triggerOnce>
           <div className="heading-div">

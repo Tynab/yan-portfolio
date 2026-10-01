@@ -37,7 +37,7 @@
                     "iconifyClass": "vscode-icons:file-type-light-neo4j"
                 },
                 {
-                    "name": "Openn WebUI",
+                    "name": "Open WebUI",
                     "iconifyClass": "selfhst:open-webui"
                 },
                 {
@@ -126,7 +126,7 @@
         },
         {
             "id": "MDEwOlJlcG9zaXRvcnkzMjU5NDM1MTE=",
-            "name": "Id generator Snowflake",
+            "name": "ID Generator Snowflake",
             "createdAt": "2023-07-07",
             "url": "https://github.com/Tynab-x-Longkunz/id-generator-snowflake",
             "description": "❄️ Thread-safe C# Snowflake ID generator producing sortable, unique 64-bit IDs from custom Worker/Datacenter IDs, with base-36 encoding and full ID component decoding.",
@@ -216,7 +216,7 @@
         },
         {
             "id": "R_kgDOG0_8uQ",
-            "name": "Analysis of hotel bookings in Portugal",
+            "name": "Analysis of Hotel Bookings in Portugal",
             "createdAt": "2023-04-21",
             "url": "https://github.com/Nihgi-DA08/capstone-project",
             "description": "📊 Cleans, analyzes, and visualizes Portugal hotel booking data, fitting a Linear Regression model and serving results through an interactive Dash dashboard (Pandas, scikit-learn, Plotly).",

@@ -39,11 +39,6 @@
   justify-content: center;
 }
 
-.blog-heading-img-div {
-  align-items: center;
-  justify-content: center;
-}
-
 .contact-heading-text-div {
   text-align: center;
 }
@@ -96,6 +91,7 @@
 .address-heading-text {
   margin-top: 0.67em;
   font-size: 30px;
+  line-height: 1.2;
   font-family: "Google Sans Regular";
   text-align: center;
   margin-bottom: 10px;
@@ -125,6 +121,13 @@
   justify-content: center;
 }
 
+/* Desktop: chừa khoảng dưới nút Resume để không dính vào section GitHub & Writing. */
+@media (min-width: 769px) {
+  .resume-btn-div {
+    margin-bottom: 40px;
+  }
+}
+
 .blogsite-btn-div {
   width: 100%;
   display: flex;
@@ -151,9 +154,10 @@
 }
 
 @media (max-width: 768px) {
+  /* Avatar nằm ngay trên tiêu đề khi xếp dọc: chừa 24px thay vì dính sát. */
   .contact-heading-text {
     font-size: 30px;
-    margin-top: 0px;
+    margin-top: 24px;
   }
 
   .blog-heading-text {

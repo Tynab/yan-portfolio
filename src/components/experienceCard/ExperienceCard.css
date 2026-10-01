@@ -140,7 +140,13 @@
   left: 0;
   background-color: currentColor;
   transform: scaleX(0);
-  transition: transform 0.3s ease-in-out;
+}
+
+/* Gạch chân chỉ "chạy ra" khi không bật giảm chuyển động; ngược lại hiện ngay. */
+@media (prefers-reduced-motion: no-preference) {
+  .experience-card-company > a:before {
+    transition: transform 0.3s ease-in-out;
+  }
 }
 
 .experience-card-company > a:hover:before,

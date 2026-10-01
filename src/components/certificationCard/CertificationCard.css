@@ -10,8 +10,6 @@
 
 .cert-card {
   width: 100%;
-  justify-content: center;
-  align-items: center;
   text-align: center;
   border: 1px solid #d9dbdf;
   border-radius: 5px;
@@ -43,7 +41,6 @@
   font-weight: bold;
   font-family: "Google Sans Regular";
   font-size: 18px;
-  color: #808080;
   margin: 10px;
 }
 

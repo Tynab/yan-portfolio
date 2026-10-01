@@ -2,3 +2,16 @@
 .subTitle {
   color: var(--color-secondary-text);
 }
+
+/* Ẩn khỏi màn hình nhưng screen reader vẫn đọc (ví dụ h1 của splash). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

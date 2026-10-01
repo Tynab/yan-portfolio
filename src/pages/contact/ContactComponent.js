@@ -6,6 +6,7 @@ import AddressImg from "./AddressImg";
 import { Fade } from "react-awesome-reveal";
 import "./ContactComponent.css";
 import { greeting, contactPageData } from "../../portfolio.js";
+import PageTitle from "../../components/seoHeader/PageTitle";
 
 const ContactData = contactPageData.contactSection;
 const blogSection = contactPageData.blogSection;
@@ -16,6 +17,7 @@ const phoneSection = contactPageData.phoneSection;
 function Contact({ theme }) {
   return (
     <div className="contact-main">
+      <PageTitle title="Contact" />
       <div className="basic-contact">
         <Fade direction="up" duration={1000} triggerOnce>
           <div className="contact-heading-div">
@@ -26,7 +28,12 @@ function Contact({ theme }) {
                 alt={greeting.title}
                 width="460"
                 height="460"
-                loading="lazy"
+                // Ảnh nằm trong màn hình đầu tiên (LCP) nên tải ngay với độ ưu tiên cao.
+                loading="eager"
+                // React 18.3 chưa nhận prop fetchPriority (cảnh báo "does not recognize" khi dev) nên dùng
+                // attribute HTML viết thường; khi lên React 19 thì đổi thành fetchPriority và bỏ dòng disable.
+                // eslint-disable-next-line react/no-unknown-property
+                fetchpriority="high"
               />
             </div>
             <div className="contact-heading-text-div">
@@ -67,7 +74,7 @@ function Contact({ theme }) {
               </p>
               <div className="blogsite-btn-div">
                 <Button
-                  text="Visit My Blogsite"
+                  text="Visit My GitHub"
                   newTab={true}
                   href={blogSection.link}
                 />
