@@ -49,8 +49,8 @@ scripts/
   server/                      # bootstrap-runner.sh, install-runner.sh: cài self-hosted runner lên server deploy
 .github/workflows/             # ci.yml, deploy.yml, deploy-worker.yml
 cloudflare/                    # redirect-worker.js (+ test), wrangler.toml, README.md
-docs/DEPLOY.md                 # Kiến trúc CI/CD, secret/variable, cutover Jenkins -> GitHub Actions, rollback
-Dockerfile, nginx.conf, Jenkinsfile
+docs/DEPLOY.md                 # Kiến trúc CI/CD, secret/variable, thiết lập từ đầu, rollback
+Dockerfile, nginx.conf
 ```
 
 Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việt (`// Tóm tắt:` hoặc khối `/* ... */`); CSS tự viết cũng có header mô tả vai trò stylesheet.
@@ -124,8 +124,7 @@ Repo **không còn dùng Git LFS**: hạn mức LFS của tài khoản đã hế
   - `deploy-worker.yml` — push `main` có đổi `cloudflare/**` hoặc chính file workflow, hoặc Run workflow, chỉ chạy khi `WORKER_DEPLOY_ENABLED` = `true`: test Worker → `npx wrangler@4 deploy` → xác nhận qua API version mới nhận 100% traffic → smoke test (Cloudflare chặn IP runner ở edge thì chỉ cảnh báo — khi đó phải `curl -sI https://yamiannephilim.com` tay từ máy nhà).
 - `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, `npm ci`, chạy `scripts/verify-lfs-assets.js`, `npm run lint && npm test` (lỗi là dừng build) rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` serve `build/` trên cổng `80`, kèm `HEALTHCHECK` gọi `/healthz`.
 - `nginx.conf`: SPA fallback `try_files ... /index.html`, bật gzip; `/healthz` trả `200 ok` (`no-store`, không ghi log); `/favicon.ico` trả `icons/favicon.ico`. Cache: `index.html`, `manifest.json`, `robots.txt` `no-cache`; `/assets/` (tên có hash) và `/skills/` (có `?v=`) 1 năm `immutable`; asset tĩnh khác 7 ngày.
-- `Jenkinsfile` (build image → push Docker Hub → chạy lại container `portfolio` trên network `yan`, báo Telegram) **vẫn là đường deploy production** cho tới khi cutover sang GitHub Actions theo `docs/DEPLOY.md`; sau đó tắt job và xóa file. Lệnh `curl` dùng chuỗi nháy đơn để shell đọc `TOKEN`/`TEXT_*` từ biến môi trường — không nội suy commit message vào lệnh shell.
-- Chi tiết: [docs/DEPLOY.md](docs/DEPLOY.md) (kiến trúc, secret/variable, cutover, rollback, bảo mật) và [cloudflare/README.md](cloudflare/README.md) (Worker).
+- Chi tiết: [docs/DEPLOY.md](docs/DEPLOY.md) (kiến trúc, secret/variable, thiết lập, rollback, bảo mật) và [cloudflare/README.md](cloudflare/README.md) (Worker).
 - Site thật chạy ở `https://portfolio.yamiannephilim.com/`, nên URL Open Graph/JSON-LD phải dùng domain `portfolio.`.
 
 ## Cloudflare Worker (`cloudflare/`)

@@ -1,23 +1,10 @@
-# Deploy portfolio: từ Jenkins sang GitHub Actions
+# Deploy portfolio bằng GitHub Actions
 
-Tóm tắt: Kiến trúc CI/CD của `portfolio.yamiannephilim.com`, lý do dùng self-hosted runner, danh sách secret/variable, các bước cutover từ Jenkins, deploy Cloudflare Worker, rollback và ghi chú bảo mật.
+Tóm tắt: Kiến trúc CI/CD của `portfolio.yamiannephilim.com`, lý do dùng self-hosted runner, danh sách secret/variable, các bước thiết lập từ đầu, deploy Cloudflare Worker, rollback và ghi chú bảo mật.
 
 > **Không bao giờ dán token/mật khẩu vào chat** (kể cả khi nhờ AI hỗ trợ), issue, PR hay commit. Token chỉ được nhập trực tiếp vào ô _Secret_ của GitHub, hoặc vào ô nhập ẩn/biến môi trường trên máy của bạn. Lỡ dán ở đâu thì coi như đã lộ: thu hồi và tạo token mới ngay.
 
 ## 1. Kiến trúc
-
-### Hiện tại (Jenkins)
-
-```text
-push main ─► Jenkins (trên server 192.168.100.6)
-               ├─ docker build -t yamiannephilim/portfolio:latest .   (Dockerfile tự chạy lint + test)
-               ├─ docker push  ─► Docker Hub
-               └─ docker rm -f portfolio && docker run --name portfolio --network yan ...
-                                                     ▲
-Internet ─► Cloudflare ─► (thành phần gắn vào network docker "yan") ─► container portfolio:80
-```
-
-### Mục tiêu (GitHub Actions)
 
 ```text
                           push main / Run workflow
@@ -44,9 +31,8 @@ Internet ─► Cloudflare ─► Tunnel (container cloudflare-tunnel-yan, netwo
 ```
 
 - Runner trên server **chủ động** kết nối ra GitHub (HTTPS 443, long-poll) để nhận job — không có kết nối nào từ GitHub vào server.
-- Image được deploy theo tag bất biến `sha-<7 ký tự commit>`; `latest` vẫn được push để tương thích Jenkins/thao tác tay.
+- Image được deploy theo tag bất biến `sha-<7 ký tự commit>`; `latest` vẫn được push để tiện thao tác tay.
 - Container chạy với `--name yan-portfolio --network yan --restart unless-stopped`, **không** publish port. Tên `yan-portfolio` là bắt buộc: Cloudflare Tunnel (container `cloudflare-tunnel-yan`, cấu hình ingress quản lý trên dashboard Zero Trust) chuyển `portfolio.yamiannephilim.com` tới `http://yan-portfolio:80`. Muốn đổi tên container thì phải sửa ingress của tunnel cùng lúc.
-- Lưu ý (kiểm tra trên server ngày 2026-10-02): container đang phục vụ site là `yan-portfolio` chạy image build tay `yan-portfolio:latest`; trên server không có Jenkins, nên container `portfolio` mà `Jenkinsfile` tạo **không** nhận traffic của tunnel.
 - `nginx.conf` có `location = /healthz` (200 `ok`, `Cache-Control: no-store`, không ghi access log); `Dockerfile` khai báo `HEALTHCHECK` gọi endpoint này mỗi 30 giây. Cả job deploy lẫn Worker failover đều dựa vào nó.
 
 ## 2. Vì sao dùng self-hosted runner
@@ -75,8 +61,8 @@ Tạo tại **GitHub → repo `Tynab/yan-portfolio` → Settings → Secrets and
 | `DEPLOY_ENABLED`        | Variable | Có (để bật)       | `deploy.yml`                                     | Đặt giá trị `true` khi runner + secret đã sẵn sàng. Đổi thành `false` (hoặc xóa) để tạm dừng deploy.                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `DOCKERHUB_USERNAME`    | Secret   | Có                | `deploy.yml` (build-push, deploy)                | Tên tài khoản Docker Hub sở hữu repo `yamiannephilim/portfolio`.                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `DOCKERHUB_TOKEN`       | Secret   | Có                | `deploy.yml` (build-push, deploy)                | Docker Hub → **Account settings → Personal access tokens → Generate new token**, quyền **Read & Write**, đặt ngày hết hạn. Không dùng mật khẩu tài khoản.                                                                                                                                                                                                                                                                                                                                                       |
-| `TELEGRAM_TOKEN`        | Secret   | Không             | `deploy.yml` (notify)                            | Bot token từ @BotFather (giống credential `telegram_token` của Jenkins). Thiếu thì bỏ qua thông báo.                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `TELEGRAM_CHAT_ID`      | Secret   | Không             | `deploy.yml` (notify)                            | Chat ID nhận thông báo (giống credential `telegram_chatid` của Jenkins).                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `TELEGRAM_TOKEN`        | Secret   | Không             | `deploy.yml` (notify)                            | Bot token từ @BotFather. Thiếu thì bỏ qua thông báo (job vẫn xanh).                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `TELEGRAM_CHAT_ID`      | Secret   | Không             | `deploy.yml` (notify)                            | Chat ID nhận thông báo (chat cá nhân hoặc group mà bot đã được thêm vào).                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `WORKER_DEPLOY_ENABLED` | Variable | Có (để bật)       | `deploy-worker.yml`                              | Đặt `true` khi đã có 2 secret Cloudflare và `cloudflare/wrangler.toml`.                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `CLOUDFLARE_API_TOKEN`  | Secret   | Có (cho Worker)   | `deploy-worker.yml`                              | Cloudflare → **My Profile → API Tokens → Create Token** → template **"Edit Cloudflare Workers"**, hoặc **Create Custom Token** với quyền Account: _Workers Scripts_ Edit, _Account Settings_ Read, _Workers Tail_ Read (tuỳ chọn); Zone: _Workers Routes_ Edit; User: _User Details_ Read, _Memberships_ Read → _Account Resources_: Include đúng account của bạn; _Zone Resources_: Include → Specific zone → `yamiannephilim.com`; Client IP filtering để trống (runner GitHub không có IP cố định); đặt TTL. |
 | `CLOUDFLARE_ACCOUNT_ID` | Secret   | Có (cho Worker)   | `deploy-worker.yml`                              | Cloudflare dashboard → chọn account → **Workers & Pages** (hoặc trang Overview của zone `yamiannephilim.com`) → ô **Account ID** ở cột phải → Copy.                                                                                                                                                                                                                                                                                                                                                             |
@@ -84,9 +70,9 @@ Tạo tại **GitHub → repo `Tynab/yan-portfolio` → Settings → Secrets and
 
 Biến môi trường của `bootstrap-runner.sh` (chỉ trên máy bạn, không phải secret GitHub): `SSH_SECRET_ID` (bắt buộc — tên/ARN secret AWS chứa mật khẩu SSH), `SUDO_SECRET_ID` (mặc định = `SSH_SECRET_ID`), `SSH_USER_KEY`/`SSH_PASS_KEY`/`SUDO_PASS_KEY` (mặc định `username`/`password`/`password`), `SSH_USER` (bắt buộc nếu secret là chuỗi thuần), `SERVER_HOST` (`192.168.100.6`), `SERVER_PORT` (`22`), `AWS_PROFILE_NAME` (`yami`), `AWS_REGION`, `GH_REPO` (`Tynab/yan-portfolio`), `RUNNER_LABELS` (`portfolio`). Xem đầy đủ: `./scripts/server/bootstrap-runner.sh --help`.
 
-## 5. Cutover từng bước (Jenkins → GitHub Actions)
+## 5. Thiết lập từ đầu
 
-0. **Merge** thay đổi này vào `main`. Workflow `CI` chạy; `Deploy`/`Deploy Worker` _skipped_ vì chưa đặt biến. Jenkins vẫn deploy như cũ (Jenkinsfile đã bỏ `docker container prune` và lọc đúng tên container).
+0. **Merge** các workflow vào `main`. Workflow `CI` chạy; `Deploy`/`Deploy Worker` _skipped_ vì chưa đặt biến gate.
 
 0.5. **BẮT BUỘC trước khi cài runner** — Settings → Actions → General → _Approval for running fork pull request workflows from contributors_ → chọn **Require approval for all external contributors** (giao diện cũ: _Require approval for all outside collaborators_). Lý do: repo public, PR từ fork có thể **tự thêm một workflow mới** nhắm vào label `portfolio`; bấm "Approve and run" cho PR đó nghĩa là chạy code lạ trên `192.168.100.6`. **Không bao giờ approve** run của fork PR có thay đổi trong `.github/`. (Lớp chặn thứ hai: hook trên runner — xem mục 8.)
 
@@ -134,8 +120,6 @@ Biến môi trường của `bootstrap-runner.sh` (chỉ trên máy bạn, khôn
    docker inspect -f '{{.Config.Image}} {{.State.Health.Status}}' yan-portfolio
    ```
 
-7. **Tắt Jenkins**: Jenkins → job portfolio → **Disable Project** ngay sau bước 6 (nếu không, mỗi push lên `main` sẽ có cả Jenkins lẫn GitHub Actions cùng chạy lại container). Sau vài lần deploy GitHub Actions ổn định: xóa `Jenkinsfile` khỏi repo, xóa credential `telegram_token`/`telegram_chatid`/`docker_hub` trong Jenkins và gỡ job.
-
 ## 6. Deploy Cloudflare Worker
 
 Worker `yan-failover-redirect` (code `cloudflare/redirect-worker.js`, cấu hình `cloudflare/wrangler.toml`) chuyển `yamiannephilim.com/*` và `www` sang portfolio khi server sống (probe `/healthz`), sang GitHub khi server chết.
@@ -163,8 +147,6 @@ Rollback Worker: Cloudflare dashboard → Workers & Pages → `yan-failover-redi
   docker run -d --name yan-portfolio --network yan --restart unless-stopped yamiannephilim/portfolio:sha-xxxxxxx
   docker inspect -f '{{.State.Health.Status}}' yan-portfolio   # chờ "healthy" (~30 giây)
   ```
-
-- **Quay lại Jenkins** (trước khi xóa Jenkinsfile): đặt `DEPLOY_ENABLED` = `false`, bật lại job Jenkins rồi _Build Now_.
 
 ## 8. Ghi chú bảo mật
 

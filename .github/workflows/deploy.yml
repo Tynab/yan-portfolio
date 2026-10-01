@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # latest giữ tương thích với Jenkins/thao tác tay; tag sha-<7 ký tự> là bản bất biến để deploy/rollback.
+      # latest để tiện thao tác tay; tag sha-<7 ký tự> là bản bất biến để deploy/rollback.
       - name: Build & push
         uses: docker/build-push-action@v6
         with:
@@ -173,7 +173,7 @@ jobs:
                 return 1
               fi
               if [ "${health}" = "none" ]; then
-                # Image cũ build trước khi có HEALTHCHECK (vd. rollback về bản Jenkins): chỉ kiểm tra còn chạy ổn định.
+                # Image cũ build trước khi có HEALTHCHECK (vd. rollback về image build tay): chỉ kiểm tra còn chạy ổn định.
                 sleep 10
                 read -r state restarts health <<<"$(container_state)"
                 [ "${state}" = "running" ] && [ "${restarts}" -eq 0 ]

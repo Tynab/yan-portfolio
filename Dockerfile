@@ -8,8 +8,8 @@ RUN npm ci
 
 COPY . .
 RUN node scripts/verify-lfs-assets.js
-# Chặn đẩy image lỗi: lint/test chạy ngay trong build (CI GitHub Actions cũng chạy, nhưng image
-# build bằng Jenkins hay workflow Deploy đều phải tự qua bước này).
+# Chặn đẩy image lỗi: lint/test chạy ngay trong build (job CI cũng chạy, nhưng image
+# build bằng workflow Deploy hay build tay đều phải tự qua bước này).
 RUN npm run lint && npm test
 RUN npm run build
 
