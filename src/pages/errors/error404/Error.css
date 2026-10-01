@@ -3,8 +3,8 @@
   width: 100%;
 }
 
+/* Chữ dùng font hệ thống của body (như bản trước), không đặt font-family riêng. */
 .error-main > .error-class {
-  font-family: "Google Sans Regular", sans-serif;
   width: 90%;
   margin: auto 5%;
   /* min-height: calc(100vh - 192px); */
@@ -14,28 +14,19 @@
 
 /* Fade bọc mỗi phần tử trong một div riêng nên dùng descendant selector, không dùng ">". */
 .error-main > .error-class h1 {
-  font-family: "Google Sans Bold", sans-serif;
-  font-weight: normal;
   line-height: 1.2;
 }
 
+/* "404" là <p> (trang chỉ có một <h1>) nhưng hiển thị y như <h1> "Oops" ở trên. */
 .error-main > .error-class .error-404 {
-  font-family: "Google Sans Bold", sans-serif;
-  font-size: 7em;
-  line-height: 1;
-  overflow: hidden;
-  padding: 10px 0;
-  margin: 10px 0;
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 0.67em 0;
 }
 
 .error-main > .error-class p {
   font-size: 1.4em;
   line-height: 1.2;
   margin-top: 0;
-}
-
-@media screen and (min-width: 1364px) {
-  .error-main > .error-class .error-404 {
-    padding-top: 60px;
-  }
 }
