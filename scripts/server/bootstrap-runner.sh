@@ -99,6 +99,7 @@ if [ "${DRY_RUN}" -eq 1 ]; then
   3. Xin token       : POST https://api.github.com/repos/${GH_REPO}/actions/runners/registration-token
      (GH_PAT: $([ -n "${GH_PAT}" ] && echo "đã đặt" || echo "chưa đặt — sẽ hỏi ẩn khi chạy thật"))
   4. Tạo thư mục tạm : ssh ${SERVER_HOST} 'mktemp -d /tmp/gha-bootstrap.XXXXXXXX'   (sshpass -e, StrictHostKeyChecking=accept-new)
+  4b. Kiểm tra sudo: ssh ${SERVER_HOST} "sudo -S -k -p '' -v"   (stdin chỉ có mật khẩu sudo)
   5. Copy installer  : scp ${INSTALLER} -> <thư mục tạm>/install-runner.sh
   6. Chạy            : ssh ${SERVER_HOST} "sudo -S -k -p '' bash <thư mục tạm>/install-runner.sh --repo ${GH_REPO} --labels ${RUNNER_LABELS}"
      stdin dòng 1 = mật khẩu sudo, dòng 2 = RUNNER_TOKEN=<token>  (không lộ trên dòng lệnh / env)
@@ -212,6 +213,14 @@ remote_dir="$(remote 'umask 077; mktemp -d /tmp/gha-bootstrap.XXXXXXXX' </dev/nu
   remote_dir=""
   die "Server trả đường dẫn tạm không hợp lệ."
 }
+
+# Kiểm tra mật khẩu sudo bằng một lệnh riêng, stdin CHỈ có dòng mật khẩu: sai mật khẩu thì sudo gặp EOF ở
+# lần hỏi thứ hai và thoát ngay — không bao giờ lấy dòng RUNNER_TOKEN làm mật khẩu thử lại.
+# User NOPASSWD vẫn qua được (-v không hỏi mật khẩu).
+log "Kiểm tra quyền sudo trên server..."
+if ! printf '%s\n' "${sudo_pass}" | remote "sudo -S -k -p '' -v" 2>/dev/null; then
+  die "Sai mật khẩu sudo (SUDO_SECRET_ID/SUDO_PASS_KEY) hoặc user ${SSH_USER} không có quyền sudo trên ${SERVER_HOST}."
+fi
 
 log "Copy install-runner.sh lên ${remote_dir}..."
 SSHPASS="${ssh_pass}" sshpass -e scp -q "${ssh_opts[@]}" "${INSTALLER}" \

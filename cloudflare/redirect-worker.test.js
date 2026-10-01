@@ -260,6 +260,54 @@ describe("memo kết quả probe 30 giây và gộp probe đồng thời", () =>
     );
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
+
+  test("hết hạn chờ probe treo nhưng memo vừa có kết quả mới → dùng memo, không probe thêm", async () => {
+    vi.useFakeTimers();
+    let clockNow = 0;
+    const w = createWorker({ now: () => clockNow });
+    // Probe 1 treo vĩnh viễn; các probe sau trả 200 ngay.
+    fetchMock.mockImplementationOnce(() => new Promise(() => {}));
+    fetchMock.mockImplementation(
+      async () => new Response("ok", { status: 200 })
+    );
+    const waiting = w.fetch(new Request("https://yamiannephilim.com/"));
+    await vi.advanceTimersByTimeAsync(5000);
+
+    // Request khác tới sau 7 giây (đồng hồ memo): probe 1 bị coi là mồ côi ⇒ probe 2 chạy và ghi memo "up".
+    clockNow = 7000;
+    expectRedirect(
+      await w.fetch(new Request("https://www.yamiannephilim.com/")),
+      PORTFOLIO
+    );
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    // Request đầu hết hạn chờ: hỏi lại qua memo (còn hạn) ⇒ không probe lần 3.
+    await vi.advanceTimersByTimeAsync(1000);
+    expectRedirect(await waiting, PORTFOLIO);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  test("probe được giao cho ctx.waitUntil một lần, request đồng thời không đăng ký lại", async () => {
+    const gate = deferred();
+    fetchMock.mockImplementation(() => gate.promise);
+    const ctx = { waitUntil: vi.fn() };
+    const first = freshWorker.fetch(
+      new Request("https://yamiannephilim.com/"),
+      {},
+      ctx
+    );
+    const second = freshWorker.fetch(
+      new Request("https://www.yamiannephilim.com/"),
+      {},
+      ctx
+    );
+    expect(ctx.waitUntil).toHaveBeenCalledTimes(1);
+    expect(ctx.waitUntil.mock.calls[0][0]).toBeInstanceOf(Promise);
+    gate.resolve(new Response("ok", { status: 200 }));
+    expectRedirect(await first, PORTFOLIO);
+    expectRedirect(await second, PORTFOLIO);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("pass-through host portfolio (chỉ khi gắn route portfolio.yamiannephilim.com/*)", () => {
@@ -339,6 +387,21 @@ describe("pass-through host portfolio (chỉ khi gắn route portfolio.yamiannep
       })
     );
     expect(res).toBe(origin);
+  });
+
+  test("asset 200 (có thể là bản cache ở edge) không ghi đè memo 'down'", async () => {
+    fetchMock.mockResolvedValue(new Response(null, { status: 502 }));
+    await freshWorker.fetch(page({ Accept: "text/html" }));
+    fetchMock.mockResolvedValue(new Response("png", { status: 200 }));
+    await freshWorker.fetch(page({ Accept: "image/png" }));
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    // Memo vẫn "down" ⇒ apex về GitHub mà không cần probe.
+    expectRedirect(
+      await freshWorker.fetch(new Request("https://yamiannephilim.com/")),
+      GITHUB
+    );
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   test("kết quả quan sát được cập nhật memo cho apex (không cần probe)", async () => {

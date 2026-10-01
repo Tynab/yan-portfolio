@@ -19,11 +19,26 @@ function renderAt(hash) {
 beforeEach(() => {
   // jsdom chưa cài window.scrollTo (PageLayout cuộn lên đầu mỗi lần đổi trang).
   vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+  // Giả lập "giảm chuyển động": nếu settings.isSplash được bật, Splash chuyển ngay sang /home thay vì chờ 5.5s
+  // ⇒ các kỳ vọng dưới đây đúng với cả hai giá trị của isSplash.
+  window.matchMedia = (query) => ({
+    matches: query.includes("reduce"),
+    media: query,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent() {
+      return false;
+    },
+  });
 });
 
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  delete window.matchMedia;
   window.location.hash = "";
 });
 

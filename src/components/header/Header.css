@@ -180,6 +180,26 @@
     display: none;
   }
 }
+/* > 1380px body lên 19px nên dòng logo dùng font Agustina cao 60px (fallback chỉ 33px) => header 110px
+   khi font tải xong. Giữ sẵn chiều cao này để font swap không đẩy <main> xuống (CLS).
+   Dùng min-height thay vì line-height: baseline của font fallback và Agustina khác nhau nên line-height
+   cố định vẫn làm dòng giãn ra. */
+@media (min-width: 1381px) {
+  .header {
+    min-height: 110px;
+  }
+}
+/* Giảm chuyển động: menu mobile mở/đóng và icon hamburger đổi trạng thái ngay, không animation. */
+@media (prefers-reduced-motion: reduce) {
+  .header .menu,
+  .header .menu.menu-open,
+  .header .menu-icon .navicon,
+  .header .menu-icon .navicon:before,
+  .header .menu-icon .navicon:after,
+  .header li a {
+    transition: none;
+  }
+}
 /* 769–960px: 5 mục menu + logo phải vừa một hàng ở cỡ chữ 15px. */
 @media (max-width: 960px) and (min-width: 769px) {
   .header {

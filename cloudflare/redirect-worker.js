@@ -123,7 +123,7 @@ function createWorker({ now = () => Date.now() } = {}) {
     memo = { up, at: now() };
   }
 
-  function startProbe() {
+  function startProbe(ctx) {
     const entry = { startedAt: now() };
     entry.promise = probePortfolio().then((up) => {
       remember(up);
@@ -131,12 +131,16 @@ function createWorker({ now = () => Date.now() } = {}) {
       return up;
     });
     inflight = entry;
+    // Giữ probe sống tới khi xong dù request khởi tạo nó bị client hủy giữa chừng
+    // ⇒ probe dùng chung không bị "mồ côi" và các request đang chờ luôn nhận được kết quả.
+    if (ctx && typeof ctx.waitUntil === "function")
+      ctx.waitUntil(entry.promise);
     return entry.promise;
   }
 
   // Server portfolio có sống không: dùng memo nếu còn hạn, nếu không thì probe (gộp các request
   // đồng thời vào cùng một probe).
-  function isPortfolioUp() {
+  function isPortfolioUp(ctx) {
     const startedAt = now();
     if (memo && startedAt - memo.at < HEALTH_CACHE_MS) {
       return Promise.resolve(memo.up);
@@ -144,12 +148,13 @@ function createWorker({ now = () => Date.now() } = {}) {
     if (inflight && startedAt - inflight.startedAt >= PROBE_ORPHAN_MS) {
       inflight = null;
     }
-    const shared = inflight ? inflight.promise : startProbe();
-    // Probe dùng chung được khởi tạo trong request khác; nếu request đó bị hủy, promise có thể không
-    // bao giờ settle ⇒ mỗi request tự đặt hạn chót và tự probe lại khi quá hạn.
+    const shared = inflight ? inflight.promise : startProbe(ctx);
+    // Lưới an toàn: nếu probe dùng chung vẫn chưa settle sau PROBE_ORPHAN_MS, bỏ nó và hỏi lại từ đầu
+    // qua isPortfolioUp() ⇒ vẫn dùng memo nếu đã có kết quả mới, probe mới chạy trong context của
+    // request này (tự abort sau HEALTH_TIMEOUT_MS) và lại có hạn chót riêng — không request nào treo mãi.
     return withDeadline(shared, PROBE_ORPHAN_MS, () => {
       if (inflight && inflight.promise === shared) inflight = null;
-      return inflight ? inflight.promise : startProbe();
+      return isPortfolioUp(ctx);
     });
   }
 
@@ -165,7 +170,9 @@ function createWorker({ now = () => Date.now() } = {}) {
     }
     const down = !response || isOriginDownStatus(response.status);
     // Cập nhật memo từ chính response vừa thấy ⇒ apex/www phản ứng ngay, không cần chờ probe.
-    remember(!down);
+    // "down" luôn được ghi; "up" chỉ ghi từ điều hướng trang (HTML do nginx trả no-cache, Cloudflare không
+    // cache) — asset có thể là bản cache ở edge nên không chứng minh được origin còn sống.
+    if (down || isPageNavigation(request)) remember(!down);
     if (down) {
       console.log(
         `pass-through: ${response ? response.status : failure} => down`
@@ -189,7 +196,7 @@ function createWorker({ now = () => Date.now() } = {}) {
     return response;
   }
 
-  async function handleFetch(request) {
+  async function handleFetch(request, env, ctx) {
     let isPortfolioHost = false;
     try {
       const url = new URL(request.url);
@@ -208,7 +215,7 @@ function createWorker({ now = () => Date.now() } = {}) {
       }
 
       // Không truyền path/query sang đích — giống hệt 2 Page Rules forwarding cũ.
-      const up = await isPortfolioUp();
+      const up = await isPortfolioUp(ctx);
       return redirect(up ? PORTFOLIO_TARGET : FALLBACK_TARGET);
     } catch {
       // Lỗi lập trình bất ngờ: thà hiện portfolio còn hơn để Cloudflare trả trang lỗi 1101.

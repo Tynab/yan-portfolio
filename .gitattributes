@@ -1,6 +1,13 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 
+# Script/config chạy trên Linux (server, Docker, Jenkins) luôn checkout với LF, kể cả trên Windows
+# có core.autocrlf=true — CRLF làm bash báo lỗi "$'\r': command not found".
+*.sh text eol=lf
+*.conf text eol=lf
+Dockerfile text eol=lf
+Jenkinsfile text eol=lf
+
 # Repo KHÔNG còn dùng Git LFS: hạn mức LFS của tài khoản GitHub đã hết (push object LFS mới bị từ chối)
 # và mọi file nhị phân đều nhỏ (icon kỹ năng WebP 96px, icon site, ảnh logo, font web), nên tất cả
 # được lưu dạng blob Git thường. Đừng thêm lại rule `filter=lfs`.

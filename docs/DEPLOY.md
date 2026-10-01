@@ -57,11 +57,11 @@ Internet ─► Cloudflare ─► (thành phần gắn vào network "yan") ─�
 
 ## 3. Các workflow
 
-| File                                  | Trigger                                          | Runner                                   | Việc làm                                                                                                                              | Gate                                                               |
-| ------------------------------------- | ------------------------------------------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `.github/workflows/ci.yml`            | push `main`/`develop`, mọi pull request          | GitHub-hosted                            | `npm ci`, verify asset, lint, test, build; build thử Docker image (không push)                                                        | Không — luôn chạy, không có secret                                 |
-| `.github/workflows/deploy.yml`        | push `main`, Run workflow (tùy chọn `image_tag`) | GitHub-hosted + **self-hosted** (deploy) | build & push Docker Hub → deploy lên server, chờ healthy, rollback nếu lỗi, dọn image cũ (giữ 3 bản) → Telegram                       | `vars.DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main`        |
-| `.github/workflows/deploy-worker.yml` | push `main` có đổi `cloudflare/**`, Run workflow | GitHub-hosted                            | `npx vitest run cloudflare` → `npx wrangler@4 deploy --config cloudflare/wrangler.toml` → smoke test `https://yamiannephilim.com` 302 | `vars.WORKER_DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main` |
+| File                                  | Trigger                                          | Runner                                   | Việc làm                                                                                                                                           | Gate                                                               |
+| ------------------------------------- | ------------------------------------------------ | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `.github/workflows/ci.yml`            | push `main`/`develop`, mọi pull request          | GitHub-hosted                            | `npm ci`, verify asset, lint, test, build; build thử Docker image (không push)                                                                     | Không — luôn chạy, không có secret                                 |
+| `.github/workflows/deploy.yml`        | push `main`, Run workflow (tùy chọn `image_tag`) | GitHub-hosted + **self-hosted** (deploy) | build & push Docker Hub → deploy lên server, chờ healthy, rollback nếu lỗi, dọn image cũ (giữ 3 bản) → Telegram                                    | `vars.DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main`        |
+| `.github/workflows/deploy-worker.yml` | push `main` có đổi `cloudflare/**`, Run workflow | GitHub-hosted                            | `npx vitest run cloudflare` → `npx wrangler@4 deploy --config cloudflare/wrangler.toml` → smoke test `https://yamiannephilim.com` 302 + `no-store` | `vars.WORKER_DEPLOY_ENABLED == 'true'` và ref là `refs/heads/main` |
 
 Khi biến gate chưa đặt, workflow hiện trạng thái _skipped_ — merge các file này trước khi có secret/runner là an toàn.
 
@@ -86,6 +86,8 @@ Biến môi trường của `bootstrap-runner.sh` (chỉ trên máy bạn, khôn
 ## 5. Cutover từng bước (Jenkins → GitHub Actions)
 
 0. **Merge** thay đổi này vào `main`. Workflow `CI` chạy; `Deploy`/`Deploy Worker` _skipped_ vì chưa đặt biến. Jenkins vẫn deploy như cũ (Jenkinsfile đã bỏ `docker container prune` và lọc đúng tên container).
+
+0.5. **BẮT BUỘC trước khi cài runner** — Settings → Actions → General → _Approval for running fork pull request workflows from contributors_ → chọn **Require approval for all external contributors** (giao diện cũ: _Require approval for all outside collaborators_). Lý do: repo public, PR từ fork có thể **tự thêm một workflow mới** nhắm vào label `portfolio`; bấm "Approve and run" cho PR đó nghĩa là chạy code lạ trên `192.168.100.6`. **Không bao giờ approve** run của fork PR có thay đổi trong `.github/`. (Lớp chặn thứ hai: hook trên runner — xem mục 8.)
 
 1. **Bootstrap runner** từ một máy **cùng LAN** với `192.168.100.6` (Linux/macOS, hoặc **WSL Ubuntu** trên Windows — Git Bash không có `sshpass`):
 
@@ -140,7 +142,7 @@ Worker `yan-schedule-redirect` (code `cloudflare/redirect-worker.js`, cấu hìn
 1. Đảm bảo `cloudflare/wrangler.toml` đã có trên `main` (`name = "yan-schedule-redirect"`, `main = "redirect-worker.js"`).
 2. Thêm secret `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` (mục 4), rồi variable `WORKER_DEPLOY_ENABLED` = `true`.
 3. Actions → **Deploy Worker → Run workflow** (về sau, mỗi push lên `main` có đổi `cloudflare/**` sẽ tự deploy).
-4. Workflow chạy test Worker, `npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml`, rồi smoke test: `https://yamiannephilim.com` phải trả **302** kèm header `location`.
+4. Workflow chạy test Worker, `npx --yes wrangler@4 deploy --config cloudflare/wrangler.toml`, rồi smoke test: `https://yamiannephilim.com` phải trả **302** với `Location` đúng bằng `https://portfolio.yamiannephilim.com` hoặc `https://github.com/Tynab` và `Cache-Control: no-store` (worker cũ theo giờ/Page Rules không có no-store nên sẽ bị phát hiện).
 
 Chọn `npx wrangler@4` thay vì `cloudflare/wrangler-action`: cùng lệnh với khi deploy tay, không thêm action bên thứ ba nào cầm Cloudflare token, vẫn ghim major version 4.
 
@@ -166,7 +168,8 @@ Rollback Worker: Cloudflare dashboard → Workers & Pages → `yan-schedule-redi
 ## 8. Ghi chú bảo mật
 
 - **Repo public + self-hosted runner**: chỉ `deploy.yml` dùng runner trên server; workflow này chỉ chạy khi push `main` hoặc Run workflow, mọi job đều kiểm tra `github.ref == 'refs/heads/main'`. **Không bao giờ** thêm `pull_request`/`pull_request_target` vào `deploy.yml`, và không dùng label `portfolio`/`self-hosted` trong workflow nào chạy theo pull request — code từ fork sẽ chạy trên server nhà.
-- Settings → Actions → General → _Fork pull request workflows from outside collaborators_ → chọn **Require approval for all outside collaborators**.
+- **Approval cho fork PR là bắt buộc** (bước 0.5 mục 5): Settings → Actions → General → **Require approval for all external contributors**. Một PR có thể mang theo workflow mới của chính nó, nên approve = chạy code của người lạ trên server. Không approve run nào của fork PR đụng tới `.github/`.
+- **Hook chặn trên runner** (do `install-runner.sh` cài, PR không sửa được): `/usr/local/libexec/gha-runner-guard.sh` (thuộc root) được runner gọi trước mọi job qua `ACTIONS_RUNNER_HOOK_JOB_STARTED` trong `/opt/actions-runner/.env`; job bị fail ngay nếu không phải `push`/`workflow_dispatch` trên `refs/heads/main` của `Tynab/yan-portfolio` (và workflow khác `deploy.yml`). Chạy lại bootstrap trên runner đã cài cũng sẽ gắn hook này.
 - Bảo vệ nhánh `main` (Settings → Rules/Branches): bắt buộc PR + check `CI` xanh, vì ai push được lên `main` là chạy được code trên server.
 - Runner chạy bằng user `gha-runner` (không mật khẩu) trong group `docker` — **tương đương root** trên server. Chỉ đăng ký runner cho repo này, không thêm label khác, không dùng chung cho repo/workflow khác.
 - Job deploy trên server không checkout code, không chạy action bên thứ ba; đăng nhập Docker Hub bằng `--password-stdin` vào thư mục cấu hình tạm của job và logout khi xong.

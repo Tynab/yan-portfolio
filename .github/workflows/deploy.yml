@@ -6,6 +6,9 @@
 # - Chỉ trigger bằng push lên main hoặc workflow_dispatch (người có quyền write mới bấm được).
 #   TUYỆT ĐỐI không thêm pull_request / pull_request_target: khi đó code của bất kỳ ai mở PR (kể cả từ fork)
 #   có thể chạy trên server nhà, mà runner nằm trong group docker = tương đương quyền root.
+#   Lưu ý: file này không tự bảo vệ được — PR từ fork có thể THÊM một workflow khác nhắm vào label
+#   "portfolio". Hai lớp chặn thật sự: (1) bắt buộc approval cho fork PR (docs/DEPLOY.md mục 5, bước 0.5),
+#   (2) hook gha-runner-guard.sh trên server từ chối mọi job không phải deploy.yml chạy từ main.
 # - Mọi job đều chặn thêm github.ref == refs/heads/main (workflow_dispatch cho phép chọn branch khác).
 # - Mọi job gate bằng biến repo DEPLOY_ENABLED == 'true' => merge file này khi chưa có secret/runner
 #   thì workflow chỉ "skipped", không làm gì.
@@ -41,8 +44,10 @@ jobs:
     if: vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' && !inputs.image_tag
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Chỉ xuất TAG (sha-xxxxxxx), không xuất "yamiannephilim/portfolio:..." — chuỗi đó chứa giá trị của secret
+    # DOCKERHUB_USERNAME nên runner sẽ che (bỏ) output và job deploy nhận chuỗi rỗng.
     outputs:
-      image: ${{ steps.tag.outputs.image }}
+      tag: ${{ steps.tag.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,7 +57,7 @@ jobs:
 
       - name: Compute image tag
         id: tag
-        run: echo "image=${IMAGE_REPO}:sha-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+        run: echo "tag=sha-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -71,7 +76,7 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE_REPO }}:latest
-            ${{ steps.tag.outputs.image }}
+            ${{ env.IMAGE_REPO }}:${{ steps.tag.outputs.tag }}
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -99,12 +104,12 @@ jobs:
     steps:
       - name: Resolve image
         env:
-          BUILT_IMAGE: ${{ needs.build-push.outputs.image }}
+          BUILT_TAG: ${{ needs.build-push.outputs.tag }}
           INPUT_TAG: ${{ inputs.image_tag }}
         run: |
           set -euo pipefail
-          if [ -n "${BUILT_IMAGE}" ]; then
-            image="${BUILT_IMAGE}"
+          if [ -n "${BUILT_TAG}" ]; then
+            image="${IMAGE_REPO}:${BUILT_TAG}"
           else
             # Giá trị người dùng nhập: chỉ chấp nhận ký tự hợp lệ của Docker tag.
             if ! [[ "${INPUT_TAG}" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$ ]]; then
@@ -254,7 +259,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           BUILD_RESULT: ${{ needs.build-push.result }}
           DEPLOY_RESULT: ${{ needs.deploy.result }}
-          IMAGE: ${{ needs.build-push.outputs.image || inputs.image_tag }}
+          IMAGE: ${{ needs.build-push.outputs.tag || inputs.image_tag }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           ACTOR: ${{ github.actor }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

@@ -10,12 +10,12 @@ YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường A
 
 - **React 18** + `react-dom` 18 (`createRoot`), **react-router-dom 7** với `HashRouter` (route dạng `/#/...`).
 - **Vite 7** (`@vitejs/plugin-react`) làm build tool/dev server, thay cho Create React App; một plugin nội bộ (`jsAsJsx` trong `vite.config.js`) cho phép JSX tồn tại trong file `.js` để không phải đổi tên hàng loạt.
-- `styled-components` 6 cho theme (`ThemeProvider`, `GlobalStyles`); `GlobalStyles` còn xuất màu theme thành CSS variable (`--color-body`, `--color-text`, `--color-highlight`...) để hover/focus viết bằng CSS thuần. Accordion trang Experience dùng `<details>`/`<summary>` gốc (không còn `baseui`/`styletron`).
-- `react-awesome-reveal` + `@emotion/react` cho animation cuộn trang (thay cho `react-reveal`, không còn tương thích React 18).
-- `react-bootstrap` 2 cho tooltip/overlay; không nạp Bootstrap CSS, style tooltip tối thiểu nằm trong `src/tooltip.css`.
-- `react-helmet-async` (`HelmetProvider`) cho meta tag SEO và JSON-LD Person.
-- `Vitest` 5 (cần Node `^22.12` hoặc `>=24`, khai báo trong `engines`) + `@testing-library/react` + `jsdom` cho test; ESLint cấu hình độc lập (`.eslintrc.cjs`, không còn dùng preset `react-app`).
-- Font Awesome 6 nạp từ CDN trong `index.html` (không bundle); icon/ảnh kỹ năng nằm trong `public/skills`.
+- Theme bằng CSS variable, không dùng thư viện CSS-in-JS: `applyTheme()` trong `src/theme.js` gắn màu của `chosenTheme` thành `--color-body`, `--color-text`, `--color-secondary-text`, `--color-highlight`, `--color-header` lên `<html>`; style nền toàn cục (box-sizing, màu nền/chữ) nằm trong `src/base.css`. Accordion trang Experience dùng `<details>`/`<summary>` gốc.
+- `react-awesome-reveal` + `@emotion/react` cho animation cuộn trang.
+- Tooltip tự viết trong `src/components/tooltip` (portal ra `<body>`, hiện khi hover hoặc focus bàn phím, đóng bằng Escape, gắn `role="tooltip"` + `aria-describedby`); không dùng thư viện UI.
+- Icon mạng xã hội và nút lên đầu trang là SVG inline trong `src/components/icons` (path giữ nguyên từ Font Awesome Free 6.4.2, icon theo giấy phép CC BY 4.0), không nạp font icon từ CDN. Riêng icon kỹ năng/chứng chỉ dạng Iconify vẫn nạp script Iconify từ CDN (`defer`) trong `index.html`.
+- `react-helmet-async` (`HelmetProvider`): `SeoHeader` đặt `<title>` mặc định và JSON-LD Person; mỗi trang đặt `<title>` riêng qua `src/components/seoHeader/PageTitle.js`.
+- `Vitest` 5 + `@testing-library/react` + `jsdom` cho test; ESLint cấu hình độc lập (`.eslintrc.cjs`, không còn dùng preset `react-app`). Node theo `engines`: `^22.13.0 || >=24.0.0`.
 
 Toàn bộ component đã chuyển thành **function component** (không còn class component).
 
@@ -25,48 +25,67 @@ Toàn bộ component đã chuyển thành **function component** (không còn cl
 index.html                     # Entry HTML của Vite (nằm ở repo root, không phải public/)
 vite.config.js                 # Cấu hình Vite: base "./", outDir "build", plugin jsAsJsx, Vitest
 src/
-  index.js                     # Entry point: HelmetProvider, createRoot(...).render
-  App.js                       # Root app: ThemeProvider + GlobalStyles, truyền theme xuống Main
-  global.js                    # GlobalStyles dùng chung (box-sizing, màu nền/chữ, CSS variable theo theme)
-  tooltip.css                  # Style tooltip react-bootstrap (thay cho Bootstrap CSS)
+  index.js                     # Entry point: applyTheme(chosenTheme), HelmetProvider, createRoot(...).render
+  App.js                       # Root app: truyền chosenTheme xuống Main
+  base.css                     # Style nền toàn cục (box-sizing, màu nền/chữ theo CSS variable --color-*)
   portfolio.js                 # Nguồn dữ liệu nội dung chính của portfolio
-  theme.js                     # 14 bảng theme màu, chosenTheme chọn theme đang dùng
+  theme.js                     # 14 bảng theme màu, chosenTheme, applyTheme() gắn CSS variable
   containers/Main.js           # HashRouter + layout route, các trang nạp lazy (React.lazy) theo route
   components/                  # Header, card, social, pageLayout... (đều là function component)
-  components/pageLayout/       # Layout route: Header + <Outlet/> (Suspense) + TopButton, mount một lần
+  components/pageLayout/       # Layout route: Header + <main> (Suspense + <Outlet/>) + TopButton, mount một lần
+  components/tooltip/          # Tooltip accessible tự viết (portal, hover/focus, Escape)
+  components/icons/            # Icon SVG inline (SvgIcon, brandIcons, solidIcons)
+  components/seoHeader/        # SeoHeader (title mặc định + JSON-LD) và PageTitle (title từng trang)
   containers/                  # Section tái sử dụng (greeting, skills, certifications, experience accordion)
   pages/                       # Màn hình route-level (home, certifications, experience, projects, contact, splash, errors)
   shared/opensource/projects.json # Snapshot các repository hiển thị ở trang Projects
   assests/                     # images, fonts (WOFF2) — tên cố ý sai chính tả, không đổi thành "assets"
+public/skills/                 # Icon kỹ năng WebP
+public/icons/                  # Favicon, apple-touch, android/manifest, ms-tile
+assets-src/README.md           # Quy ước và cách sinh lại asset nhị phân
+scripts/
+  verify-lfs-assets.js         # Chặn build nếu asset là con trỏ Git LFS (checkout hỏng)
+  generate-icons.py            # Sinh toàn bộ icon site từ ảnh cá nhân (Pillow)
+  server/                      # bootstrap-runner.sh, install-runner.sh: cài self-hosted runner lên server deploy
+.github/workflows/             # ci.yml, deploy.yml, deploy-worker.yml
+cloudflare/                    # redirect-worker.js (+ test), wrangler.toml, README.md
+docs/DEPLOY.md                 # Kiến trúc CI/CD, secret/variable, cutover Jenkins -> GitHub Actions, rollback
+Dockerfile, nginx.conf, Jenkinsfile
 ```
 
 Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việt (`// Tóm tắt:` hoặc khối `/* ... */`); CSS tự viết cũng có header mô tả vai trò stylesheet.
 
 ## Luồng chạy chính
 
-1. `src/index.js` bọc `HelmetProvider` rồi `createRoot(...).render(<App />)`.
-2. `App` bọc `ThemeProvider` (styled-components) + `GlobalStyles`, truyền `chosenTheme` xuống `Main`.
+1. `src/index.js` gọi `applyTheme(chosenTheme)` trước khi render (lần paint đầu đã đúng màu, không nháy), nạp `base.css` + `index.css`, rồi `createRoot(...).render(...)` trong `HelmetProvider`.
+2. `App` truyền `chosenTheme` xuống `Main`.
 3. `Main` (`containers/Main.js`) dùng `HashRouter` + `Routes` (react-router-dom 7); `"/"` chuyển hướng sang `/home` (hoặc `/splash` nếu bật `settings.isSplash`) để menu đánh dấu đúng mục Home; còn lại là route cho Home, Certifications (`/education` cũ tự chuyển hướng sang `/certifications`), Experience, Projects, Contact và `Error404` bắt mọi path không khớp. Mỗi trang là một chunk riêng (`React.lazy`).
-4. Mọi trang (trừ Splash) nằm dưới layout route `PageLayout` (Header + `<Outlet/>` + `TopButton`), nên Header không remount khi chuyển trang; trang lấy dữ liệu từ `portfolio.js` hoặc `src/shared/opensource/projects.json`.
-5. `SeoHeader` set `<title>` và JSON-LD Person qua `react-helmet-async`; description/Open Graph để tĩnh trong `index.html` cho crawler không chạy JS.
+4. Mọi trang (trừ Splash) nằm dưới layout route `PageLayout` (Header + `<main>` + `TopButton`), nên Header không remount khi chuyển trang; khi người dùng chuyển trang, focus được đưa về `<main>`. Menu Header gồm Home, Certifications, Experience, Projects, Contact.
+5. `SeoHeader` (trong Header) đặt `<title>` mặc định và JSON-LD Person; mỗi trang dùng `PageTitle` để đặt `<title>` dạng `"<Trang> | Yami An's Portfolio"` (Home giữ title mặc định). Description/Open Graph để tĩnh trong `index.html` cho crawler không chạy JS.
 
 ## Cấu hình nội dung
 
 - Thông tin cá nhân, social links, SEO, kỹ năng, chứng chỉ, kinh nghiệm, project header và contact nằm trong `src/portfolio.js`.
-- Danh sách project trên trang Projects lấy từ `src/shared/opensource/projects.json`.
-- Trang Open Source (chart PR/issue, tổ chức) đã được gỡ: dữ liệu snapshot trong đó là của tác giả template gốc, không phải của chủ portfolio.
+- Danh sách project trên trang Projects lấy từ `src/shared/opensource/projects.json` (trang Open Source của template gốc đã gỡ, thư mục này chỉ còn file đó).
+- Icon mạng xã hội: khóa `fontAwesomeIcon` trong `socialMediaLinks` được ánh xạ sang component SVG trong `SocialMedia.js`; thêm mạng mới thì thêm path vào `components/icons/brandIcons.js` và khai báo trong Map đó.
 - Ảnh trang Contact lấy từ `contactSection.profile_image_url` (avatar GitHub).
 - Theme hiện tại là `blueTheme` trong số 14 palette khai báo ở `src/theme.js`; đổi `chosenTheme` để reskin toàn bộ site.
-- `settings.isSplash = false`: route `/` render thẳng Home. Đặt `true` để dùng màn splash làm landing.
+- `settings.isSplash = false`: route `/` chuyển thẳng sang `/home`. Đặt `true` để dùng màn splash làm landing.
 
 ## Skill icon (`SoftwareSkill.js`)
 
 Mỗi skill trong `portfolio.js` chọn một trong hai chế độ hiển thị:
 
-- `fontAwesomeClassname` → icon Iconify, nạp qua script CDN khai báo trong `index.html`.
-- `imageSrc` → ảnh PNG runtime từ `public/skills/`, nạp theo đường dẫn `${import.meta.env.BASE_URL}skills/<tên-file>?v=${skillAssetVersion}` (dùng `import.meta.env.BASE_URL` của Vite, không còn `process.env.PUBLIC_URL` của CRA).
+- `fontAwesomeClassname` → icon Iconify (tên khóa giữ từ template), nạp qua script CDN Iconify khai báo trong `index.html`.
+- `imageSrc` → ảnh `public/skills/*.webp` (cao 96px, hiển thị cao 48px cho màn hình retina), nạp theo đường dẫn `${import.meta.env.BASE_URL}skills/<tên-file>?v=${skillAssetVersion}`.
 
-nginx cache `/skills/` dài hạn (`immutable`), nên **mỗi khi thêm/đổi PNG skill phải bump hằng số `skillAssetVersion`** trong `SoftwareSkill.js` để bust cache.
+nginx cache `/skills/` dài hạn (`immutable`), nên **mỗi khi thêm/đổi ảnh skill phải bump hằng số `skillAssetVersion`** trong `SoftwareSkill.js` để bust cache. Cách chuyển ảnh gốc sang WebP 96px: `assets-src/README.md`.
+
+## Icon site (`public/icons/`)
+
+- Favicon, apple-touch-icon, icon Android/manifest và ms-tile được sinh từ **ảnh cá nhân của chủ site** bằng `python3 scripts/generate-icons.py <ảnh>` (cần Pillow; tham số `--focus`, `--zoom`, `--out`, `--only` xem docstring của script). Script ghi đúng tên file mà `index.html`/`public/manifest.json` tham chiếu và bỏ metadata EXIF/GPS.
+- Hiện `public/icons/` vẫn là bộ icon cũ; `android-icon-512x512.png` là bản **tạm** (phóng to từ `ms-icon-310x310.png`) cho tới khi chạy script.
+- `ms-icon-310x310.png` đồng thời là `og:image` khi chia sẻ link.
 
 ## Lệnh phát triển
 
@@ -80,26 +99,41 @@ npm run build          # vite build -> thư mục build/
 npm run preview        # Preview bản build production cục bộ
 ```
 
-Test gồm `src/App.test.js` (smoke test render App) và `cloudflare/redirect-worker.test.js` (logic chuyển hướng theo giờ), nên `npm test` xanh không đồng nghĩa với coverage đầy đủ.
+Test hiện có (chưa phải coverage đầy đủ):
+
+- `src/App.test.js` — smoke test render App và `applyTheme` gắn đúng CSS variable.
+- `src/theme.test.js` — giá trị mặc định của CSS variable trong `src/base.css` khớp `chosenTheme` (tránh nháy màu khi tải trang).
+- `src/containers/Main.test.js` — router: `/` → `/home`, `/education` → `/certifications`, trang 404 và `<title>` từng trang.
+- `src/components/header/Header.test.js` — Escape đóng menu và trả focus, chỉ một link `aria-current`, có mục Contact, đổi route thì đóng menu.
+- `src/components/tooltip/Tooltip.test.js` — ARIA của tooltip (`toDomId`), hiện khi focus/hover, ẩn bằng Escape, giữ mở khi rê chuột sang bong bóng.
+- `cloudflare/redirect-worker.test.js` — Worker failover: probe `/healthz` (sống/chết, lỗi kết nối, timeout), memo 30 giây, wedding-card, chế độ pass-through.
 
 Không còn `npm start` / `react-scripts` — dự án đã rời Create React App, dùng Vite làm build tool.
 
-## Git LFS
+## Asset nhị phân
 
-Asset nhị phân (`svg`, `png`, `jpg`, `gif`, `woff`, `woff2`, `ttf`, `eot`, `ico`) được theo dõi bằng Git LFS theo khai báo trong `.gitattributes`. Ngoại lệ: font web `src/assests/fonts/*.woff2` lưu dạng blob Git thường (file nhỏ, không phụ thuộc hạn mức LFS). Sau khi clone repo, chạy:
+Repo **không còn dùng Git LFS**: hạn mức LFS của tài khoản đã hết và mọi file nhị phân đều nhỏ (icon kỹ năng WebP, icon site, ảnh logo, font web), nên tất cả lưu dạng blob Git thường; `.gitattributes` chỉ đánh dấu chúng là `binary`. Clone bình thường, không cần `git lfs pull`, và đừng thêm lại rule `filter=lfs`.
 
-```bash
-git lfs install
-git lfs pull
-```
-
-Build Docker chạy `scripts/verify-lfs-assets.js` và **fail** nếu còn asset nào là LFS pointer chưa resolve.
+`scripts/verify-lfs-assets.js` vẫn được giữ làm chốt chặn checkout hỏng/cũ: Dockerfile và CI chạy nó và **fail** nếu asset nào trong `public/` hoặc `src/assests/` là con trỏ LFS.
 
 ## CI, Docker và deploy
 
-- `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, cài dependency bằng `npm ci`, verify LFS, chạy `npm run lint && npm test` (lỗi là dừng build, không deploy) rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` copy `build/` vào `/usr/share/nginx/html` và serve trên cổng `80` theo `nginx.conf` (SPA fallback `try_files ... /index.html`, bật gzip; `index.html` `no-cache`, `/assets/` (tên có hash) và `/skills/` (có `?v=`) cache 1 năm `immutable`, asset tĩnh khác cache 7 ngày).
-- `Jenkinsfile`: build Docker image → push lên Docker Hub (`yamiannephilim/portfolio`) → dừng/xóa container cũ → chạy container mới trên network `yan`, kèm thông báo Telegram ở mỗi bước. Lệnh `curl` dùng chuỗi nháy đơn để shell đọc `TOKEN`/`TEXT_*` từ biến môi trường — không nội suy commit message vào lệnh shell.
-- Site thật chạy ở `https://portfolio.yamiannephilim.com/`; `yamiannephilim.com/*` được Cloudflare worker (`cloudflare/`) chuyển hướng theo giờ, nên URL Open Graph/JSON-LD phải dùng domain `portfolio.`. Không còn deploy GitHub Pages (`gh-pages` đã gỡ).
+- GitHub Actions (`.github/workflows/`):
+  - `ci.yml` — mỗi push (`main`/`develop`) và pull request: `npm ci`, verify asset, lint, test, build, rồi build thử Docker image (không push). Không dùng secret.
+  - `deploy.yml` — push `main` hoặc Run workflow (tùy chọn `image_tag` để deploy lại/rollback), chỉ chạy khi biến repo `DEPLOY_ENABLED` = `true`: build & push `yamiannephilim/portfolio` (`latest` + `sha-<7 ký tự>`) lên Docker Hub, rồi **self-hosted runner trên server** chạy lại container `portfolio`, chờ HEALTHCHECK `healthy` (lỗi thì rollback image cũ) và báo Telegram.
+  - `deploy-worker.yml` — push `main` có đổi `cloudflare/**` hoặc Run workflow, chỉ chạy khi `WORKER_DEPLOY_ENABLED` = `true`: test Worker → `npx wrangler@4 deploy` → smoke test.
+- `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, `npm ci`, chạy `scripts/verify-lfs-assets.js`, `npm run lint && npm test` (lỗi là dừng build) rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` serve `build/` trên cổng `80`, kèm `HEALTHCHECK` gọi `/healthz`.
+- `nginx.conf`: SPA fallback `try_files ... /index.html`, bật gzip; `/healthz` trả `200 ok` (`no-store`, không ghi log); `/favicon.ico` trả `icons/favicon.ico`. Cache: `index.html`, `manifest.json`, `robots.txt` `no-cache`; `/assets/` (tên có hash) và `/skills/` (có `?v=`) 1 năm `immutable`; asset tĩnh khác 7 ngày.
+- `Jenkinsfile` (build image → push Docker Hub → chạy lại container `portfolio` trên network `yan`, báo Telegram) **vẫn là đường deploy production** cho tới khi cutover sang GitHub Actions theo `docs/DEPLOY.md`; sau đó tắt job và xóa file. Lệnh `curl` dùng chuỗi nháy đơn để shell đọc `TOKEN`/`TEXT_*` từ biến môi trường — không nội suy commit message vào lệnh shell.
+- Chi tiết: [docs/DEPLOY.md](docs/DEPLOY.md) (kiến trúc, secret/variable, cutover, rollback, bảo mật) và [cloudflare/README.md](cloudflare/README.md) (Worker).
+- Site thật chạy ở `https://portfolio.yamiannephilim.com/`, nên URL Open Graph/JSON-LD phải dùng domain `portfolio.`.
+
+## Cloudflare Worker (`cloudflare/`)
+
+Worker `yan-schedule-redirect` (`redirect-worker.js`, route khai báo trong `wrangler.toml`) chuyển hướng theo **tình trạng server**:
+
+- `yamiannephilim.com/*` và `www.yamiannephilim.com/*` → `302` (`no-store`) tới `https://portfolio.yamiannephilim.com`; chỉ khi probe `GET /healthz` lỗi kết nối, quá 3 giây hoặc trả `502`/`503`/`504`/`520–526`/`530` thì chuyển sang `https://github.com/Tynab`. Kết quả probe được nhớ 30 giây trong mỗi isolate.
+- `www.yamiannephilim.com/wedding-card` giữ nguyên: luôn → `https://tynab.github.io/Yami-Buzzy` (không probe).
 
 ## Ghi chú bảo trì
 

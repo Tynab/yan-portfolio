@@ -124,9 +124,9 @@ ensure_service() {
   fi
   local unit
   unit="$(cat .service)"
-  if [ "${group_added}" -eq 1 ] && systemctl is-active --quiet "${unit}"; then
-    # Service đang chạy từ trước khi user vào group docker => restart để tiến trình nhận group mới.
-    log "Restart service để nhận group docker..."
+  if { [ "${group_added}" -eq 1 ] || [ "${guard_changed:-0}" -eq 1 ]; } && systemctl is-active --quiet "${unit}"; then
+    # Service đang chạy từ trước => restart để tiến trình nhận group docker mới / đọc lại .env (hook).
+    log "Restart service để nhận group docker / hook mới..."
     systemctl restart "${unit}"
   else
     log "Đảm bảo service đang chạy..."
@@ -136,12 +136,53 @@ ensure_service() {
   log "Service ${unit}: active."
 }
 
+# ---------- Hook chặn job lạ (repo public + self-hosted runner) ----------
+# PR từ fork có thể tự thêm workflow nhắm vào label "portfolio". Hook này chạy TRƯỚC mỗi job (runner đọc
+# ACTIONS_RUNNER_HOOK_JOB_STARTED từ .env) và làm job fail ngay nếu không phải push/workflow_dispatch
+# trên refs/heads/main của đúng repo. File thuộc root, không nằm trong thư mục runner => job không sửa được.
+GUARD_PATH="/usr/local/libexec/gha-runner-guard.sh"
+guard_changed=0
+install_guard() {
+  install -d -o root -g root -m 755 "$(dirname "${GUARD_PATH}")"
+  guard_tmp="$(mktemp)"
+  cat >"${guard_tmp}" <<GUARD
+#!/usr/bin/env bash
+# Sinh bởi scripts/server/install-runner.sh — chặn mọi job không phải deploy từ main của ${GH_REPO}.
+set -euo pipefail
+reject() { echo "gha-runner-guard: từ chối job (\$1)." >&2; exit 1; }
+[ "\${GITHUB_REPOSITORY:-}" = "${GH_REPO}" ] || reject "repo=\${GITHUB_REPOSITORY:-?}"
+case "\${GITHUB_EVENT_NAME:-}" in push | workflow_dispatch) ;; *) reject "event=\${GITHUB_EVENT_NAME:-?}" ;; esac
+[ "\${GITHUB_REF:-}" = "refs/heads/main" ] || reject "ref=\${GITHUB_REF:-?}"
+if [ -n "\${GITHUB_WORKFLOW_REF:-}" ]; then
+  case "\${GITHUB_WORKFLOW_REF}" in
+    "${GH_REPO}/.github/workflows/deploy.yml@refs/heads/main") ;;
+    *) reject "workflow=\${GITHUB_WORKFLOW_REF}" ;;
+  esac
+fi
+echo "gha-runner-guard: OK (\${GITHUB_EVENT_NAME} \${GITHUB_REF})"
+GUARD
+  install -o root -g root -m 755 "${guard_tmp}" "${GUARD_PATH}"
+  rm -f "${guard_tmp}"
+  bash -n "${GUARD_PATH}" || die "Hook ${GUARD_PATH} lỗi cú pháp."
+
+  if ! grep -qx "ACTIONS_RUNNER_HOOK_JOB_STARTED=${GUARD_PATH}" .env 2>/dev/null; then
+    log "Bật hook chặn job lạ (${GUARD_PATH}) trong ${RUNNER_DIR}/.env..."
+    touch .env
+    sed -i '/^ACTIONS_RUNNER_HOOK_JOB_STARTED=/d' .env
+    printf 'ACTIONS_RUNNER_HOOK_JOB_STARTED=%s\n' "${GUARD_PATH}" >>.env
+    chown "${RUNNER_USER}:${runner_group}" .env
+    guard_changed=1
+  fi
+}
+
+
 # ---------- Đã cấu hình: chỉ đảm bảo service chạy ----------
 if [ -f .runner ]; then
   if ! grep -qF "github.com/${GH_REPO}\"" .runner; then
     die "${RUNNER_DIR} đã cấu hình cho repo khác (xem ${RUNNER_DIR}/.runner). Gỡ runner cũ trước."
   fi
-  log "Runner đã cấu hình cho ${GH_REPO} — chỉ kiểm tra service."
+  log "Runner đã cấu hình cho ${GH_REPO} — chỉ kiểm tra hook và service."
+  install_guard
   ensure_service
   exit 0
 fi
@@ -204,5 +245,6 @@ ACTIONS_RUNNER_INPUT_TOKEN="${token}" sudo -u "${RUNNER_USER}" -H \
   --replace </dev/null
 token=""
 
+install_guard
 ensure_service
 log "Hoàn tất. Runner sẽ hiện Idle trong Settings > Actions > Runners của ${GH_REPO}."

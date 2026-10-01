@@ -73,7 +73,7 @@ Mặc định Worker **không** gắn vào `portfolio.yamiannephilim.com`, nên 
 Cách bật:
 
 - Dùng cách A (dashboard): Worker → `Settings` → `Domains & Routes` → `Add` → `Route` → `portfolio.yamiannephilim.com/*` (zone `yamiannephilim.com`).
-- Dùng cách B (wrangler/GitHub Actions): bỏ comment dòng route portfolio trong `cloudflare/wrangler.toml` rồi deploy — **không** gắn tay trên dashboard, vì `wrangler deploy` đồng bộ danh sách route theo file và có thể gỡ route gắn tay.
+- Dùng cách B (wrangler/GitHub Actions): bỏ comment dòng route portfolio trong `cloudflare/wrangler.toml` rồi deploy. Lưu ý: với API token giới hạn theo zone (token CI), `wrangler deploy` chỉ **thêm** route còn thiếu chứ không gỡ route; chỉ khi đăng nhập bằng `npx wrangler@4 login` (quyền mọi zone) thì danh sách route mới bị thay toàn bộ theo file. Vì vậy giữ `wrangler.toml` và route trên dashboard luôn khớp nhau.
 
 Ngay sau khi bật, **bắt buộc** kiểm tra (vì Worker gọi `fetch(request)` tới chính host đang gắn route, cần xác nhận request đó tới origin bình thường):
 
@@ -84,7 +84,7 @@ curl -s -o /dev/null -w "%{http_code} %{redirect_url}\n" -H "Accept: text/html" 
 curl -s -o /dev/null -w "%{http_code}\n" https://portfolio.yamiannephilim.com/manifest.json
 ```
 
-Đồng thời mở tab `Logs` của Worker để thấy các request `portfolio.yamiannephilim.com` đi qua Worker với status `200`. Nếu thấy trang lỗi của Cloudflare, redirect lặp hoặc status bất thường → gỡ route portfolio ngay (xóa route trên dashboard, hoặc comment lại trong `wrangler.toml` rồi deploy). Sau đó có thể giả lập sự cố như mục **Kiểm tra** (kỳ vọng trang chủ portfolio `302` → GitHub, asset giữ `502`).
+Đồng thời mở tab `Logs` của Worker để thấy các request `portfolio.yamiannephilim.com` đi qua Worker với status `200`. Nếu thấy trang lỗi của Cloudflare, redirect lặp hoặc status bất thường → gỡ route portfolio ngay, **cả hai bước**: (1) xóa route `portfolio.yamiannephilim.com/*` trên dashboard (Worker → `Settings` → `Domains & Routes`) — bước này mới thực sự tắt route; (2) comment lại dòng đó trong `cloudflare/wrangler.toml` và commit, nếu không lần deploy CI sau sẽ gắn route trở lại (token CI chỉ thêm route, không gỡ). Sau đó có thể giả lập sự cố như mục **Kiểm tra** (kỳ vọng trang chủ portfolio `302` → GitHub, asset giữ `502`).
 
 ## Deploy
 

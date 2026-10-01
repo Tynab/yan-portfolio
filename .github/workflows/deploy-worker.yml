@@ -67,18 +67,26 @@ jobs:
       # Worker luôn trả 302 cho apex (về portfolio khi server sống, về GitHub khi server chết) => chỉ kiểm tra
       # 302 + có Location. Thử lại vài lần vì bản mới có thể mất vài giây để lan ra mọi PoP.
       - name: Smoke test https://yamiannephilim.com
+        # Worker mới luôn trả 302 + "Cache-Control: no-store" và Location đúng một trong hai đích (không có "/" cuối).
+        # Worker cũ (theo giờ) / Page Rules cũng trả 302 tới github.com/Tynab nhưng KHÔNG có no-store
+        # => kiểm tra cả Cache-Control mới phân biệt được code mới đã chạy hay chưa.
         run: |
           set -euo pipefail
           for attempt in 1 2 3 4 5 6; do
             headers="$(curl -sI --max-time 15 https://yamiannephilim.com | tr -d '\r' || true)"
             status="$(printf '%s\n' "${headers}" | awk 'NR == 1 { print $2 }')"
             location="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "location:" { print $2 }')"
-            if [ "${status}" = "302" ] && [ -n "${location}" ]; then
-              echo "OK: HTTP ${status} -> ${location}"
+            cache="$(printf '%s\n' "${headers}" | awk 'tolower($1) == "cache-control:" { $1 = ""; sub(/^ /, ""); print tolower($0) }')"
+            case "${location}" in
+              https://portfolio.yamiannephilim.com | https://github.com/Tynab) location_ok=1 ;;
+              *) location_ok=0 ;;
+            esac
+            if [ "${status}" = "302" ] && [ "${location_ok}" = "1" ] && [ "${cache}" = "no-store" ]; then
+              echo "OK: HTTP ${status} -> ${location} (cache-control: ${cache})"
               exit 0
             fi
-            echo "Lần ${attempt}: status=${status:-<none>} location=${location:-<none>}, thử lại sau 10 giây..."
+            echo "Lần ${attempt}: status=${status:-<none>} location=${location:-<none>} cache-control=${cache:-<none>}, thử lại sau 10 giây..."
             sleep 10
           done
-          echo "::error::https://yamiannephilim.com không trả 302 kèm Location sau khi deploy Worker."
+          echo "::error::https://yamiannephilim.com chưa trả 302 + no-store tới portfolio/GitHub — Worker mới chưa chạy (còn route/Page Rule cũ?)."
           exit 1

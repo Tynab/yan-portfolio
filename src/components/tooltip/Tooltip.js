@@ -101,17 +101,18 @@ export default function Tooltip({ id, content, children }) {
     setPosition((prev) => (samePosition(prev, next) ? prev : next));
   }, [triggerNode]);
 
-  // Đo và đặt vị trí trước khi trình duyệt paint; theo dõi scroll (mọi container, nên dùng capture) và resize khi đang mở.
+  // Đo và đặt vị trí trước khi trình duyệt paint, rồi bám theo trigger mỗi frame trong lúc mở: trigger có thể
+  // tự di chuyển mà không phát sự kiện nào (hiệu ứng Fade của react-awesome-reveal, layout thay đổi,
+  // scroll trong container). samePosition() chặn re-render khi vị trí không đổi; chỉ một tooltip mở mỗi lúc.
   useLayoutEffect(() => {
     if (!open) return undefined;
     updatePosition();
-    const options = { capture: true, passive: true };
-    window.addEventListener("scroll", updatePosition, options);
-    window.addEventListener("resize", updatePosition);
-    return () => {
-      window.removeEventListener("scroll", updatePosition, options);
-      window.removeEventListener("resize", updatePosition);
-    };
+    if (typeof window.requestAnimationFrame !== "function") return undefined;
+    let frame = window.requestAnimationFrame(function track() {
+      updatePosition();
+      frame = window.requestAnimationFrame(track);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, [open, updatePosition]);
 
   // WCAG 1.4.13 "dismissible": Escape ẩn tooltip mà không di chuyển focus/chuột.

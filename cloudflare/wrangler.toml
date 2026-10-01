@@ -11,8 +11,10 @@ compatibility_date = "2025-06-01"
 # Chỉ chạy trên domain thật, không mở thêm URL *.workers.dev công khai.
 workers_dev = false
 
-# Lưu ý: wrangler deploy đồng bộ danh sách route theo file này — route gắn tay trên dashboard mà
-# không có ở đây có thể bị gỡ ở lần deploy sau. Muốn thêm route thì sửa ở đây.
+# Lưu ý về route: wrangler deploy chỉ THAY toàn bộ danh sách route khi credential có quyền trên mọi zone
+# (vd. `npx wrangler@4 login` OAuth). Với API token giới hạn theo zone (token CI trong docs/DEPLOY.md),
+# deploy chỉ THÊM route còn thiếu, không bao giờ gỡ route — muốn gỡ route phải xóa trên dashboard
+# (Worker → Settings → Domains & Routes) VÀ xóa/comment trong file này, nếu không lần deploy sau sẽ gắn lại.
 routes = [
   { pattern = "yamiannephilim.com/*", zone_name = "yamiannephilim.com" },
   { pattern = "www.yamiannephilim.com/*", zone_name = "yamiannephilim.com" },
