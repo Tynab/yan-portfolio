@@ -1,0 +1,28 @@
+# Tóm tắt: Cấu hình wrangler để deploy Cloudflare Worker failover (redirect-worker.js) bằng CLI hoặc
+# GitHub Actions (.github/workflows/deploy-worker.yml). Trùng tên với Worker đang chạy trên dashboard
+# nên mỗi lần deploy sẽ cập nhật Worker đó tại chỗ, không tạo Worker mới. Xem cloudflare/README.md.
+
+name = "yan-schedule-redirect"
+# Đường dẫn tính từ thư mục chứa file này (cloudflare/).
+main = "redirect-worker.js"
+# Ngày cố định trong quá khứ: code chỉ dùng API chuẩn (fetch/Response/AbortController/setTimeout)
+# nên không phụ thuộc cờ compatibility mới. Muốn nâng thì đổi ngày rồi chạy lại test + verify.
+compatibility_date = "2025-06-01"
+# Chỉ chạy trên domain thật, không mở thêm URL *.workers.dev công khai.
+workers_dev = false
+
+# Lưu ý: wrangler deploy đồng bộ danh sách route theo file này — route gắn tay trên dashboard mà
+# không có ở đây có thể bị gỡ ở lần deploy sau. Muốn thêm route thì sửa ở đây.
+routes = [
+  { pattern = "yamiannephilim.com/*", zone_name = "yamiannephilim.com" },
+  { pattern = "www.yamiannephilim.com/*", zone_name = "yamiannephilim.com" },
+  # TÙY CHỌN — chế độ pass-through cho chính host portfolio: Worker chuyển tiếp mọi request tới origin
+  # và chỉ redirect sang GitHub khi origin chết (502/52x/530/không kết nối được) VÀ request là điều
+  # hướng trang; asset giữ nguyên status thật. Mọi request (kể cả ảnh/JS) sẽ tính vào quota Workers.
+  # Chỉ bỏ comment sau khi đọc mục "Route tùy chọn" trong cloudflare/README.md và verify bằng curl + Logs.
+  # { pattern = "portfolio.yamiannephilim.com/*", zone_name = "yamiannephilim.com" },
+]
+
+# Bật Workers Logs: xem từng request và dòng log "health probe: ..." ngay trên dashboard (tab Logs).
+[observability]
+enabled = true
