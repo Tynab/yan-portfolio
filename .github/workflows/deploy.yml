@@ -1,5 +1,5 @@
 # Tóm tắt: CD production — build & push image lên Docker Hub (runner GitHub-hosted), rồi self-hosted runner
-# đặt trên chính server 192.168.100.6 kéo image theo tag SHA, chạy lại container "portfolio", chờ HEALTHCHECK
+# đặt trên chính server 192.168.100.6 kéo image theo tag SHA, chạy lại container "yan-portfolio", chờ HEALTHCHECK
 # báo healthy (lỗi thì rollback về image cũ), dọn image cũ và báo Telegram. Hướng dẫn: docs/DEPLOY.md.
 #
 # BẢO MẬT (repo PUBLIC + self-hosted runner):
@@ -97,7 +97,10 @@ jobs:
       url: https://portfolio.yamiannephilim.com
     timeout-minutes: 15
     env:
-      CONTAINER: portfolio
+      # Tên container là contract với Cloudflare Tunnel: container cloudflared trên network "yan" chuyển
+      # portfolio.yamiannephilim.com tới http://yan-portfolio:80 (cấu hình ingress trên dashboard Zero Trust).
+      # Đổi tên ở đây mà không sửa ingress => site vẫn trỏ container cũ (hoặc 502 khi container cũ bị xóa).
+      CONTAINER: yan-portfolio
       NETWORK: yan
       KEEP_IMAGES: "3"
       HEALTH_TIMEOUT: "90"
@@ -152,7 +155,7 @@ jobs:
               echo "missing 0 none"
           }
 
-          # Cùng cờ chạy với Jenkins: network yan, không publish port (Cloudflare đi qua network yan).
+          # Network yan, không publish port: Cloudflare Tunnel đi vào qua network yan theo tên container.
           start_container() {
             docker run -d --name "${CONTAINER}" --network "${NETWORK}" --restart unless-stopped "$1" >/dev/null
           }

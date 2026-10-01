@@ -34,18 +34,19 @@ Internet ─► Cloudflare ─► (thành phần gắn vào network docker "yan"
                             ② deploy (self-hosted runner         Cloudflare Worker
                                trên 192.168.100.6)               "yan-schedule-redirect"
                                docker pull :sha-xxxxxxx          yamiannephilim.com/* , www
-                               chạy lại container "portfolio"    probe /healthz:
+                               chạy lại "yan-portfolio"          probe /healthz:
                                chờ HEALTHCHECK = healthy           server sống → 302 portfolio
                                lỗi → rollback image cũ             server chết → 302 GitHub
                                     │
                             ③ notify (GitHub-hosted) → Telegram
 
-Internet ─► Cloudflare ─► (thành phần gắn vào network "yan") ─► container portfolio:80 (/healthz)
+Internet ─► Cloudflare ─► Tunnel (container cloudflare-tunnel-yan, network "yan") ─► http://yan-portfolio:80 (/healthz)
 ```
 
 - Runner trên server **chủ động** kết nối ra GitHub (HTTPS 443, long-poll) để nhận job — không có kết nối nào từ GitHub vào server.
 - Image được deploy theo tag bất biến `sha-<7 ký tự commit>`; `latest` vẫn được push để tương thích Jenkins/thao tác tay.
-- Container chạy y như Jenkins: `--name portfolio --network yan --restart unless-stopped`, **không** publish port.
+- Container chạy với `--name yan-portfolio --network yan --restart unless-stopped`, **không** publish port. Tên `yan-portfolio` là bắt buộc: Cloudflare Tunnel (container `cloudflare-tunnel-yan`, cấu hình ingress quản lý trên dashboard Zero Trust) chuyển `portfolio.yamiannephilim.com` tới `http://yan-portfolio:80`. Muốn đổi tên container thì phải sửa ingress của tunnel cùng lúc.
+- Lưu ý (kiểm tra trên server ngày 2026-10-02): container đang phục vụ site là `yan-portfolio` chạy image build tay `yan-portfolio:latest`; trên server không có Jenkins, nên container `portfolio` mà `Jenkinsfile` tạo **không** nhận traffic của tunnel.
 - `nginx.conf` có `location = /healthz` (200 `ok`, `Cache-Control: no-store`, không ghi access log); `Dockerfile` khai báo `HEALTHCHECK` gọi endpoint này mỗi 30 giây. Cả job deploy lẫn Worker failover đều dựa vào nó.
 
 ## 2. Vì sao dùng self-hosted runner
@@ -106,7 +107,7 @@ Biến môi trường của `bootstrap-runner.sh` (chỉ trên máy bạn, khôn
    # Secret là chuỗi thuần (chỉ mật khẩu): SSH_USER=<user> ...
    ```
 
-   Secret AWS dạng JSON `{"username": "...", "password": "..."}` hoặc chuỗi thuần là mật khẩu. Script đọc secret bằng `aws --profile yami secretsmanager get-secret-value`, xin _registration token_ của repo bằng `GH_PAT`, `scp` file `install-runner.sh` lên server (qua `sshpass -e`, `StrictHostKeyChecking=accept-new`), chạy nó bằng `sudo -S` — mật khẩu sudo và token chỉ đi qua stdin, rồi xóa bản copy trên server. Trên server, `install-runner.sh`:
+   Secret AWS dạng JSON `{"username": "...", "password": "..."}` hoặc chuỗi thuần là mật khẩu. Secret dùng chung cho nhiều máy dạng `{"<user>@<host>": "<mật khẩu>", ...}` thì đặt `SSH_USER=<user>` và `SSH_PASS_KEY`/`SUDO_PASS_KEY` = `<user>@<host>`. Script đọc secret bằng `aws --profile yami secretsmanager get-secret-value`, xin _registration token_ của repo bằng `GH_PAT`, `scp` file `install-runner.sh` lên server (qua `sshpass -e`, `StrictHostKeyChecking=accept-new`), chạy nó bằng `sudo -S` — mật khẩu sudo và token chỉ đi qua stdin, rồi xóa bản copy trên server. Trên server, `install-runner.sh`:
 
    - tạo user hệ thống `gha-runner`, thêm vào group `docker`;
    - tải bản `actions/runner` mới nhất (kiểm tra SHA-256 theo release note nếu có) vào `/opt/actions-runner`;
@@ -129,8 +130,8 @@ Biến môi trường của `bootstrap-runner.sh` (chỉ trên máy bạn, khôn
    curl -sI https://portfolio.yamiannephilim.com          # HTTP 200, cache-control: no-cache
    curl -s  https://portfolio.yamiannephilim.com/healthz  # ok
    # Trên server:
-   docker ps --filter 'name=^portfolio$'                  # STATUS ... (healthy)
-   docker inspect -f '{{.Config.Image}} {{.State.Health.Status}}' portfolio
+   docker ps --filter 'name=^yan-portfolio$'              # STATUS ... (healthy)
+   docker inspect -f '{{.Config.Image}} {{.State.Health.Status}}' yan-portfolio
    ```
 
 7. **Tắt Jenkins**: Jenkins → job portfolio → **Disable Project** ngay sau bước 6 (nếu không, mỗi push lên `main` sẽ có cả Jenkins lẫn GitHub Actions cùng chạy lại container). Sau vài lần deploy GitHub Actions ổn định: xóa `Jenkinsfile` khỏi repo, xóa credential `telegram_token`/`telegram_chatid`/`docker_hub` trong Jenkins và gỡ job.
@@ -158,9 +159,9 @@ Rollback Worker: Cloudflare dashboard → Workers & Pages → `yan-schedule-redi
 
   ```bash
   docker image ls yamiannephilim/portfolio
-  docker rm -f portfolio
-  docker run -d --name portfolio --network yan --restart unless-stopped yamiannephilim/portfolio:sha-xxxxxxx
-  docker inspect -f '{{.State.Health.Status}}' portfolio   # chờ "healthy" (~30 giây)
+  docker rm -f yan-portfolio
+  docker run -d --name yan-portfolio --network yan --restart unless-stopped yamiannephilim/portfolio:sha-xxxxxxx
+  docker inspect -f '{{.State.Health.Status}}' yan-portfolio   # chờ "healthy" (~30 giây)
   ```
 
 - **Quay lại Jenkins** (trước khi xóa Jenkinsfile): đặt `DEPLOY_ENABLED` = `false`, bật lại job Jenkins rồi _Build Now_.
@@ -183,7 +184,7 @@ Rollback Worker: Cloudflare dashboard → Workers & Pages → `yan-schedule-redi
 - **Job deploy "Queued" mãi**: runner offline → trên server `systemctl status 'actions.runner.*'`, `journalctl -u 'actions.runner.*' -n 100`. Chạy lại bootstrap cũng giúp khởi động lại service.
 - **`permission denied ... docker.sock`**: service chưa nhận group `docker` → chạy lại bootstrap (script tự restart service khi vừa thêm group) hoặc `sudo systemctl restart 'actions.runner.*'`.
 - **Bootstrap báo `sudo: a terminal is required`/`requiretty`**: bỏ `Defaults requiretty` cho user đó trong sudoers.
-- **Xem health check**: `docker inspect --format '{{json .State.Health}}' portfolio | jq`.
+- **Xem health check**: `docker inspect --format '{{json .State.Health}}' yan-portfolio | jq`.
 - **Gỡ runner**: trên server `cd /opt/actions-runner && sudo ./svc.sh stop && sudo ./svc.sh uninstall`, rồi Settings → Actions → Runners → runner → _Remove_ (lấy lệnh `config.sh remove --token ...` hiển thị ở đó, chạy bằng `sudo -u gha-runner`).
 
 ## 10. Chính sách cache của nginx
