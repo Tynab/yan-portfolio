@@ -5,8 +5,9 @@ export const blueTheme = {
   expTxtColor: "#000a12",
   highlight: "#A6E1FA",
   dark: "#00072D",
-  // #5A6883 đạt 5.2:1 trên nền body (WCAG AA); #7F8DAA cũ chỉ 3.1:1.
-  secondaryText: "#5A6883",
+  // Màu chữ phụ do chủ site chọn (giữ như bản tháng 7/2026) dù chỉ đạt ~3.1:1 trên nền body,
+  // dưới mức WCAG AA 4.5:1 cho chữ thường — đổi màu này cần chủ site duyệt.
+  secondaryText: "#7F8DAA",
   imageHighlight: "#0E6BA8",
   compImgHighlight: "#E6E6E6",
   jacketColor: "#0A2472",

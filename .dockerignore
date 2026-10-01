@@ -31,6 +31,5 @@ yarn-error.log*
 .env.*
 
 # Chỉ phục vụ deploy/vận hành, không dùng khi build site
-Jenkinsfile
 docs
 scripts/server
