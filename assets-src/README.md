@@ -39,4 +39,4 @@ python3 scripts/generate-icons.py avatar.jpg --focus 0.5,0.4 --zoom 1.3 --out /t
 - Không cần commit ảnh gốc; nếu muốn lưu lại thì đặt trong thư mục này.
 - `ms-icon-310x310.png` đồng thời là ảnh `og:image` khi chia sẻ link (Facebook, LinkedIn, Zalo); các nền tảng này cache ảnh preview, có thể cần "scrape lại" sau khi đổi.
 
-**Hiện trạng:** các icon trong `public/icons/` vẫn là bộ cũ. Riêng `android-icon-512x512.png` là bản **tạm** được phóng to từ `ms-icon-310x310.png` (để manifest không trỏ tới file thiếu); chạy script với `avatar.jpg` sẽ thay toàn bộ bộ icon, kể cả file này.
+**Hiện trạng:** toàn bộ icon trong `public/icons/` (kể cả `android-icon-512x512.png` và `favicon.ico` 16/32/48) đã được sinh từ `avatar.jpg` của chủ portfolio với `--focus 0.47,0.33 --zoom 2.2`. Ảnh gốc không được commit; muốn đổi icon thì chạy lại script với ảnh mới.

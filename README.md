@@ -84,7 +84,7 @@ nginx cache `/skills/` dài hạn (`immutable`), nên **mỗi khi thêm/đổi �
 ## Icon site (`public/icons/`)
 
 - Favicon, apple-touch-icon, icon Android/manifest và ms-tile được sinh từ **ảnh cá nhân của chủ site** bằng `python3 scripts/generate-icons.py <ảnh>` (cần Pillow; tham số `--focus`, `--zoom`, `--out`, `--only` xem docstring của script). Script ghi đúng tên file mà `index.html`/`public/manifest.json` tham chiếu và bỏ metadata EXIF/GPS.
-- Hiện `public/icons/` vẫn là bộ icon cũ; `android-icon-512x512.png` là bản **tạm** (phóng to từ `ms-icon-310x310.png`) cho tới khi chạy script.
+- Bộ icon hiện tại sinh từ ảnh chân dung của chủ portfolio (`--focus 0.47,0.33 --zoom 2.2`, vùng cắt tập trung vào khuôn mặt); ảnh gốc không commit vào repo. `ms-icon-310x310.png` đồng thời là ảnh preview (`og:image`) khi chia sẻ link.
 - `ms-icon-310x310.png` đồng thời là `og:image` khi chia sẻ link.
 
 ## Lệnh phát triển
