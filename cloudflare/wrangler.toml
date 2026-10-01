@@ -1,8 +1,10 @@
 # Tóm tắt: Cấu hình wrangler để deploy Cloudflare Worker failover (redirect-worker.js) bằng CLI hoặc
-# GitHub Actions (.github/workflows/deploy-worker.yml). Trùng tên với Worker đang chạy trên dashboard
+# GitHub Actions (.github/workflows/deploy-worker.yml). Trùng tên với Worker đang chạy trên Cloudflare
 # nên mỗi lần deploy sẽ cập nhật Worker đó tại chỗ, không tạo Worker mới. Xem cloudflare/README.md.
+# Đổi "name" = tạo Worker MỚI: route vẫn gắn Worker cũ (token CI không gỡ được) => đổi tên phải chuyển
+# route và xóa Worker cũ bằng tay (mục "Đổi tên Worker" trong cloudflare/README.md).
 
-name = "yan-schedule-redirect"
+name = "yan-failover-redirect"
 # Đường dẫn tính từ thư mục chứa file này (cloudflare/).
 main = "redirect-worker.js"
 # Ngày cố định trong quá khứ: code chỉ dùng API chuẩn (fetch/Response/AbortController/setTimeout)

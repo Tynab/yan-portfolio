@@ -1,6 +1,6 @@
 # Cloudflare Worker: Redirect theo tình trạng server
 
-Tóm tắt: Worker `yan-schedule-redirect` chuyển hướng `yamiannephilim.com` về portfolio khi server còn sống, và chỉ chuyển sang GitHub khi không "ping" được server (không kết nối được / Bad Gateway 502 và các lỗi origin tương đương). Hướng dẫn cấu hình, deploy (dashboard hoặc wrangler/GitHub Actions), kiểm tra và rollback.
+Tóm tắt: Worker `yan-failover-redirect` chuyển hướng `yamiannephilim.com` về portfolio khi server còn sống, và chỉ chuyển sang GitHub khi không "ping" được server (không kết nối được / Bad Gateway 502 và các lỗi origin tương đương). Hướng dẫn cấu hình, deploy (dashboard hoặc wrangler/GitHub Actions), kiểm tra và rollback.
 
 ## Hành vi
 
@@ -10,7 +10,6 @@ Tóm tắt: Worker `yan-schedule-redirect` chuyển hướng `yamiannephilim.com
 | `www.yamiannephilim.com/*` và `yamiannephilim.com/*` (khác)   | `302` → https://portfolio.yamiannephilim.com    | `302` → https://github.com/Tynab                                                                   |
 | `portfolio.yamiannephilim.com/*` (chỉ khi gắn route tùy chọn) | Trả nguyên response của origin (không redirect) | Điều hướng trang (GET): `302` → https://github.com/Tynab; asset/API: giữ nguyên status thật (502…) |
 
-- Bỏ hẳn lịch chuyển theo giờ cũ (23:30–08:30): giờ chỉ chuyển sang GitHub khi server thật sự không trả lời được.
 - Dùng **302** kèm `Cache-Control: no-store` để browser lẫn CDN không cache quyết định — server sống lại là chuyển về portfolio ngay (không dùng 301 vì browser cache vĩnh viễn).
 - Không truyền path/query sang đích (giống 2 Page Rules forwarding cũ).
 - Header `Location` là đúng chuỗi hằng số (vd. `https://portfolio.yamiannephilim.com`, không còn `/` ở cuối như bản cũ dùng `Response.redirect`) — browser xử lý như nhau.
@@ -36,7 +35,7 @@ Chỉ sửa khối `// ===== Cấu hình (chỉ sửa ở đây) =====` đầu f
 ## Vì sao probe HTTP thay vì ping
 
 - Cloudflare Workers **không gửi được ICMP ping** — Worker chỉ có `fetch()` (HTTP/HTTPS) và socket TCP, không có ICMP/raw socket. "Ping" ở đây là một request `GET /healthz` nhẹ.
-- Probe HTTP còn chính xác hơn ping: nó đi đúng đường của khách truy cập (Cloudflare → reverse proxy/tunnel → container nginx). Khi chạy `docker stop portfolio`, máy chủ vẫn ping được nhưng khách nhận **502 Bad Gateway** — probe HTTP bắt được đúng trường hợp đó.
+- Probe HTTP còn chính xác hơn ping: nó đi đúng đường của khách truy cập (Cloudflare → reverse proxy/tunnel → container nginx). Khi chạy `docker stop yan-portfolio`, máy chủ vẫn ping được nhưng khách nhận **502 Bad Gateway** — probe HTTP bắt được đúng trường hợp đó.
 - Probe dùng `redirect: "manual"` nên `3xx` vẫn tính là sống (server có trả lời), và **không** dùng option `cache` của `fetch` (chỉ có ở một số compatibility date) hay các option cache trong `cf`. `/healthz` không có đuôi file tĩnh nên mặc định Cloudflare không cache, nginx cũng trả `no-store`.
 
 ## Status nào bị coi là "chết"
@@ -44,7 +43,7 @@ Chỉ sửa khối `// ===== Cấu hình (chỉ sửa ở đây) =====` đầu f
 | Kết quả probe                                    | Nguồn gốc thường gặp                                                                    | Quyết định       |
 | ------------------------------------------------ | --------------------------------------------------------------------------------------- | ---------------- |
 | Lỗi mạng/DNS, hoặc quá `HEALTH_TIMEOUT_MS` (3 s) | Không kết nối được tới server                                                           | Chết → GitHub    |
-| `502` Bad Gateway                                | Reverse proxy/Cloudflare không tới được container (vd. `docker stop portfolio`)         | Chết → GitHub    |
+| `502` Bad Gateway                                | Reverse proxy/Cloudflare không tới được container (vd. `docker stop yan-portfolio`)     | Chết → GitHub    |
 | `503`, `504`                                     | Proxy báo dịch vụ không sẵn sàng / hết thời gian chờ upstream                           | Chết → GitHub    |
 | `520`–`526`                                      | Mã lỗi origin của Cloudflare (từ chối kết nối, timeout, origin không tới được, lỗi SSL) | Chết → GitHub    |
 | `530`                                            | Cloudflare không phân giải/kết nối được origin (vd. tunnel/DNS lỗi)                     | Chết → GitHub    |
@@ -58,7 +57,7 @@ Cloudflare không chỉ báo `502` khi mất origin mà còn dùng nhóm `52x`/`
 - Các request đến cùng lúc trong một isolate dùng chung **một** probe. Nếu probe dùng chung bị treo quá `2 × HEALTH_TIMEOUT_MS` (vd. request khởi tạo nó bị hủy giữa chừng), request đang chờ sẽ tự probe lại thay vì treo theo.
 - Khi probe hết hạn, khách đầu tiên phải chờ probe (thường vài chục ms; tệ nhất 3 giây khi server không phản hồi) rồi mới được redirect.
 - Lưu lượng probe rất nhỏ: tối đa khoảng 1 request/30 giây cho mỗi isolate đang hoạt động.
-- Mỗi lần Jenkins deploy (dừng → xóa → chạy lại container `portfolio`) sẽ có vài giây server trả 502; nếu đúng lúc đó có probe thì khách vào apex/www sẽ được chuyển sang GitHub tối đa ~30 giây — đây là hệ quả bình thường của cơ chế failover.
+- Mỗi lần deploy hoặc rollback (xóa → chạy lại container `yan-portfolio`) sẽ có vài giây server trả 502; nếu đúng lúc đó có probe thì khách vào apex/www sẽ được chuyển sang GitHub tối đa ~30 giây — đây là hệ quả bình thường của cơ chế failover.
 - Mỗi lần probe, Worker ghi một dòng log `health probe: <status hoặc lỗi> => up|down`; ở chế độ pass-through ghi `pass-through: <status hoặc lỗi> => down` khi origin chết. Xem ở tab `Logs` của Worker (bật Workers Logs).
 
 ## Route tùy chọn: pass-through cho `portfolio.yamiannephilim.com/*`
@@ -88,11 +87,11 @@ curl -s -o /dev/null -w "%{http_code}\n" https://portfolio.yamiannephilim.com/ma
 
 ## Deploy
 
-Worker trên Cloudflare tên **`yan-schedule-redirect`** (giữ tên cũ). Chọn một trong hai cách; sau khi đã dùng cách B thì không sửa code trực tiếp trên dashboard nữa (lần deploy sau sẽ ghi đè).
+Worker trên Cloudflare tên **`yan-failover-redirect`**. Chọn một trong hai cách; sau khi đã dùng cách B thì không sửa code trực tiếp trên dashboard nữa (lần deploy sau sẽ ghi đè).
 
 ### Cách A — Cloudflare dashboard (dán code)
 
-1. **Mở Worker**: Dashboard → `Workers & Pages` → `yan-schedule-redirect`. Nếu chưa có: `Create` → `Create Worker` → đặt tên `yan-schedule-redirect` → `Deploy` (bản hello-world mặc định).
+1. **Mở Worker**: Dashboard → `Workers & Pages` → `yan-failover-redirect`. Nếu chưa có: `Create` → `Create Worker` → đặt tên `yan-failover-redirect` → `Deploy` (bản hello-world mặc định).
 2. **Dán code**: `Edit code` → xóa hết code cũ, dán toàn bộ nội dung file `redirect-worker.js` → `Deploy`.
 3. **Kiểm tra route**: Worker → `Settings` → `Domains & Routes` — phải có đủ 2 route trên zone `yamiannephilim.com` (thiếu thì `Add` → `Route`):
 
@@ -107,7 +106,7 @@ Worker trên Cloudflare tên **`yan-schedule-redirect`** (giữ tên cũ). Chọ
 
 ### Cách B — wrangler / GitHub Actions
 
-- `cloudflare/wrangler.toml` khai báo: `name = "yan-schedule-redirect"` (trùng tên ⇒ deploy cập nhật đúng Worker đang chạy), `main = "redirect-worker.js"`, `compatibility_date` cố định, `workers_dev = false`, 2 route `yamiannephilim.com/*` + `www.yamiannephilim.com/*` (zone `yamiannephilim.com`), route portfolio để comment (tùy chọn), và bật `[observability]`.
+- `cloudflare/wrangler.toml` khai báo: `name = "yan-failover-redirect"` (trùng tên ⇒ deploy cập nhật đúng Worker đang chạy; đổi tên xem mục **Đổi tên Worker**), `main = "redirect-worker.js"`, `compatibility_date` cố định, `workers_dev = false`, 2 route `yamiannephilim.com/*` + `www.yamiannephilim.com/*` (zone `yamiannephilim.com`), route portfolio để comment (tùy chọn), và bật `[observability]`.
 - Workflow GitHub Actions `.github/workflows/deploy-worker.yml` chạy `wrangler deploy` với file cấu hình này. Cần khai báo trong repo GitHub (`Settings` → `Secrets and variables` → `Actions`):
   - Secret `CLOUDFLARE_API_TOKEN`: tạo ở Cloudflare → `My Profile` → `API Tokens` → `Create Token` → template **Edit Cloudflare Workers** (không thấy template thì **Create Custom Token** với quyền Account: _Workers Scripts_ Edit, _Account Settings_ Read, _Workers Tail_ Read (tuỳ chọn); Zone: _Workers Routes_ Edit; User: _User Details_ Read, _Memberships_ Read), giới hạn `Account Resources` = tài khoản của bạn và `Zone Resources` = zone `yamiannephilim.com`.
   - Secret `CLOUDFLARE_ACCOUNT_ID`: Account ID (thường hiện ở cột bên phải trang Overview của zone `yamiannephilim.com` hoặc trang `Workers & Pages`).
@@ -124,6 +123,18 @@ Worker trên Cloudflare tên **`yan-schedule-redirect`** (giữ tên cũ). Chọ
   ```
 
 - Lần deploy đầu bằng wrangler sẽ ghi đè bản đang dán trên dashboard (wrangler có thể cảnh báo Worker từng được sửa trên dashboard) — bình thường. Thư mục tạm `.wrangler/` mà wrangler sinh ra không cần commit.
+- Sau khi deploy, workflow đọc `Current Version ID` từ output của wrangler và dùng `wrangler deployments status --json` để xác nhận bản đó đang nhận 100% traffic, rồi mới smoke test HTTP. Bảo vệ bot của Cloudflare có thể chặn IP datacenter của runner GitHub-hosted (`403`, không có `Location`) trước khi request tới Worker: khi đó smoke test chỉ cảnh báo, còn mọi phản hồi khác `302` + `no-store` đúng đích vẫn làm workflow thất bại. Lưu ý phạm vi: bước API chỉ xác nhận **version**; route do chính `wrangler deploy` đảm bảo (lỗi nếu route đang gắn Worker khác), nhưng Page Rules/Redirect Rules chạy trước Worker thì **không** kiểm tra được từ runner bị chặn — mỗi lần thấy cảnh báo đó, chạy tay mục **Kiểm tra** từ máy nhà. Không chuyển smoke test sang self-hosted runner: hook `gha-runner-guard.sh` trên server cố ý chỉ nhận job của `deploy.yml`.
+
+## Đổi tên Worker
+
+Đổi `name` trong `wrangler.toml` nghĩa là tạo **Worker mới**: route vẫn gắn vào Worker cũ, và token CI (giới hạn theo zone) không gỡ được route — deploy sẽ lỗi hoặc Worker mới không nhận traffic. Làm tay theo thứ tự sau để không gián đoạn (cần `npx wrangler@4 login`):
+
+1. Upload Worker tên mới **không kèm route**: dùng bản sao tạm của `wrangler.toml` có `name` mới, không có `routes`, `main` trỏ đường dẫn tuyệt đối tới `redirect-worker.js` → `npx wrangler@4 deploy --config <file-tạm>`.
+2. Chuyển từng route sang Worker mới (đổi tức thì, không có khoảng trống): Dashboard → zone `yamiannephilim.com` → `Workers Routes` → `Edit` route → chọn Worker mới; hoặc API `PUT /zones/<zone_id>/workers/routes/<route_id>` với `{"pattern": "...", "script": "<tên-mới>"}`.
+3. Kiểm tra theo mục **Kiểm tra** bên dưới.
+4. Xóa Worker cũ (Dashboard → Worker cũ → `Settings` → `Delete`, hoặc `npx wrangler@4 delete --name <tên-cũ>`), rồi commit `wrangler.toml` với tên mới — lần deploy CI sau chỉ cập nhật Worker mới.
+
+Worker từng tên `yan-schedule-redirect` (bản chuyển hướng theo khung giờ cũ) đã được đổi sang `yan-failover-redirect` theo đúng các bước trên và đã bị xóa cùng lịch sử phiên bản của nó.
 
 ## Kiểm tra
 
@@ -143,12 +154,12 @@ Chạy trong PowerShell (`curl.exe`, lọc bằng `findstr /i`) hoặc Git Bash/
 2. **Giả lập sự cố** (SSH vào server chạy Docker):
 
    ```bash
-   docker stop portfolio
+   docker stop yan-portfolio
    # Đợi hơn 30 giây cho memo hết hạn, rồi chạy (trên máy bất kỳ):
    curl -sI https://portfolio.yamiannephilim.com/healthz | grep -i "^HTTP"   # kỳ vọng 502 (hoặc 52x/530)
    curl -sI https://yamiannephilim.com | grep -i -E "^HTTP|^location"          # kỳ vọng location: https://github.com/Tynab
    curl -sI https://www.yamiannephilim.com/wedding-card | grep -i "^location"  # vẫn Yami-Buzzy
-   docker start portfolio
+   docker start yan-portfolio
    # Đợi hơn 30 giây rồi chạy lại lệnh apex: kỳ vọng location quay về https://portfolio.yamiannephilim.com
    ```
 
@@ -157,7 +168,11 @@ Chạy trong PowerShell (`curl.exe`, lọc bằng `findstr /i`) hoặc Git Bash/
 ## Rollback
 
 1. **Về phiên bản Worker trước**: Worker → tab `Deployments` → chọn phiên bản trước → `Rollback` (hoặc `npx wrangler@4 rollback --config cloudflare/wrangler.toml`). Nếu đang deploy bằng GitHub Actions, revert commit tương ứng trong git nữa — nếu không lần deploy sau sẽ đưa code mới quay lại.
-2. **Gỡ hẳn Worker như trước khi có nó**: Worker → `Settings` → `Domains & Routes` → xóa các route; `Rules` → `Page Rules` → bật lại 3 rule cũ. Hành vi Page Rules cũ khôi phục nguyên vẹn.
+2. **Gỡ hẳn Worker như trước khi có nó** — làm đúng thứ tự để CI không gắn route trở lại giữa chừng:
+   1. GitHub → repo → Settings → Secrets and variables → Actions → Variables: đặt `WORKER_DEPLOY_ENABLED` = `false` (hoặc xóa) để không push/Run workflow nào deploy lại được.
+   2. Worker → `Settings` → `Domains & Routes` → xóa các route.
+   3. `Rules` → `Page Rules` → bật lại 3 rule cũ (nếu còn). Hành vi Page Rules cũ khôi phục nguyên vẹn.
+   4. Xóa/comment các mục `routes` trong `cloudflare/wrangler.toml` rồi commit, để khi bật lại `WORKER_DEPLOY_ENABLED` sau này route không tự gắn lại.
 
 ## Test cục bộ
 
