@@ -23,7 +23,7 @@ const greeting = {
   subTitle:
     "Technical Leader focused on software architecture, full-stack development with .NET, Spring and React, cloud and DevOps on AWS and Kubernetes, and AI/data solutions.",
   resumeLink:
-    "https://drive.google.com/file/d/1HqRpwMKDX9vYGbZFWkyDungwJ_pgMFe_/view?usp=sharing",
+    "https://drive.google.com/file/d/1JWoXHF78fXxbPtxaJqgELhQ28aLLwsBx/view?usp=sharing",
   portfolio_repository: "https://github.com/Tynab/YAN-Portfolio",
   githubProfile: "https://github.com/Tynab",
   github_repo: "https://github.com/Tynab?tab=repositories",

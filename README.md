@@ -3,7 +3,7 @@
 YAN Portfolio là trang portfolio cá nhân của **Nguyễn Đặng Trường An (Yami An)**, xây bằng React 18 + Vite. Toàn bộ nội dung tập trung trong `src/portfolio.js` và snapshot danh sách project `src/shared/opensource/projects.json`; component chỉ nhận dữ liệu qua props và render lại — muốn đổi nội dung thì sửa data, không sửa component.
 
 - Portfolio trực tuyến: https://yamiannephilim.com/
-- Hồ sơ/CV: [Google Drive](https://drive.google.com/file/d/1HqRpwMKDX9vYGbZFWkyDungwJ_pgMFe_/view?usp=sharing)
+- Hồ sơ/CV: [Google Drive](https://drive.google.com/file/d/1JWoXHF78fXxbPtxaJqgELhQ28aLLwsBx/view?usp=sharing)
 - Liên hệ: [GitHub](https://github.com/Tynab) · [LinkedIn](https://www.linkedin.com/in/yamiannephilim/) · [Facebook](https://www.facebook.com/yami.an.nephilim/) · [X/Twitter](https://twitter.com/yamiannephilim) · [Gmail](mailto:yamiannephilim@gmail.com)
 
 ## Stack kỹ thuật

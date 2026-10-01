@@ -11,7 +11,7 @@ Tóm tắt: Worker `yan-failover-redirect` chuyển hướng `yamiannephilim.com
 | `portfolio.yamiannephilim.com/*` (chỉ khi gắn route tùy chọn) | Trả nguyên response của origin (không redirect) | Điều hướng trang (GET): `302` → https://github.com/Tynab; asset/API: giữ nguyên status thật (502…) |
 
 - Dùng **302** kèm `Cache-Control: no-store` để browser lẫn CDN không cache quyết định — server sống lại là chuyển về portfolio ngay (không dùng 301 vì browser cache vĩnh viễn).
-- Không truyền path/query sang đích (giống 2 Page Rules forwarding cũ).
+- Không truyền path/query sang đích (giống các Page Rules forwarding trước đây).
 - Header `Location` là đúng chuỗi hằng số (vd. `https://portfolio.yamiannephilim.com`, không còn `/` ở cuối như bản cũ dùng `Response.redirect`) — browser xử lý như nhau.
 - Lỗi lập trình bất ngờ trong Worker: vẫn `302` về portfolio (thà hiện portfolio còn hơn trang lỗi 1101 của Cloudflare). Riêng host portfolio thì trả request cho origin, không redirect về chính nó.
 
@@ -102,7 +102,7 @@ Worker trên Cloudflare tên **`yan-failover-redirect`**. Chọn một trong hai
 
 4. **Bật log** (khuyên dùng): Worker → `Settings` → `Observability` → bật Workers Logs để xem dòng `health probe: ...`.
 5. **Kiểm tra** theo mục **Kiểm tra** bên dưới.
-6. **Page Rules cũ**: nếu chưa làm từ trước, Dashboard → zone `yamiannephilim.com` → `Rules` → `Page Rules` → gạt **OFF** cả 3 rule (rule wedding-card + 2 rule forwarding). **Không xóa** — giữ lại để rollback.
+6. **Page Rules cũ**: 3 Page Rules forwarding `301` (wedding-card, `www`, apex) đã được **xóa** — Worker thay thế hoàn toàn. Không tạo lại: `301` bị browser cache vĩnh viễn nên phá cơ chế failover; cần chuyển hướng tĩnh thì dùng Redirect Rules với `302` (xem mục Rollback, bước "Gỡ hẳn Worker").
 
 ### Cách B — wrangler / GitHub Actions
 
@@ -168,10 +168,12 @@ Chạy trong PowerShell (`curl.exe`, lọc bằng `findstr /i`) hoặc Git Bash/
 ## Rollback
 
 1. **Về phiên bản Worker trước**: Worker → tab `Deployments` → chọn phiên bản trước → `Rollback` (hoặc `npx wrangler@4 rollback --config cloudflare/wrangler.toml`). Nếu đang deploy bằng GitHub Actions, revert commit tương ứng trong git nữa — nếu không lần deploy sau sẽ đưa code mới quay lại.
-2. **Gỡ hẳn Worker như trước khi có nó** — làm đúng thứ tự để CI không gắn route trở lại giữa chừng:
+2. **Gỡ hẳn Worker** — làm đúng thứ tự để CI không gắn route trở lại và domain không có lúc trống:
    1. GitHub → repo → Settings → Secrets and variables → Actions → Variables: đặt `WORKER_DEPLOY_ENABLED` = `false` (hoặc xóa) để không push/Run workflow nào deploy lại được.
-   2. Worker → `Settings` → `Domains & Routes` → xóa các route.
-   3. `Rules` → `Page Rules` → bật lại 3 rule cũ (nếu còn). Hành vi Page Rules cũ khôi phục nguyên vẹn.
+   2. Nếu vẫn cần chuyển hướng tĩnh thay Worker, tạo **trước khi** xóa route (Redirect Rules chạy trước Worker nên không có khoảng trống): zone `yamiannephilim.com` → `Rules` → `Redirect Rules` → tạo 2 Single Redirect dùng `302`, không giữ path/query (**không dùng `301`** — browser cache vĩnh viễn), **rule wedding-card đứng đầu danh sách** (rule khớp đầu tiên sẽ dừng việc xét các rule sau):
+      - `http.host eq "www.yamiannephilim.com" and http.request.uri.path eq "/wedding-card"` → `https://tynab.github.io/Yami-Buzzy`
+      - `http.host in {"yamiannephilim.com" "www.yamiannephilim.com"}` → `https://portfolio.yamiannephilim.com`
+   3. Worker → `Settings` → `Domains & Routes` → xóa các route.
    4. Xóa/comment các mục `routes` trong `cloudflare/wrangler.toml` rồi commit, để khi bật lại `WORKER_DEPLOY_ENABLED` sau này route không tự gắn lại.
 
 ## Test cục bộ

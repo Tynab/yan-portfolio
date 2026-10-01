@@ -20,7 +20,10 @@
   background-color: var(--color-body);
   border: 1px solid var(--color-header);
   border-radius: 5px;
-  font-size: 18px;
+  /* Cỡ/độ đậm chữ giữ đúng như header Accordion baseui trước đây. */
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
   transition: color 0.2s ease;
 }
 
@@ -58,6 +61,11 @@
   padding: 8px 24px 24px;
   background-color: var(--color-body);
   overflow: hidden;
+  /* Chữ nội dung giữ đúng như Panel baseui trước đây: 14px/20px, font hệ thống cho đoạn mô tả
+     (tiêu đề/công ty/thời gian/địa điểm của card tự đặt "Google Sans Regular"). */
+  font-family: system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .accord-panel[open] .accord-content {

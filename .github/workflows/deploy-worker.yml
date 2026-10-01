@@ -99,7 +99,7 @@ jobs:
           ' "${status_json}"
 
       # Worker luôn trả 302 + "Cache-Control: no-store" cho apex, Location đúng một trong hai đích (không có "/"
-      # cuối). Page Rules forwarding cũ cũng trả 302 nhưng KHÔNG có no-store => kiểm tra cả Cache-Control.
+      # cuối). Redirect Rule/Page Rule tĩnh chặn trước Worker trả 301/302 KHÔNG có no-store => kiểm tra cả Cache-Control.
       # Thử lại vài lần vì bản mới có thể mất vài giây để lan ra mọi PoP.
       - name: Smoke test https://yamiannephilim.com
         # Bảo vệ bot của Cloudflare có thể chặn IP datacenter của runner GitHub-hosted (403, không có Location)
@@ -141,5 +141,5 @@ jobs:
             echo "::warning::Cloudflare chặn runner GitHub-hosted ở edge (403, cf-mitigated=${mitigated:-<none>}) trước khi tới Worker — bỏ qua smoke test HTTP. API đã xác nhận version mới nhận 100% traffic, nhưng Page Rules/Redirect Rules CHƯA được kiểm tra: chạy tay curl -sI https://yamiannephilim.com từ máy nhà (kỳ vọng 302 + cache-control: no-store)."
             exit 0
           fi
-          echo "::error::https://yamiannephilim.com chưa trả 302 + no-store tới portfolio/GitHub — Worker mới chưa chạy (còn route/Page Rule cũ?)."
+          echo "::error::https://yamiannephilim.com chưa trả 302 + no-store tới portfolio/GitHub — Worker mới chưa chạy (route sai, hoặc Redirect Rule/Page Rule chặn trước Worker?)."
           exit 1
