@@ -1,0 +1,282 @@
+# Tóm tắt: CD production — build & push image lên Docker Hub (runner GitHub-hosted), rồi self-hosted runner
+# đặt trên chính server 192.168.100.6 kéo image theo tag SHA, chạy lại container "portfolio", chờ HEALTHCHECK
+# báo healthy (lỗi thì rollback về image cũ), dọn image cũ và báo Telegram. Hướng dẫn: docs/DEPLOY.md.
+#
+# BẢO MẬT (repo PUBLIC + self-hosted runner):
+# - Chỉ trigger bằng push lên main hoặc workflow_dispatch (người có quyền write mới bấm được).
+#   TUYỆT ĐỐI không thêm pull_request / pull_request_target: khi đó code của bất kỳ ai mở PR (kể cả từ fork)
+#   có thể chạy trên server nhà, mà runner nằm trong group docker = tương đương quyền root.
+# - Mọi job đều chặn thêm github.ref == refs/heads/main (workflow_dispatch cho phép chọn branch khác).
+# - Mọi job gate bằng biến repo DEPLOY_ENABLED == 'true' => merge file này khi chưa có secret/runner
+#   thì workflow chỉ "skipped", không làm gì.
+# - Job trên self-hosted runner không checkout code và không chạy action bên thứ ba: chỉ lệnh docker
+#   viết sẵn dưới đây, giá trị động truyền qua env (không nội suy ${{ }} vào script).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Để trống = build & deploy commit main hiện tại. Điền tag đã có trên Docker Hub (vd. sha-1a2b3c4) để deploy lại / rollback mà không build."
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+# Không bao giờ chạy 2 lần deploy song song; lần đang chạy không bị hủy giữa chừng.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  IMAGE_REPO: yamiannephilim/portfolio
+
+jobs:
+  build-push:
+    name: Build & push image
+    if: vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' && !inputs.image_tag
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      image: ${{ steps.tag.outputs.image }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          persist-credentials: false
+
+      - name: Compute image tag
+        id: tag
+        run: echo "image=${IMAGE_REPO}:sha-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # latest giữ tương thích với Jenkins/thao tác tay; tag sha-<7 ký tự> là bản bất biến để deploy/rollback.
+      - name: Build & push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_REPO }}:latest
+            ${{ steps.tag.outputs.image }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha,scope=portfolio
+          cache-to: type=gha,scope=portfolio,mode=max
+
+  deploy:
+    name: Deploy to server
+    needs: build-push
+    # Chạy khi build-push thành công, hoặc khi build-push bị bỏ qua vì người bấm workflow_dispatch đã
+    # điền image_tag (deploy lại/rollback). !cancelled() để điều kiện vẫn được xét khi build-push "skipped".
+    if: >-
+      !cancelled() && vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main' &&
+      (needs.build-push.result == 'success' || (needs.build-push.result == 'skipped' && inputs.image_tag))
+    runs-on: [self-hosted, linux, portfolio]
+    environment:
+      name: production
+      url: https://portfolio.yamiannephilim.com
+    timeout-minutes: 15
+    env:
+      CONTAINER: portfolio
+      NETWORK: yan
+      KEEP_IMAGES: "3"
+      HEALTH_TIMEOUT: "90"
+    steps:
+      - name: Resolve image
+        env:
+          BUILT_IMAGE: ${{ needs.build-push.outputs.image }}
+          INPUT_TAG: ${{ inputs.image_tag }}
+        run: |
+          set -euo pipefail
+          if [ -n "${BUILT_IMAGE}" ]; then
+            image="${BUILT_IMAGE}"
+          else
+            # Giá trị người dùng nhập: chỉ chấp nhận ký tự hợp lệ của Docker tag.
+            if ! [[ "${INPUT_TAG}" =~ ^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$ ]]; then
+              echo "::error::image_tag không hợp lệ: chỉ gồm chữ, số, '_', '.', '-' (vd. sha-1a2b3c4)."
+              exit 1
+            fi
+            image="${IMAGE_REPO}:${INPUT_TAG}"
+          fi
+          echo "IMAGE_REF=${image}" >> "$GITHUB_ENV"
+          # Cấu hình docker (credential Docker Hub) để trong thư mục tạm của job, không ghi vào HOME của runner.
+          docker_config="${RUNNER_TEMP}/docker-config"
+          install -d -m 700 "${docker_config}"
+          echo "DOCKER_CONFIG=${docker_config}" >> "$GITHUB_ENV"
+          echo "Deploy image: ${image}"
+
+      # Đăng nhập để kéo được cả khi repo Docker Hub là private và tránh giới hạn pull ẩn danh.
+      # Dùng docker CLI trực tiếp (không dùng action bên thứ ba trên server); token đi qua stdin.
+      - name: Login to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DOCKERHUB_USERNAME}" ] || [ -z "${DOCKERHUB_TOKEN}" ]; then
+            echo "::warning::Chưa có DOCKERHUB_USERNAME/DOCKERHUB_TOKEN — kéo image ẩn danh (chỉ được với repo public)."
+            exit 0
+          fi
+          printf '%s' "${DOCKERHUB_TOKEN}" | docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
+
+      - name: Pull image
+        run: docker pull "${IMAGE_REF}"
+
+      - name: Restart container & wait for healthy (rollback on failure)
+        run: |
+          set -euo pipefail
+
+          # In "trạng_thái số_lần_restart health" của container (health = none nếu image không có HEALTHCHECK).
+          container_state() {
+            docker inspect -f '{{.State.Status}} {{.RestartCount}} {{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' "${CONTAINER}" 2>/dev/null ||
+              echo "missing 0 none"
+          }
+
+          # Cùng cờ chạy với Jenkins: network yan, không publish port (Cloudflare đi qua network yan).
+          start_container() {
+            docker run -d --name "${CONTAINER}" --network "${NETWORK}" --restart unless-stopped "$1" >/dev/null
+          }
+
+          # HEALTHCHECK probe lần đầu sau 30 giây (interval) => thường healthy sau ~30 giây.
+          wait_healthy() {
+            local deadline=$((SECONDS + HEALTH_TIMEOUT)) state=unknown restarts=0 health=unknown
+            while [ "${SECONDS}" -lt "${deadline}" ]; do
+              read -r state restarts health <<<"$(container_state)"
+              if [ "${health}" = "healthy" ]; then
+                return 0
+              fi
+              if [ "${health}" = "unhealthy" ] || [ "${state}" != "running" ] || [ "${restarts}" -gt 0 ]; then
+                echo "Container lỗi: state=${state} restarts=${restarts} health=${health}"
+                return 1
+              fi
+              if [ "${health}" = "none" ]; then
+                # Image cũ build trước khi có HEALTHCHECK (vd. rollback về bản Jenkins): chỉ kiểm tra còn chạy ổn định.
+                sleep 10
+                read -r state restarts health <<<"$(container_state)"
+                [ "${state}" = "running" ] && [ "${restarts}" -eq 0 ]
+                return
+              fi
+              sleep 3
+            done
+            echo "Quá ${HEALTH_TIMEOUT}s chưa healthy: state=${state} restarts=${restarts} health=${health}"
+            return 1
+          }
+
+          # Nhớ image ID của container đang chạy để rollback (ID bất biến, không phụ thuộc tag).
+          previous_image="$(docker inspect -f '{{.Image}}' "${CONTAINER}" 2>/dev/null || true)"
+          echo "Image hiện tại: ${previous_image:-<không có container ${CONTAINER}>}"
+
+          docker network inspect "${NETWORK}" >/dev/null 2>&1 || docker network create "${NETWORK}" >/dev/null
+          docker rm -f "${CONTAINER}" >/dev/null 2>&1 || true
+
+          if start_container "${IMAGE_REF}" && wait_healthy; then
+            echo "Deploy thành công: ${IMAGE_REF}"
+            echo "Deployed \`${IMAGE_REF}\` (container \`${CONTAINER}\` healthy)." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "::error::Deploy ${IMAGE_REF} thất bại — log container mới:"
+          docker logs --tail 200 "${CONTAINER}" 2>&1 || true
+          docker rm -f "${CONTAINER}" >/dev/null 2>&1 || true
+
+          if [ -z "${previous_image}" ]; then
+            echo "::error::Không có image trước đó để rollback — site đang DOWN, cần xử lý tay (docs/DEPLOY.md)."
+            exit 1
+          fi
+
+          echo "Rollback về image trước: ${previous_image}"
+          if start_container "${previous_image}" && wait_healthy; then
+            echo "::warning::Đã rollback về ${previous_image}; site chạy bản cũ."
+            echo "Deploy \`${IMAGE_REF}\` FAILED — rolled back to \`${previous_image}\`." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::Rollback cũng thất bại — site có thể đang DOWN, cần xử lý tay (docs/DEPLOY.md)."
+            docker logs --tail 100 "${CONTAINER}" 2>&1 || true
+          fi
+          exit 1
+
+      # Chỉ dọn image của repo yamiannephilim/portfolio, giữ KEEP_IMAGES bản mới nhất và image đang chạy.
+      # Không bao giờ dùng "docker image/system prune" (sẽ đụng image/container khác trên server).
+      - name: Remove old portfolio images
+        run: |
+          set -euo pipefail
+          current="$(docker inspect -f '{{.Image}}' "${CONTAINER}")"
+          list="${RUNNER_TEMP}/portfolio-images.txt"
+          # "docker image ls" sắp xếp mới nhất trước; một image có thể mang nhiều tag => gom theo ID.
+          docker image ls "${IMAGE_REPO}" --format '{{.ID}} {{.Tag}}' > "${list}"
+          awk '!seen[$1]++ { print $1 }' "${list}" | tail -n +"$((KEEP_IMAGES + 1))" | while read -r id; do
+            if [[ "${current}" == "sha256:${id}"* ]]; then
+              continue
+            fi
+            tags="$(awk -v id="${id}" '$1 == id && $2 != "<none>" { print $2 }' "${list}")"
+            if [ -z "${tags}" ]; then
+              docker image rm "${id}" || true
+            else
+              while read -r tag; do
+                docker image rm "${IMAGE_REPO}:${tag}" || true
+              done <<<"${tags}"
+            fi
+          done
+          docker image ls "${IMAGE_REPO}"
+
+      - name: Logout from Docker Hub
+        if: always()
+        run: |
+          if [ -n "${DOCKER_CONFIG:-}" ]; then
+            docker logout >/dev/null 2>&1 || true
+            rm -rf "${DOCKER_CONFIG}"
+          fi
+
+  notify:
+    name: Telegram notification
+    needs: [build-push, deploy]
+    if: always() && vars.DEPLOY_ENABLED == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send Telegram message
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BUILD_RESULT: ${{ needs.build-push.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          IMAGE: ${{ needs.build-push.outputs.image || inputs.image_tag }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          ACTOR: ${{ github.actor }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          # Secret chưa cấu hình => bỏ qua (không lỗi). Không bao giờ echo giá trị secret.
+          if [ -z "${TELEGRAM_TOKEN}" ] || [ -z "${TELEGRAM_CHAT_ID}" ]; then
+            echo "TELEGRAM_TOKEN/TELEGRAM_CHAT_ID chưa cấu hình — bỏ qua thông báo."
+            exit 0
+          fi
+          if [ "${DEPLOY_RESULT}" = "success" ]; then
+            result="Success"
+          else
+            result="Failure"
+          fi
+          text="$(printf '%s deploy is %s\nBuild: %s | Deploy: %s\nImage: %s\nCommit: %s\nBy: %s\n%s' \
+            "${GITHUB_REPOSITORY}" "${result}" "${BUILD_RESULT}" "${DEPLOY_RESULT}" "${IMAGE:-n/a}" \
+            "${COMMIT_MESSAGE%%$'\n'*}" "${ACTOR}" "${RUN_URL}")"
+          # Token nằm trong URL => đưa URL qua config đọc từ stdin (printf là builtin) thay vì tham số dòng lệnh.
+          if ! printf 'url = "https://api.telegram.org/bot%s/sendMessage"\n' "${TELEGRAM_TOKEN}" |
+            curl -sS -o /dev/null --fail --max-time 20 --config - \
+              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+              --data-urlencode "text=${text}"; then
+            echo "::warning::Gửi Telegram thất bại (không ảnh hưởng kết quả deploy)."
+          fi

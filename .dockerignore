@@ -1,11 +1,36 @@
 # Tóm tắt: Giữ Docker build context nhỏ và không copy artifact/local state.
+# Vẫn GIỮ: src/, public/, cloudflare/ (npm test chạy cả test Worker), index.html, vite.config.js,
+# .eslintrc.cjs/.eslintignore, nginx.conf và scripts/verify-lfs-assets.js — stage build cần chúng.
+
+# Git, CI và công cụ local
 .git
 .github
-build
-coverage
+.husky
+.claude
+.vscode
+.idea
+.DS_Store
+
+# Dependency, output build, thư mục nháp
 node_modules
+build
+dist
+coverage
+scratch
+.cache
+.eslintcache
+*.tgz
+
+# Log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Biến môi trường/secret local — không bao giờ đưa vào image
 .env
 .env.*
+
+# Chỉ phục vụ deploy/vận hành, không dùng khi build site
+Jenkinsfile
+docs
+scripts/server
