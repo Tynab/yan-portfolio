@@ -109,7 +109,7 @@ Worker trên Cloudflare tên **`yan-schedule-redirect`** (giữ tên cũ). Chọ
 
 - `cloudflare/wrangler.toml` khai báo: `name = "yan-schedule-redirect"` (trùng tên ⇒ deploy cập nhật đúng Worker đang chạy), `main = "redirect-worker.js"`, `compatibility_date` cố định, `workers_dev = false`, 2 route `yamiannephilim.com/*` + `www.yamiannephilim.com/*` (zone `yamiannephilim.com`), route portfolio để comment (tùy chọn), và bật `[observability]`.
 - Workflow GitHub Actions `.github/workflows/deploy-worker.yml` chạy `wrangler deploy` với file cấu hình này. Cần khai báo trong repo GitHub (`Settings` → `Secrets and variables` → `Actions`):
-  - Secret `CLOUDFLARE_API_TOKEN`: tạo ở Cloudflare → `My Profile` → `API Tokens` → `Create Token` → template **Edit Cloudflare Workers**, giới hạn `Account Resources` = tài khoản của bạn và `Zone Resources` = zone `yamiannephilim.com`.
+  - Secret `CLOUDFLARE_API_TOKEN`: tạo ở Cloudflare → `My Profile` → `API Tokens` → `Create Token` → template **Edit Cloudflare Workers** (không thấy template thì **Create Custom Token** với quyền Account: _Workers Scripts_ Edit, _Account Settings_ Read, _Workers Tail_ Read (tuỳ chọn); Zone: _Workers Routes_ Edit; User: _User Details_ Read, _Memberships_ Read), giới hạn `Account Resources` = tài khoản của bạn và `Zone Resources` = zone `yamiannephilim.com`.
   - Secret `CLOUDFLARE_ACCOUNT_ID`: Account ID (thường hiện ở cột bên phải trang Overview của zone `yamiannephilim.com` hoặc trang `Workers & Pages`).
   - Variable `WORKER_DEPLOY_ENABLED` = `true` để bật bước deploy Worker trong workflow.
   - Trigger và chi tiết workflow: xem `docs/DEPLOY.md`.
