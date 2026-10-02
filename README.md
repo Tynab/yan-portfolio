@@ -61,7 +61,7 @@ Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việ
 2. `App` truyền `chosenTheme` xuống `Main`.
 3. `Main` (`containers/Main.js`) dùng `HashRouter` + `Routes` (react-router-dom 7); `"/"` chuyển hướng sang `/home` (hoặc `/splash` nếu bật `settings.isSplash`) để menu đánh dấu đúng mục Home; còn lại là route cho Home, Certifications (`/education` cũ tự chuyển hướng sang `/certifications`), Experience, Projects, Contact và `Error404` bắt mọi path không khớp. Mỗi trang là một chunk riêng (`React.lazy`).
 4. Mọi trang (trừ Splash) nằm dưới layout route `PageLayout` (Header + `<main>` + `TopButton`), nên Header không remount khi chuyển trang; khi người dùng chuyển trang, focus được đưa về `<main>`. Menu Header gồm Home, Certifications, Experience, Projects, Contact.
-5. `SeoHeader` (trong Header) đặt `<title>` mặc định và JSON-LD Person; mỗi trang dùng `PageTitle` để đặt `<title>` dạng `"<Trang> | Yami An's Portfolio"` (Home giữ title mặc định). Description/Open Graph để tĩnh trong `index.html` cho crawler không chạy JS.
+5. `SeoHeader` (trong Header) đặt `<title>` mặc định và JSON-LD Person; mỗi trang dùng `PageTitle` để đặt `<title>` dạng `"<Trang> | Yami An"` (`seo.brand`); Home giữ title mặc định `seo.title` ("Nguyen Dang Truong An (Yami An) – Technical Leader"). Description/Open Graph để tĩnh trong `index.html` cho crawler không chạy JS.
 
 ## Cấu hình nội dung
 
@@ -84,8 +84,8 @@ nginx cache `/skills/` dài hạn (`immutable`), nên **mỗi khi thêm/đổi �
 ## Icon site (`public/icons/`)
 
 - Favicon, apple-touch-icon, icon Android/manifest và ms-tile được sinh từ **ảnh cá nhân của chủ site** bằng `python3 scripts/generate-icons.py <ảnh>` (cần Pillow; tham số `--focus`, `--zoom`, `--out`, `--only` xem docstring của script). Script ghi đúng tên file mà `index.html`/`public/manifest.json` tham chiếu và bỏ metadata EXIF/GPS.
-- Bộ icon hiện tại sinh từ ảnh chân dung của chủ portfolio (`--focus 0.47,0.33 --zoom 2.2`, vùng cắt tập trung vào khuôn mặt); ảnh gốc không commit vào repo. `ms-icon-310x310.png` đồng thời là ảnh preview (`og:image`) khi chia sẻ link.
-- `ms-icon-310x310.png` đồng thời là `og:image` khi chia sẻ link.
+- Bộ icon hiện tại sinh từ ảnh chân dung của chủ portfolio (`--focus 0.47,0.33 --zoom 2.2`, vùng cắt tập trung vào khuôn mặt); ảnh gốc không commit vào repo.
+- Ảnh preview khi chia sẻ link (`og:image`) là `public/og-image.png` (1200×630), chụp từ template `assets-src/og-image.html` (cách chụp lại: `assets-src/README.md`).
 
 ## Lệnh phát triển
 

@@ -23,7 +23,7 @@ function CertificationsPage({ theme }) {
                 Certifications
               </h1>
               <p className="heading-sub-text" style={{ color: theme.text }}>
-                Professional Certifications and Skill Assessments
+                Skill Assessments, Course Certificates, and Learning Profiles
               </p>
               <CompetitiveSites logos={competitiveSites.competitiveSites} />
             </div>

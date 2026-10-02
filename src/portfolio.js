@@ -8,7 +8,9 @@ const settings = {
 // Dữ liệu SEO cho SeoHeader: title mặc định (react-helmet-async) và url trong JSON-LD.
 // description/Open Graph để tĩnh trong index.html (nhớ cập nhật ở đó khi đổi greeting.subTitle).
 const seo = {
-  title: "Yami An's Portfolio",
+  title: "Nguyen Dang Truong An (Yami An) – Technical Leader",
+  // Tên thương hiệu ngắn, dùng làm hậu tố tiêu đề trang con ("<Trang> | Yami An").
+  brand: "Yami An",
   og: {
     // Domain thật của site: yamiannephilim.com/* bị Cloudflare worker chuyển hướng (xem cloudflare/).
     url: "https://portfolio.yamiannephilim.com/",
@@ -21,7 +23,7 @@ const greeting = {
   logo_name: "yamiannephilim",
   nickname: "Yami An",
   subTitle:
-    "Technical Leader focused on software architecture, full-stack development with .NET, Spring and React, cloud and DevOps on AWS and Kubernetes, and AI/data solutions.",
+    "Technical Leader in software architecture, full-stack development (.NET, Spring, React), cloud and DevOps (AWS, Kubernetes), and AI/data solutions.",
   resumeLink:
     "https://drive.google.com/file/d/1JWoXHF78fXxbPtxaJqgELhQ28aLLwsBx/view?usp=sharing",
   portfolio_repository: "https://github.com/Tynab/YAN-Portfolio",
@@ -43,14 +45,14 @@ const socialMediaLinks = [
     backgroundColor: "#0077B5", // Reference https://simpleicons.org/?q=linkedin
   },
   {
-    name: "Gmail",
+    name: "Email",
     link: "mailto:yamiannephilim@gmail.com",
     fontAwesomeIcon: "fa-google", // Reference https://fontawesome.com/icons/google?style=brands
     backgroundColor: "#D14836", // Reference https://simpleicons.org/?q=gmail
   },
   {
-    name: "X-Twitter",
-    link: "https://twitter.com/yamiannephilim",
+    name: "X (Twitter)",
+    link: "https://x.com/yamiannephilim",
     fontAwesomeIcon: "fa-x-twitter", // Reference https://fontawesome.com/icons/x-twitter?f=brands&s=solid
     backgroundColor: "#000000", // Reference https://simpleicons.org/?q=x
   },
@@ -68,9 +70,9 @@ const skills = {
       title: "Data Science & AI",
       fileName: "DataScienceImg",
       skills: [
-        "⚡ Experienced in data science and machine learning using Python, Pandas, Keras, and TensorFlow",
-        "⚡ Expertise in data cleaning, data analysis, and machine learning modeling",
-        "⚡ Strong understanding of statistical concepts and machine learning algorithms",
+        "Building offline LLM, RAG, and multi-agent applications with LangChain, LangGraph, Ollama, Qdrant, and Neo4j",
+        "Cleaning, analyzing, and modeling data with Python, Pandas, TensorFlow, Keras, and PyTorch",
+        "Tracking, serving, and scaling models with MLflow, Seldon Core, and Ray, grounded in statistics and machine learning fundamentals",
       ],
       softwareSkills: [
         {
@@ -138,7 +140,7 @@ const skills = {
           imageSrc: "Claude.webp",
         },
         {
-          skillName: "Codex",
+          skillName: "OpenAI Codex",
           imageSrc: "Codex.webp",
         },
         {
@@ -180,12 +182,12 @@ const skills = {
       ],
     },
     {
-      title: "Full Stack Development",
+      title: "Full-Stack Development",
       fileName: "FullStackImg",
       skills: [
-        "⚡ Experienced in developing full-stack web applications using .NET and Spring",
-        "⚡ Expertise in front-end technologies such as HTML, CSS, Bootstrap and React",
-        "⚡ Strong understanding of back-end technologies such as ASP.NET, Spring Boot, and Node.js",
+        "Designing and building back-end services and APIs with .NET, ABP, Spring, and NestJS",
+        "Building web front ends with React, Next.js, Angular, and Blazor in TypeScript",
+        "Modeling data with PostgreSQL, MySQL, SQL Server, MongoDB, and Redis, and building mobile apps with Swift, Android SDK, and .NET MAUI",
       ],
       softwareSkills: [
         {
@@ -217,7 +219,7 @@ const skills = {
           imageSrc: "Angular.webp",
         },
         {
-          skillName: "NextJS",
+          skillName: "Next.js",
           imageSrc: "NextJS.webp",
         },
         {
@@ -225,7 +227,7 @@ const skills = {
           imageSrc: "Blazor.webp",
         },
         {
-          skillName: "NodeJS",
+          skillName: "Node.js",
           imageSrc: "Nodejs.webp",
         },
         {
@@ -237,7 +239,7 @@ const skills = {
           imageSrc: "dotNet.webp",
         },
         {
-          skillName: "ABP",
+          skillName: "ABP Framework",
           imageSrc: "ABP.webp",
         },
         {
@@ -263,6 +265,10 @@ const skills = {
         {
           skillName: "Hangfire",
           imageSrc: "Hangfire.webp",
+        },
+        {
+          skillName: "Cimetrix CIMControlFramework",
+          imageSrc: "CCF.webp",
         },
         {
           skillName: "C",
@@ -317,7 +323,7 @@ const skills = {
           imageSrc: "Xamarin.webp",
         },
         {
-          skillName: "MAUI",
+          skillName: ".NET MAUI",
           imageSrc: "MAUI.webp",
         },
         {
@@ -359,21 +365,34 @@ const skills = {
       ],
     },
     {
-      title: "Cloud Infra-Architecture",
+      title: "Cloud Infrastructure & DevOps",
       fileName: "CloudInfraImg",
       skills: [
-        "⚡ Experienced in implementing AWS cloud solutions and working with Microsoft Azure, Cloudflare, and Heroku",
-        "⚡ Containerizing and orchestrating services with Docker, Kubernetes, and Helm, and automating CI/CD and infrastructure with Jenkins, Argo, Terraform, and Ansible",
-        "⚡ Monitoring and securing systems with OpenTelemetry, Prometheus, Grafana, Wazuh, and Keycloak",
+        "Designing and running cloud solutions on AWS, Microsoft Azure, Google Cloud, Cloudflare, and Heroku",
+        "Containerizing and orchestrating services with Docker, Kubernetes, and Helm",
+        "Automating CI/CD and infrastructure with Jenkins, Argo CD, Terraform, and Ansible",
+        "Monitoring and securing systems with OpenTelemetry, Prometheus, Grafana, Wazuh, and Keycloak",
       ],
       softwareSkills: [
         {
-          skillName: "MinIO",
-          imageSrc: "MinIO.webp",
+          skillName: "Amazon Web Services",
+          imageSrc: "AWS.webp",
         },
         {
-          skillName: "RabbitMQ",
-          imageSrc: "RabbitMq.webp",
+          skillName: "Microsoft Azure",
+          imageSrc: "Azure.webp",
+        },
+        {
+          skillName: "Google Cloud",
+          imageSrc: "Google.webp",
+        },
+        {
+          skillName: "Cloudflare",
+          imageSrc: "Cloudflare.webp",
+        },
+        {
+          skillName: "Heroku",
+          imageSrc: "Heroku.webp",
         },
         {
           skillName: "Docker",
@@ -400,7 +419,7 @@ const skills = {
           imageSrc: "K3s.webp",
         },
         {
-          skillName: "Minikube",
+          skillName: "minikube",
           imageSrc: "Minikube.webp",
         },
         {
@@ -420,12 +439,12 @@ const skills = {
           imageSrc: "KEDA.webp",
         },
         {
-          skillName: "Argo",
-          imageSrc: "Argo.webp",
-        },
-        {
           skillName: "Jenkins",
           imageSrc: "Jenkins.webp",
+        },
+        {
+          skillName: "Argo CD",
+          imageSrc: "Argo.webp",
         },
         {
           skillName: "Terraform",
@@ -504,8 +523,12 @@ const skills = {
           imageSrc: "Apache.webp",
         },
         {
-          skillName: "Cloudflare",
-          imageSrc: "Cloudflare.webp",
+          skillName: "MinIO",
+          imageSrc: "MinIO.webp",
+        },
+        {
+          skillName: "RabbitMQ",
+          imageSrc: "RabbitMq.webp",
         },
         {
           skillName: "Git",
@@ -532,38 +555,22 @@ const skills = {
           imageSrc: "NuGet.webp",
         },
         {
-          skillName: "Atlassian",
+          skillName: "Atlassian Jira & Confluence",
           imageSrc: "Atlassian.webp",
         },
         {
           skillName: "Jam.dev",
           imageSrc: "JamDev.webp",
         },
-        {
-          skillName: "Amazon Web Services",
-          imageSrc: "AWS.webp",
-        },
-        {
-          skillName: "Microsoft Azure",
-          imageSrc: "Azure.webp",
-        },
-        {
-          skillName: "Google",
-          imageSrc: "Google.webp",
-        },
-        {
-          skillName: "Heroku",
-          imageSrc: "Heroku.webp",
-        },
       ],
     },
     {
-      title: "Game Development & Others",
+      title: "Game Development & Design",
       fileName: "DesignImg",
       skills: [
-        "⚡ Developed and published multiple small-scale games using Unity and Pygame",
-        "⚡ Experienced in all aspects of the game development process, from ideation and prototyping to implementation and testing",
-        "⚡ Proficient in a variety of programming languages and tools, including C#, Python, and Java",
+        "Built several small games with Unity and Pygame, including Animal Chess with a minimax and TensorFlow-trained AI opponent",
+        "Prototyping gameplay in Unity and Godot, and running multiplayer back ends with Open Match matchmaking and Agones game servers on Kubernetes",
+        "Designing UI/UX and 3D assets with Figma, Adobe Creative Cloud, and Blender, and generating 3D models with AI tools such as Tripo and Meshy",
       ],
       softwareSkills: [
         {
@@ -587,7 +594,7 @@ const skills = {
           imageSrc: "Blender.webp",
         },
         {
-          skillName: "Tripo 3D",
+          skillName: "Tripo AI",
           imageSrc: "Tripo3D.webp",
         },
         {
@@ -595,7 +602,7 @@ const skills = {
           imageSrc: "Meshy.webp",
         },
         {
-          skillName: "Adobe",
+          skillName: "Adobe Creative Cloud",
           imageSrc: "Adobe.webp",
         },
         {
@@ -605,10 +612,6 @@ const skills = {
         {
           skillName: "draw.io",
           imageSrc: "drawio.webp",
-        },
-        {
-          skillName: "Cimetrix Control",
-          imageSrc: "CCF.webp",
         },
       ],
     },
@@ -635,7 +638,7 @@ const competitiveSites = {
       profileLink: "https://learn.microsoft.com/en-us/users/yamiannephilim/",
     },
     {
-      siteName: "Google Cloud",
+      siteName: "Google Cloud Skills Boost",
       iconifyClassname: "simple-icons:googlecloud",
       style: {
         color: "#4285F4",
@@ -652,7 +655,7 @@ const competitiveSites = {
       profileLink: "https://leetcode.com/Tynab/",
     },
     {
-      siteName: "Codechef",
+      siteName: "CodeChef",
       iconifyClassname: "simple-icons:codechef",
       style: {
         color: "#5B4638",
@@ -660,7 +663,7 @@ const competitiveSites = {
       profileLink: "https://www.codechef.com/users/yamiannephilim",
     },
     {
-      siteName: "Hackerearth",
+      siteName: "HackerEarth",
       iconifyClassname: "simple-icons:hackerearth",
       style: {
         color: "#323754",
@@ -683,271 +686,274 @@ const certifications = {
     // Core Web / Programming Languages
     {
       title: "HTML",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dUd-Vz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "HTML",
+      alt_name: "TestCenter – HTML",
       color_code: "#FFB86C",
     },
     {
       title: "JavaScript",
-      subtitle: "Intermediate",
+      subtitle: "HackerRank · Intermediate",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/9136c4f105da",
-      alt_name: "JS",
+      alt_name: "HackerRank – JavaScript",
       color_code: "#FFE66D",
     },
     {
       title: "Python",
-      subtitle: "Basic",
+      subtitle: "HackerRank · Basic",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/923b39aff6b7",
-      alt_name: "Python",
+      alt_name: "HackerRank – Python",
       color_code: "#6EC6FF",
     },
     {
       title: "Java",
-      subtitle: "Basic",
+      subtitle: "HackerRank · Basic",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/18b8b69e9e0f",
-      alt_name: "Java",
+      alt_name: "HackerRank – Java",
       color_code: "#FF6B6B",
     },
     {
-      title: "CSharp",
-      subtitle: "Basic",
+      title: "C#",
+      subtitle: "HackerRank · Basic",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/6f13753d7cc6",
-      alt_name: "C#",
+      alt_name: "HackerRank – C#",
       color_code: "#9B5DE5",
     },
     {
       title: "PHP",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/ekZ-Vz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "PHP",
+      alt_name: "TestCenter – PHP",
       color_code: "#C77DFF",
     },
     {
       title: "Go",
-      subtitle: "Intermediate",
+      subtitle: "HackerRank · Intermediate",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/fe8553df0712",
-      alt_name: "Go",
+      alt_name: "HackerRank – Go",
       color_code: "#00C2FF",
     },
 
     // Frontend / UI / CMS
     {
-      title: "Frontend Developer",
-      subtitle: "React",
+      title: "Frontend Developer (React)",
+      subtitle: "HackerRank · Role certification",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/4ad345e70e8d",
-      alt_name: "React",
+      alt_name: "HackerRank – Frontend Developer (React)",
       color_code: "#61DAFB",
     },
     {
-      title: "Figma",
-      subtitle: "Advanced",
+      title: "Figma Prototyping",
+      subtitle: "Udemy · Course completion",
       logo_path: "udemy.png",
-      certificate_link: "http://ude.my/UC-1a6a9e4d-d01a-4515-a1bd-281e7283c34c",
-      alt_name: "Figma",
+      certificate_link:
+        "https://www.udemy.com/certificate/UC-1a6a9e4d-d01a-4515-a1bd-281e7283c34c/",
+      alt_name: "Udemy – Figma Prototyping",
       color_code: "#F24E1E",
     },
     {
       title: "WordPress",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dEB_Vj0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "WordPress",
+      alt_name: "TestCenter – WordPress",
       color_code: "#21759B",
     },
 
     // Backend / API / Software Engineering
     {
-      title: "Spring",
-      subtitle: "Very Good",
+      title: "Java Spring MVC",
+      subtitle: "CyberSoft Academy · Grade: Very Good",
       logo_path: "cybersoft.png",
       certificate_link:
         "https://drive.google.com/file/d/10JSIUge0uaZv09QnLi13nMMEI8js1xl-/view?usp=drive_link",
-      alt_name: "Spring",
+      alt_name: "CyberSoft Academy – Java Spring MVC",
       color_code: "#6DB33F",
     },
     {
-      title: "Rest API",
-      subtitle: "Intermediate",
+      title: "REST API",
+      subtitle: "HackerRank · Intermediate",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/51c373908367",
-      alt_name: "API",
+      alt_name: "HackerRank – REST API",
       color_code: "#FF4D6D",
     },
     {
-      title: "Software Engineer",
-      subtitle: "It covers topics like problem solving, SQL, and REST API.",
+      title: "Software Engineer Role",
+      subtitle: "HackerRank · Problem Solving, SQL, REST APIs",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/21f4d932e858",
-      alt_name: "Software Engineer",
+      alt_name: "HackerRank – Software Engineer Role",
       color_code: "#7B2CBF",
     },
     {
       title: "Problem Solving",
-      subtitle: "Intermediate",
+      subtitle: "HackerRank · Intermediate",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/afa149d488a2",
-      alt_name: "Problem Solving",
+      alt_name: "HackerRank – Problem Solving",
       color_code: "#FFD60A",
     },
 
     // Database / Data / AI
     {
       title: "SQL",
-      subtitle: "Advanced",
+      subtitle: "HackerRank · Advanced",
       logo_path: "hackerrank.png",
       certificate_link: "https://www.hackerrank.com/certificates/9c262c7c1e37",
-      alt_name: "SQL",
+      alt_name: "HackerRank – SQL",
       color_code: "#F8961E",
     },
     {
       title: "MySQL",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dEB_Vz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "MySQL",
+      alt_name: "TestCenter – MySQL",
       color_code: "#4479A1",
     },
     {
-      title: "DA",
-      subtitle: "Data Analyst",
+      title: "Data Analytics with Python",
+      subtitle: "CyberSoft Academy · Course completion",
       logo_path: "cybersoft.png",
       certificate_link:
         "https://drive.google.com/file/d/1-4gb3YPDXbZqzrPKO_rbRI1pVEQTQy6s/view?usp=drive_link",
-      alt_name: "DA",
+      alt_name: "CyberSoft Academy – Data Analytics with Python",
       color_code: "#00B4D8",
     },
     {
-      title: "ML",
-      subtitle: "Machine Learning",
+      title: "Statistical Machine Learning",
+      subtitle: "CyberSoft Academy · Course completion",
       logo_path: "cybersoft.png",
       certificate_link:
         "https://drive.google.com/file/d/1-H9-u_GGE_xa5Aq2Q9dpcBbhi9R00Ebw/view?usp=drive_link",
-      alt_name: "ML",
+      alt_name: "CyberSoft Academy – Statistical Machine Learning",
       color_code: "#80ED99",
     },
-    {
-      title: "DevOps on AWS",
-      subtitle: "DevOps on Amazon Web Services",
-      logo_path: "devopseduvn.png",
-      certificate_link:
-        "https://devopsedu.vn/certificate/?cert_hash=18b51461aaf0b6be",
-      alt_name: "AWS",
-      color_code: "#21A366",
-    },
 
-    // DevOps / Source Control / Digital Transformation
+    // DevOps / Security / Transformation
     {
       title: "Git",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dUd-Vj0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Git",
+      alt_name: "TestCenter – Git",
       color_code: "#F1502F",
     },
     {
-      title: "Kubernetes",
-      subtitle: "Practical Kubernetes",
+      title: "DevOps on AWS",
+      subtitle: "DevOpsEdu · Course completion",
+      logo_path: "devopseduvn.png",
+      certificate_link:
+        "https://devopsedu.vn/certificate/?cert_hash=18b51461aaf0b6be",
+      alt_name: "DevOpsEdu – DevOps on AWS",
+      color_code: "#21A366",
+    },
+    {
+      title: "Practical Kubernetes",
+      subtitle: "DevOpsEdu · Course completion",
       logo_path: "devopseduvn.png",
       certificate_link:
         "https://devopsedu.vn/certificate/?cert_hash=ad4567a08148061a",
-      alt_name: "K8s",
+      alt_name: "DevOpsEdu – Practical Kubernetes",
       color_code: "#00F5D4",
     },
     {
-      title: "Security",
-      subtitle: "Web Developer Security",
-      logo_path: "hacksplaining.png",
-      certificate_link:
-        "https://drive.google.com/file/d/1m6heXZHCLq76ABVKRukNBPL80i6uAsVA/view?usp=drive_link",
-      alt_name: "Cyber Security",
-      color_code: "#9999FF",
-    },
-    {
-      title: "DX",
-      subtitle: "Digital Transformation",
-      logo_path: "fpt.png",
-      certificate_link:
-        "https://drive.google.com/file/d/1--a1O9aOZuRz6wjtQUmCSTvxRYEZBm2X/view?usp=drive_link",
-      alt_name: "DX",
-      color_code: "#FF7A00",
-    },
-
-    // Game / 3D / Media / SEO
-    {
-      title: "Unity",
-      subtitle: "Advanced",
-      logo_path: "udemy.png",
-      certificate_link: "http://ude.my/UC-74458ff2-07ea-4938-878c-b4382991ebea",
-      alt_name: "Unity",
-      color_code: "#A0A0A0",
-    },
-    {
-      title: "Blender",
-      subtitle: "3D",
-      logo_path: "udemy.png",
-      certificate_link: "http://ude.my/UC-83b5cbe6-096e-4fc4-8dfa-6fb1c4278580",
-      alt_name: "Blender",
-      color_code: "#F5792A",
-    },
-    {
-      title: "SEO",
-      subtitle: "Top 20%",
-      logo_path: "testcenter.png",
-      certificate_link:
-        "https://certificate.testcenter.vn/dUR_Wj0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "SEO",
-      color_code: "#38B000",
-    },
-
-    // Office / Soft Skills / Work Process
-    {
-      title: "Logging",
-      subtitle: "Logging for DevOps",
+      title: "Logging for DevOps",
+      subtitle: "DevOpsEdu · Course completion",
       logo_path: "devopseduvn.png",
       certificate_link:
         "https://devopsedu.vn/certificate/?cert_hash=1b891b616f6076a2",
-      alt_name: "Logging",
+      alt_name: "DevOpsEdu – Logging for DevOps",
       color_code: "#2B579A",
     },
     {
+      title: "Web Developer Security",
+      subtitle: "Hacksplaining · Course completion",
+      logo_path: "hacksplaining.png",
+      certificate_link:
+        "https://drive.google.com/file/d/1m6heXZHCLq76ABVKRukNBPL80i6uAsVA/view?usp=drive_link",
+      alt_name: "Hacksplaining – Web Developer Security",
+      color_code: "#9999FF",
+    },
+    {
+      title: "Digital Transformation",
+      subtitle: "FPT Corporate University · Course completion",
+      logo_path: "fpt.png",
+      certificate_link:
+        "https://drive.google.com/file/d/1--a1O9aOZuRz6wjtQUmCSTvxRYEZBm2X/view?usp=drive_link",
+      alt_name: "FPT Corporate University – Digital Transformation",
+      color_code: "#FF7A00",
+    },
+
+    // Game / 3D
+    {
+      title: "Unity",
+      subtitle: "Udemy · Course completion",
+      logo_path: "udemy.png",
+      certificate_link:
+        "https://www.udemy.com/certificate/UC-74458ff2-07ea-4938-878c-b4382991ebea/",
+      alt_name: "Udemy – Unity",
+      color_code: "#A0A0A0",
+    },
+    {
+      title: "Blender 3D",
+      subtitle: "Udemy · Course completion",
+      logo_path: "udemy.png",
+      certificate_link:
+        "https://www.udemy.com/certificate/UC-83b5cbe6-096e-4fc4-8dfa-6fb1c4278580/",
+      alt_name: "Udemy – Blender 3D",
+      color_code: "#F5792A",
+    },
+
+    // SEO / Office / Soft Skills / Work Process
+    {
+      title: "SEO",
+      subtitle: "TestCenter · Top 20% of test-takers",
+      logo_path: "testcenter.png",
+      certificate_link:
+        "https://certificate.testcenter.vn/dUR_Wj0fMlcZNV9GVjE2bFN7SXU",
+      alt_name: "TestCenter – SEO",
+      color_code: "#38B000",
+    },
+    {
       title: "Presentation",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/ekZ7Vz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Presentation",
+      alt_name: "TestCenter – Presentation",
       color_code: "#FFB703",
     },
     {
       title: "Agile",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dUd-VT0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Agile",
+      alt_name: "TestCenter – Agile",
       color_code: "#FB5607",
     },
     {
       title: "Teamwork",
-      subtitle: "Top 20%",
+      subtitle: "TestCenter · Top 20% of test-takers",
       logo_path: "testcenter.png",
       certificate_link:
         "https://certificate.testcenter.vn/dE94Uz0fMlcZNV9GVjE2bFN7SXU",
-      alt_name: "Teamwork",
+      alt_name: "TestCenter – Teamwork",
       color_code: "#8AC926",
     },
   ],
@@ -956,9 +962,9 @@ const certifications = {
 // Experience Page
 const experience = {
   title: "Experience",
-  subtitle: "Professional Experience, Internships and Additional Experience",
+  subtitle: "Professional Experience, Internships, and Additional Experience",
   description:
-    "My extensive tech experience spans real estate, retail, and construction tech solutions, overseeing projects in management and marketing systems. I specialize in .NET, Spring, DevOps, and cloud tech, complemented by a deep proficiency in ML and DL, enhancing my mentorship role in guiding students through advanced analytical methods at the academy.",
+    "My experience spans education, real estate, retail, and construction technology, from leading architecture and AWS cloud delivery to maintaining large-scale retail systems and building internal management tools. I specialize in .NET, Spring, DevOps, and cloud technologies, complemented by machine learning and deep learning skills and experience mentoring and lecturing data analysis students.",
   sections: [
     {
       title: "Professional Experience",
@@ -969,40 +975,40 @@ const experience = {
           company: "Terralogic",
           company_url: "https://terralogic.com/",
           logo_path: "terralogic.png",
-          duration: "Nov 2023 - Now",
-          location: "Tan Binh District, Ho Chi Minh City",
+          duration: "Nov 2023 – Present",
+          location: "Tan Binh, Ho Chi Minh City",
           description:
-            "At Terralogic, I led digital transformation projects in the education domain for GIIS, including SDP, Helpdesk, Scholarship, and TMS systems. My responsibilities focused on architectural design, data flow optimization, system integration, and the implementation of AWS cloud solutions to improve administrative efficiency, school management operations, and digital interactions between educational stakeholders.",
+            "At Terralogic, I lead digital transformation projects in the education domain for Global Indian International School (GIIS), including its SDP, Helpdesk, Scholarship, and TMS systems. My work focuses on architectural design, data flow optimization, system integration, and AWS cloud solutions that improve administrative efficiency, school management operations, and digital interactions among educational stakeholders.",
         },
         {
           title: "Technical Leader",
           company: "Hoozing",
           company_url: "https://hoozing.com/",
           logo_path: "hoozing.png",
-          duration: "Jul 2023 - Nov 2023",
-          location: "District 2, Thu Duc City",
+          duration: "Jul 2023 – Nov 2023",
+          location: "Thu Duc, Ho Chi Minh City",
           description:
-            "At Hoozing, I spearheaded the development of the Hoozing Integrated Platform & System, which included projects such as HzWebsite, HzAgentWebsite, and HzExternalAgent. I provided architectural design, optimized code quality and performance, and led technical workshops to support an integrated platform that simplifies property management, marketing, buying, selling, and renting processes for customers, real estate agents, and external partners.",
+            "At Hoozing, I spearheaded the development of Hoozing's integrated property platform, including its customer website, agent portal, and external agent portal. I designed the architecture, improved code quality and performance, and led technical workshops for a platform that simplifies property management, marketing, buying, selling, and renting for customers, real estate agents, and external partners.",
         },
         {
           title: "Team Leader",
           company: "FPT Retail",
           company_url: "https://frt.vn/",
           logo_path: "frt.png",
-          duration: "Jul 2022 - Jul 2023",
+          duration: "Jul 2022 – Jul 2023",
           location: "District 7, Ho Chi Minh City",
           description:
-            "At FPT Retail, I contributed to a large-scale digital transformation initiative for Long Chau and FPT Shop. As a maintainer of key systems including Inventory, POS Wrapper, and OSR, I supported system stability, integration, and operational efficiency. I also participated in integrating multiple business streams such as OMS, helping ensure a smooth transition from traditional retail operations to a more scalable and unified digital platform.",
+            "At FPT Retail, I led a team within a large-scale digital transformation initiative for Long Chau Pharmacy and FPT Shop. We maintained key systems, including Inventory, the POS Wrapper, and OSR, improving their stability, integration, and operational efficiency, and integrated additional systems such as OMS to move traditional retail operations onto a more scalable, unified digital platform.",
         },
         {
           title: "Team Leader",
           company: "Emar Viet Nam",
           company_url: "https://www.emar.co.jp/",
           logo_path: "emar.png",
-          duration: "Jul 2017 - Jul 2022",
+          duration: "Jul 2017 – Jul 2022",
           location: "District 8, Ho Chi Minh City",
           description:
-            "At Emar Viet Nam, within Emar Group's construction and engineering division, I handled structural analysis, reviewed foundational documentation, and performed technical calculations for Japanese construction projects involving clients such as 住友林業, 三菱, 小田急, 東急, and ヤマビコ. My work included calculating spacer blocks, reinforcement slab areas, steel reinforcement, unit dimensions, mass inputs, and raw timber quantity estimation. In addition, I developed an internal HRM system, provided architectural design, technical guidance, and code optimization to improve internal operational efficiency.",
+            "At Emar Viet Nam, within Emar Group's construction and engineering division, I led structural analysis for Japanese construction projects for clients such as Sumitomo Forestry, Mitsubishi, Odakyu, Tokyu, and Yamabiko: reviewing foundation documentation and producing technical calculations for spacer blocks, slab reinforcement areas, steel reinforcement, unit dimensions, mass inputs, and raw timber quantities. I also developed an internal HRM system, providing its architectural design, technical guidance, and code optimization to improve internal operational efficiency.",
         },
       ],
     },
@@ -1010,14 +1016,14 @@ const experience = {
       title: "Internships",
       experiences: [
         {
-          title: "Embedded Software Trainee",
+          title: "Embedded Software Intern",
           company: "AMPM",
           company_url: "https://ampm.vn/",
           logo_path: "ampm.png",
-          duration: "Jan 2017 - Mar 2017",
+          duration: "Jan 2017 – Mar 2017",
           location: "Tan Binh, Ho Chi Minh City",
           description:
-            "At AMPM, an electronic equipment trading company, I worked as an Embedded Intern focusing on embedded programming and embedded systems. I gained hands-on experience in developing, testing, and fine-tuning software for embedded devices, while building practical knowledge of how software interacts with electronic hardware in real-world device applications.",
+            "At AMPM, an electronic equipment trading company, I interned in embedded software development. I gained hands-on experience developing, testing, and fine-tuning software for embedded devices, and built practical knowledge of how software interacts with electronic hardware in real-world devices.",
         },
       ],
     },
@@ -1029,10 +1035,10 @@ const experience = {
           company: "CyberSoft Academy",
           company_url: "https://cybersoft.edu.vn/",
           logo_path: "cybersoft_academy.png",
-          duration: "Jun 2023 - Jun 2024",
+          duration: "Jun 2023 – Jun 2024",
           location: "District 1, Ho Chi Minh City",
           description:
-            "At CyberSoft Academy, I mentored students in data analysis and was later invited to become a lecturer. My role involved guiding students through core data analysis methods, sharing practical techniques, supporting their learning process, and helping them strengthen analytical thinking, data interpretation skills, and problem-solving capabilities within an academic and hands-on training environment.",
+            "At CyberSoft Academy, I mentored data analysis students and was later invited to lecture. I taught core data analysis methods and practical techniques, and coached students in analytical thinking, data interpretation, and problem-solving.",
         },
       ],
     },
@@ -1053,17 +1059,17 @@ const contactPageData = {
     // Ảnh đại diện lấy trực tiếp từ GitHub để luôn khớp avatar hiện tại.
     profile_image_url: "https://github.com/Tynab.png?size=460",
     description:
-      "I am available through the social profiles below for software architecture, full-stack engineering, AI/data, cloud infrastructure, and DevOps collaboration.",
+      "Reach me through any of the channels below, or email yamiannephilim@gmail.com, to discuss software architecture, full-stack engineering, AI/data, cloud infrastructure, or DevOps work.",
   },
   blogSection: {
-    title: "GitHub & Writing",
+    title: "GitHub & Open Source",
     subtitle:
-      "Technical notes, source code, and project references are maintained through public profiles and repositories.",
+      "I publish my source code, technical notes, and project write-ups on GitHub.",
     link: greeting.githubProfile,
   },
   addressSection: {
     title: "Location",
-    subtitle: "Ho Chi Minh City, Viet Nam",
+    subtitle: "Ho Chi Minh City, Vietnam",
     locality: "Ho Chi Minh City",
     country: "VN",
     region: "Ho Chi Minh City",

@@ -11,6 +11,8 @@ export default function ProjectsImg({ theme }) {
       width="1103.79"
       height="707.8"
       viewBox="0 0 1103.79 707.8"
+      aria-hidden="true"
+      focusable="false"
     >
       <defs>
         <linearGradient
@@ -26,7 +28,6 @@ export default function ProjectsImg({ theme }) {
           <stop offset="1" stopColor="gray" stopOpacity="0.1" />
         </linearGradient>
       </defs>
-      <title>mind map</title>
       <ellipse
         cx="843.39"
         cy="664.8"

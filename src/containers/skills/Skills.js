@@ -11,7 +11,7 @@ export default function Skills(props) {
       <div className="skills-header-div">
         <Fade direction="up" duration={2000} triggerOnce>
           <h2 className="skills-header" style={{ color: theme.text }}>
-            What I Do?
+            What I Do
           </h2>
         </Fade>
       </div>

@@ -10,8 +10,9 @@ export default function ExperienceImg({ theme }) {
       width="1094"
       height="760"
       viewBox="0 0 1094 760"
+      aria-hidden="true"
+      focusable="false"
     >
-      <title>career process</title>
       <rect
         x="155"
         y="304.52"

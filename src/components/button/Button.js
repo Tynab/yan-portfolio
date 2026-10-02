@@ -11,6 +11,10 @@ export default function Button({ text, className, href, newTab }) {
     <div className={className}>
       <a className="main-button" href={href} {...newTabProps}>
         {text}
+        {/* Báo cho screen reader biết link mở tab mới; class visually-hidden có trong App.css. */}
+        {newTab && (
+          <span className="visually-hidden"> (opens in a new tab)</span>
+        )}
       </a>
     </div>
   );

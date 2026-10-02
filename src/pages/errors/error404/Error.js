@@ -12,9 +12,12 @@ function Error() {
       <PageTitle title="Page Not Found" />
       <div className="error-class">
         <Fade direction="up" duration={2000} triggerOnce>
-          <h1>Oops</h1>
+          <h1>Oops! Page not found</h1>
           <p className="error-404">404</p>
-          <p>The requested page is unavailable at the moment!</p>
+          <p>
+            Sorry, the page you&apos;re looking for doesn&apos;t exist or has
+            been moved.
+          </p>
           <Link
             className="main-button"
             to="/home"

@@ -10,8 +10,9 @@ export default function FullStackImg({ theme }) {
       width="1098.75"
       height="632.37039"
       viewBox="0 0 1098.75 632.37039"
+      aria-hidden="true"
+      focusable="false"
     >
-      <title>heatmap</title>
       <ellipse
         cx="549.375"
         cy="600.77366"

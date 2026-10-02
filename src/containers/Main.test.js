@@ -58,17 +58,22 @@ test('"#/education" (link cũ) chuyển sang /certifications', async () => {
   ).toBeInTheDocument();
   expect(window.location.hash).toBe("#/certifications");
   await waitFor(() =>
-    expect(document.title).toBe(`Certifications | ${seo.title}`)
+    expect(document.title).toBe(`Certifications | ${seo.brand}`)
   );
 });
 
 test("path không tồn tại hiện trang 404", async () => {
   renderAt("#/nope");
   expect(
-    await screen.findByText("The requested page is unavailable at the moment!")
+    await screen.findByText(
+      "Sorry, the page you're looking for doesn't exist or has been moved."
+    )
   ).toBeInTheDocument();
   expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+  expect(
+    screen.getByRole("heading", { level: 1, name: "Oops! Page not found" })
+  ).toBeInTheDocument();
   await waitFor(() =>
-    expect(document.title).toBe(`Page Not Found | ${seo.title}`)
+    expect(document.title).toBe(`Page Not Found | ${seo.brand}`)
   );
 });

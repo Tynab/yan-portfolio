@@ -17,6 +17,7 @@ function CertificationCard({ certificate, theme }) {
             href={certificate.certificate_link}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`View ${certificate.title} certificate (opens in new tab)`}
           >
             <div className="content-overlay"></div>
             <div
@@ -37,7 +38,7 @@ function CertificationCard({ certificate, theme }) {
             </div>
             <div className="content-details fadeIn-top">
               <span className="content-title" style={{ color: theme.body }}>
-                Certificate
+                View certificate
               </span>
             </div>
           </a>

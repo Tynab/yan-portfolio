@@ -1,9 +1,10 @@
-// Tóm tắt: Test Header — Escape đóng menu và trả focus, chỉ một link aria-current, có mục Contact, đổi route thì đóng menu.
+// Tóm tắt: Test Header — Escape đóng menu và trả focus, chỉ một link aria-current, có mục Contact, đổi route thì đóng menu, logo có tên truy cập rõ ràng.
 import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { HelmetProvider } from "react-helmet-async";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import { greeting } from "../../portfolio.js";
 
 // Nút phụ ngoài Header để đổi route bằng code (giống Back/Forward), không qua onClick của NavLink.
 function GoTo({ path }) {
@@ -49,6 +50,19 @@ test("chỉ một link có aria-current trên /home (logo không tính)", () => 
   expect(current[0]).toHaveTextContent("Home");
   // Logo luôn trỏ về /home chứ không phải /splash.
   expect(container.querySelector(".logo")).toHaveAttribute("href", "/home");
+});
+
+test("logo có aria-label rõ ràng và ẩn dấu ngoặc trang trí khỏi screen reader", () => {
+  const { container } = renderHeader();
+  const logo = screen.getByRole("link", {
+    name: `${greeting.logo_name} – Home`,
+  });
+  expect(logo).toHaveAttribute("href", "/home");
+  expect(logo).toBe(container.querySelector(".logo"));
+  const hidden = logo.querySelectorAll('span[aria-hidden="true"]');
+  expect(hidden).toHaveLength(2);
+  expect(hidden[0]).toHaveTextContent("<");
+  expect(hidden[1]).toHaveTextContent("/>");
 });
 
 test("menu có mục Contact trỏ tới /contact", () => {

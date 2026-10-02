@@ -42,6 +42,10 @@ function SeoHeader() {
     "@context": "https://schema.org/",
     "@type": "Person",
     name: greeting.title,
+    // Biệt danh và tên tiếng Việt có dấu để công cụ tìm kiếm khớp mọi cách gọi tên.
+    alternateName: ["Yami An", "Nguyễn Đặng Trường An"],
+    description: greeting.subTitle,
+    image: orUndefined(contactPageData.contactSection?.profile_image_url),
     url: seo?.og?.url,
     email: mail,
     telephone: orUndefined(contactPageData.phoneSection?.subtitle),
