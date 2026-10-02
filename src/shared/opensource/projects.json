@@ -3,7 +3,7 @@
         {
             "id": "R_kgDOG_vYHA",
             "name": "RAG Agent Platform",
-            "createdAt": "2025-02-21",
+            "createdAt": "2025-02-10",
             "url": "https://github.com/Tynab/rag-agent-platform",
             "description": "🤖 Fully offline RAG and SDLC automation platform (Docker Compose) combining Ollama, Qdrant, and Neo4j for hybrid document Q&A, plus a 15-agent LangGraph workflow that turns requirements into analysis, design, and code.",
             "isFork": false,
@@ -75,7 +75,7 @@
             "name": "Animal Chess",
             "createdAt": "2024-02-19",
             "url": "https://github.com/Tynab/animal-chess",
-            "description": "🕹️ Animal Chess built with Pygame, featuring PvP/PvC/CvC modes, a minimax/alpha-beta/BFS/A* bot, and a TensorFlow CNN model trained via a notebook pipeline on logged match data.",
+            "description": "🕹️ Pygame version of Animal Chess (Jungle) with player-vs-player, player-vs-computer, and computer-vs-computer modes, a search-based bot (minimax with alpha-beta pruning, BFS, A*), and a TensorFlow CNN trained through a notebook pipeline on logged match data.",
             "isFork": false,
             "languages": [
                 {
@@ -126,10 +126,10 @@
         },
         {
             "id": "MDEwOlJlcG9zaXRvcnkzMjU5NDM1MTE=",
-            "name": "ID Generator Snowflake",
-            "createdAt": "2023-07-07",
+            "name": "Snowflake ID Generator",
+            "createdAt": "2023-06-07",
             "url": "https://github.com/Tynab-x-Longkunz/id-generator-snowflake",
-            "description": "❄️ Thread-safe C# Snowflake ID generator producing sortable, unique 64-bit IDs from custom Worker/Datacenter IDs, with base-36 encoding and full ID component decoding.",
+            "description": "❄️ Thread-safe C# Snowflake ID generator that produces sortable, unique 64-bit IDs from configurable worker and datacenter IDs, with base-36 encoding and decoding of every ID component.",
             "isFork": false,
             "languages": [
                 {
@@ -141,7 +141,7 @@
                     "iconifyClass": "logos:dotnet"
                 },
                 {
-                    "name": "nuget.config",
+                    "name": "NuGet",
                     "iconifyClass": "devicon:nuget"
                 },
                 {
@@ -159,7 +159,7 @@
             "name": "YANLib",
             "createdAt": "2023-01-15",
             "url": "https://github.com/Tynab/YANLib",
-            "description": "📚 .NET 8 NuGet library of fluent, null-safe extension methods for parsing, collections, JSON, dates, and math — with built-in Snowflake ID generation and auto-parallelization for large datasets.",
+            "description": "📚 .NET 8 NuGet library of fluent, null-safe extension methods for parsing, collections, JSON, dates, and math, plus built-in Snowflake ID generation and automatic parallelization for large datasets.",
             "isFork": false,
             "languages": [
                 {
@@ -171,7 +171,7 @@
                     "iconifyClass": "logos:dotnet"
                 },
                 {
-                    "name": "nuget.config",
+                    "name": "NuGet",
                     "iconifyClass": "devicon:nuget"
                 },
                 {
@@ -189,7 +189,7 @@
             "name": "YANF",
             "createdAt": "2022-09-29",
             "url": "https://github.com/Tynab/YANF",
-            "description": "🧰 NuGet library extending .NET Framework WinForms with restyled controls, a multi-language MessageBox, and load/wait/update screens for richer desktop UIs.",
+            "description": "🧰 NuGet library for .NET Framework Windows Forms apps, adding restyled controls, a multi-language MessageBox, and loading, waiting, and update screens.",
             "isFork": false,
             "languages": [
                 {
@@ -201,7 +201,7 @@
                     "iconifyClass": "logos:dotnet"
                 },
                 {
-                    "name": "nuget.config",
+                    "name": "NuGet",
                     "iconifyClass": "devicon:nuget"
                 },
                 {
@@ -216,10 +216,10 @@
         },
         {
             "id": "R_kgDOG0_8uQ",
-            "name": "Analysis of Hotel Bookings in Portugal",
+            "name": "Hotel Booking Analysis (Portugal)",
             "createdAt": "2023-04-21",
             "url": "https://github.com/Nihgi-DA08/capstone-project",
-            "description": "📊 Cleans, analyzes, and visualizes Portugal hotel booking data, fitting a Linear Regression model and serving results through an interactive Dash dashboard (Pandas, scikit-learn, Plotly).",
+            "description": "📊 Data-analysis capstone on Portuguese hotel bookings: data cleaning, exploratory analysis and visualization, a linear regression model, and an interactive Dash dashboard (pandas, scikit-learn, Plotly).",
             "isFork": false,
             "languages": [
                 {
@@ -233,6 +233,14 @@
                 {
                     "name": "Anaconda",
                     "iconifyClass": "devicon:anaconda"
+                },
+                {
+                    "name": "pandas",
+                    "iconifyClass": "devicon:pandas"
+                },
+                {
+                    "name": "scikit-learn",
+                    "iconifyClass": "devicon:scikitlearn"
                 },
                 {
                     "name": "Plotly",
@@ -259,7 +267,7 @@
                     "iconifyClass": "skill-icons:docker"
                 },
                 {
-                    "name": "Jenkinsfile",
+                    "name": "Jenkins",
                     "iconifyClass": "vscode-icons:file-type-jenkins"
                 },
                 {

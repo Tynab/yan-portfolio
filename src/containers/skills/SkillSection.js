@@ -55,6 +55,8 @@ function SkillSection({ theme }) {
                         className="subTitle skills-text"
                         style={{ color: theme.secondaryText }}
                       >
+                        {/* Emoji chỉ để trang trí (dữ liệu không còn chứa emoji) nên ẩn khỏi screen reader. */}
+                        <span aria-hidden="true">⚡ </span>
                         {skillSentence}
                       </p>
                     );

@@ -11,6 +11,8 @@ export default function CertificationsImg({ theme }) {
       width="795.39431"
       height="574.03802"
       viewBox="0 0 795.39431 574.03802"
+      aria-hidden="true"
+      focusable="false"
     >
       <defs>
         <linearGradient
@@ -27,7 +29,6 @@ export default function CertificationsImg({ theme }) {
           <stop offset="1" stopColor="gray" stopOpacity="0.1" />
         </linearGradient>
       </defs>
-      <title>graduation</title>
       <ellipse
         cx="232.05775"
         cy="450.06897"

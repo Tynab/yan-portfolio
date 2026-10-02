@@ -171,7 +171,7 @@ def referenced_icons():
     index_path = os.path.join(REPO_ROOT, "index.html")
     if os.path.exists(index_path):
         with open(index_path, encoding="utf-8") as handle:
-            # Bắt cả đường dẫn tương đối (/icons/...) lẫn URL tuyệt đối (og:image).
+            # Bắt mọi tham chiếu /icons/... (tương đối hay URL tuyệt đối); og:image giờ là /og-image.png, không thuộc icons.
             names.update(re.findall(r"/icons/([A-Za-z0-9._-]+)", handle.read()))
     manifest_path = os.path.join(REPO_ROOT, "public", "manifest.json")
     if os.path.exists(manifest_path):

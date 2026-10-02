@@ -52,7 +52,7 @@ function Contact({ theme }) {
               <SocialMedia />
               <div className="resume-btn-div">
                 <Button
-                  text="See My Resume"
+                  text="View My Resume"
                   newTab={true}
                   href={greeting.resumeLink}
                 />
@@ -121,7 +121,7 @@ function Contact({ theme }) {
               )}
               <div className="address-btn-div">
                 <Button
-                  text="Visit on Google Maps"
+                  text="View on Google Maps"
                   newTab={true}
                   href={addressSection.location_map_link}
                 />

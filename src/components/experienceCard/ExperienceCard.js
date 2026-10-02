@@ -23,7 +23,8 @@ function ExperienceCard({ experience, index, totalCards, theme }) {
                 import.meta.url
               ).href
             }
-            alt={experience["company"]}
+            // Logo chỉ để trang trí: tên công ty đã có ngay trong card nên alt rỗng để screen reader không đọc lặp.
+            alt=""
           />
         </div>
       </Fade>

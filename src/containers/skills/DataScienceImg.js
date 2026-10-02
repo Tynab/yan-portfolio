@@ -10,8 +10,9 @@ export default function DataScienceImg({ theme }) {
       width="1120"
       height="829.80067"
       viewBox="0 0 1120 829.80067"
+      aria-hidden="true"
+      focusable="false"
     >
-      <title>all the data</title>
       <ellipse
         cx="975.57906"
         cy="811.05902"

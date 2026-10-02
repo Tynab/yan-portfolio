@@ -44,11 +44,17 @@ function Header() {
       <SeoHeader />
       <div>
         <header className="header">
-          {/* Link thường (không phải NavLink) để logo không bao giờ mang aria-current; luôn về /home. */}
-          <Link to="/home" className="logo" onClick={closeMenu}>
-            <span> &lt;</span>
+          {/* Link thường (không phải NavLink) để logo không bao giờ mang aria-current; luôn về /home.
+              aria-label đặt tên rõ ràng; hai dấu ngoặc chỉ để trang trí nên ẩn khỏi screen reader. */}
+          <Link
+            to="/home"
+            className="logo"
+            onClick={closeMenu}
+            aria-label={`${greeting.logo_name} – Home`}
+          >
+            <span aria-hidden="true"> &lt;</span>
             <span className="logo-name">{greeting.logo_name}</span>
-            <span>/&gt;</span>
+            <span aria-hidden="true">/&gt;</span>
           </Link>
           {/* Nút thật (thay cho checkbox ẩn) để bàn phím và screen reader mở được menu dưới 768px. */}
           <button

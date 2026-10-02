@@ -6,7 +6,7 @@ import { greeting } from "../../portfolio";
 import { Fade } from "react-awesome-reveal";
 import FeelingProud from "./FeelingProud";
 
-// Tóm tắt: Hero section trang chủ hiển thị tên, mô tả, social links và CTA GitHub.
+// Tóm tắt: Hero section trang chủ hiển thị tên, mô tả, social links và CTA xem resume.
 export default function Greeting(props) {
   const theme = props.theme;
   return (
@@ -20,7 +20,7 @@ export default function Greeting(props) {
               </h1>
               {greeting.nickname && (
                 <h2 className="greeting-nickname" style={{ color: theme.text }}>
-                  ( {greeting.nickname} )
+                  ({greeting.nickname})
                 </h2>
               )}
               <p
@@ -32,9 +32,9 @@ export default function Greeting(props) {
               <SocialMedia />
               <div className="portfolio-repo-btn-div">
                 <Button
-                  text="⭐ Star Me On GitHub"
+                  text="View My Resume"
                   newTab={true}
-                  href={greeting.portfolio_repository}
+                  href={greeting.resumeLink}
                   className="portfolio-repo-btn"
                 />
               </div>

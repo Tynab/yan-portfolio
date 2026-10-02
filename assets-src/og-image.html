@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--
+  Tóm tắt: Template ảnh Open Graph 1200×630 (public/og-image.png) dùng khi chia sẻ link portfolio.
+  Màu theo blueTheme (nền #EDF9FE, chữ #001C55, nhấn #0E6BA8), font Google Sans lấy từ src/assests/fonts,
+  ảnh chân dung = public/icons/android-icon-512x512.png. Cách chụp lại thành PNG: xem assets-src/README.md.
+  Phụ đề phải giống greeting.subTitle trong src/portfolio.js.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>OG image</title>
+    <style>
+      @font-face {
+        font-family: "Google Sans";
+        src: url("../src/assests/fonts/GoogleSans-Regular.woff2") format("woff2");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Google Sans";
+        src: url("../src/assests/fonts/GoogleSans-Medium.woff2") format("woff2");
+        font-weight: 500;
+      }
+      @font-face {
+        font-family: "Google Sans";
+        src: url("../src/assests/fonts/GoogleSans-Bold.woff2") format("woff2");
+        font-weight: 700;
+      }
+
+      :root {
+        --body: #edf9fe;
+        --text: #001c55;
+        --accent: #0e6ba8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+
+      body {
+        background: var(--body);
+        color: var(--text);
+        font-family: "Google Sans", sans-serif;
+      }
+
+      /* Khung ảnh: dải màu nhấn bên trái, chân dung tròn và khối chữ bên phải. */
+      .card {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 56px;
+        width: 1200px;
+        height: 630px;
+        padding: 0 80px 0 96px;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 100%;
+        background: var(--accent);
+      }
+
+      .portrait {
+        flex: 0 0 310px;
+        width: 310px;
+        height: 310px;
+        border-radius: 50%;
+        border: 10px solid var(--accent);
+        object-fit: cover;
+        box-shadow: 0 16px 40px rgba(0, 28, 85, 0.18);
+      }
+
+      .text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .name {
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+
+      .role {
+        margin-top: 14px;
+        font-size: 36px;
+        font-weight: 500;
+        color: var(--accent);
+      }
+
+      .subtitle {
+        margin-top: 28px;
+        font-size: 27px;
+        font-weight: 400;
+        line-height: 1.4;
+      }
+
+      .nowrap {
+        white-space: nowrap;
+      }
+
+      .url {
+        margin-top: 36px;
+        padding-top: 20px;
+        border-top: 3px solid var(--accent);
+        font-size: 26px;
+        font-weight: 500;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <img
+        class="portrait"
+        src="../public/icons/android-icon-512x512.png"
+        alt=""
+      />
+      <div class="text">
+        <div class="name">Nguyen Dang Truong An</div>
+        <div class="role">Yami An · Technical Leader</div>
+        <div class="subtitle">
+          Technical Leader in software architecture, <span class="nowrap">full-stack</span> development
+          (.NET, Spring, React), cloud and DevOps (AWS, Kubernetes), and
+          AI/data solutions.
+        </div>
+        <div class="url">portfolio.yamiannephilim.com</div>
+      </div>
+    </div>
+  </body>
+</html>
