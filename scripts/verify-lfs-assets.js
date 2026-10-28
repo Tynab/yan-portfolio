@@ -1,4 +1,4 @@
-// Tóm tắt: Chặn build (Docker/CI) nếu asset nhị phân trong public/ hoặc src/assests/ là file con trỏ Git LFS.
+// Tóm tắt: Chặn build (CI/Cloudflare Pages) nếu asset nhị phân trong public/ hoặc src/assests/ là file con trỏ Git LFS.
 // Repo không còn dùng Git LFS (hạn mức tài khoản đã hết, mọi asset đều nhỏ và lưu dạng blob Git thường),
 // nên gặp con trỏ LFS nghĩa là checkout hỏng/cũ (từ commit trước khi bỏ LFS), không phải do thiếu `git lfs pull`.
 const fs = require("fs");

@@ -12,8 +12,8 @@ const seo = {
   // Tên thương hiệu ngắn, dùng làm hậu tố tiêu đề trang con ("<Trang> | Yami An").
   brand: "Yami An",
   og: {
-    // Domain thật của site: yamiannephilim.com/* bị Cloudflare worker chuyển hướng (xem cloudflare/).
-    url: "https://portfolio.yamiannephilim.com/",
+    // Domain production: site chạy trực tiếp trên Cloudflare Pages tại apex, không còn subdomain portfolio.
+    url: "https://yamiannephilim.com/",
   },
 };
 

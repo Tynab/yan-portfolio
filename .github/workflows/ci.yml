@@ -1,6 +1,6 @@
-# Tóm tắt: CI cho mọi push (main/develop) và pull request — kiểm tra asset, lint, test, build site,
-# và build thử Docker image (không push) để bắt sớm lỗi Dockerfile/nginx.conf.
-# Workflow này KHÔNG có secret và chỉ chạy trên runner GitHub-hosted, nên an toàn với PR từ fork.
+# Tóm tắt: CI cho mọi push (main/develop) và pull request — kiểm tra asset, lint, test và build site.
+# Đây là check bắt buộc trên main trước khi Cloudflare Pages deploy; workflow KHÔNG có secret và
+# chỉ chạy trên runner GitHub-hosted, nên an toàn với PR từ fork.
 name: CI
 
 on:
@@ -52,28 +52,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-  docker-build:
-    name: Docker build (no push)
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: false
-          persist-credentials: false
-
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # Build đủ 2 stage (trong đó có lint + test) nhưng không push; cache layer qua GitHub Actions cache,
-      # dùng chung scope với workflow Deploy để build trên main nhanh hơn.
-      - name: Build image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: false
-          tags: yamiannephilim/portfolio:ci
-          cache-from: type=gha,scope=portfolio
-          cache-to: type=gha,scope=portfolio,mode=max

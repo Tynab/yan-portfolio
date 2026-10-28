@@ -3,7 +3,7 @@ import "./SoftwareSkill.css";
 import Tooltip from "../tooltip/Tooltip";
 import { toDomId } from "../../utils/domId";
 
-// Chuỗi cache-bust: nginx trả /skills/ với Cache-Control "immutable" (1 năm) nên trình duyệt không hỏi lại server;
+// Chuỗi cache-bust: Cloudflare Pages/CDN có thể giữ /skills/ trong cache theo deployment;
 // PHẢI bump giá trị này mỗi khi thêm/đổi/chuyển định dạng ảnh kỹ năng, nếu không người dùng cũ vẫn thấy ảnh trong cache.
 const skillAssetVersion = "2026-10-01-webp";
 
