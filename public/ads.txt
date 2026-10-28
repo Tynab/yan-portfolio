@@ -1,0 +1,2 @@
+# Tóm tắt: khai báo AdSense publisher cho domain yamiannephilim.com.
+google.com, pub-8856447829714090, DIRECT, f08c47fec0942fa0
