@@ -18,9 +18,9 @@ build/  (index.html, assets/, skills/, icons/, og-image.png, manifest.json, robo
         ▼
 https://yamiannephilim.com/   ← canonical, phục vụ trực tiếp từ Pages
 
-www.yamiannephilim.com/*            --302→ https://yamiannephilim.com/*
-www.yamiannephilim.com/wedding-card --302→ https://tynab.github.io/Yami-Buzzy
-portfolio.yamiannephilim.com        ✗ không còn tồn tại (không DNS, không route, không redirect)
+www.yamiannephilim.com/*             --302→ https://yamiannephilim.com/*
+wedding-card.yamiannephilim.com/*    --302→ https://tynab.github.io/Yami-Buzzy
+portfolio.yamiannephilim.com         ✗ không còn tồn tại (không DNS, không route, không redirect)
 ```
 
 - Không có origin Docker/nginx, không có `/healthz`, không có Worker probe/failover.
@@ -92,25 +92,26 @@ Thực hiện theo thứ tự, có snapshot rollback trước khi đụng DNS/ro
 7. Test browser các route `/#/home`, `/#/certifications`, `/#/experience`, `/#/projects`, `/#/contact`, reload, menu, animation; kiểm tra JSON-LD `Person.url` trong DOM (Helmet inject lúc runtime, curl không thấy).
 8. Kiểm tra lại MX/SPF/DKIM/DMARC/Email Routing ngay sau attach. Nếu lỗi, rollback trước khi làm bước 5.
 
-## 5. Redirect `www` và ngoại lệ wedding-card
+## 5. Redirect `www` và subdomain `wedding-card`
 
 Tạo **một Single Redirects ruleset**, thứ tự:
 
-1. `www.yamiannephilim.com/wedding-card` → `https://tynab.github.io/Yami-Buzzy`, **302**, không giữ query.
+1. `wedding-card.yamiannephilim.com/*` → `https://tynab.github.io/Yami-Buzzy`, **302**, không giữ query.
 2. `www.yamiannephilim.com/*` → `https://yamiannephilim.com` + path, **302**, giữ query.
 
-Sau đó gỡ route `www.yamiannephilim.com/*` khỏi Worker. Không tạo redirect cho `portfolio` — hostname này bị xóa hoàn toàn.
+Host `wedding-card` cần một bản ghi proxied riêng (A `192.0.2.1` là placeholder chuẩn cho redirect-only host). Worker đã bị gỡ; không tạo lại. Đường dẫn cũ `www…/wedding-card` không còn là ngoại lệ — nó đi theo catch-all `www` về apex. Không tạo redirect cho `portfolio` — hostname này bị xóa hoàn toàn.
 
 Kiểm tra:
 
 ```bash
 curl -sS -I https://www.yamiannephilim.com/
 curl -sS -I "https://www.yamiannephilim.com/foo?q=1"
-curl -sS -I "https://www.yamiannephilim.com/wedding-card?x=1"
+curl -sS -I https://wedding-card.yamiannephilim.com/
+curl -sS -I "https://wedding-card.yamiannephilim.com/foo?x=1"
 curl -sS -I https://yamiannephilim.com/
 ```
 
-Không được có redirect loop. `www` giữ path/query là thay đổi có chủ đích so với Worker cũ (Worker bỏ path/query).
+Không được có redirect loop. `www` giữ path/query là thay đổi có chủ đích so với Worker cũ (Worker bỏ path/query). Subdomain `wedding-card` bỏ query và luôn về đúng URL Yami-Buzzy.
 
 ## 6. Rollback
 
