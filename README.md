@@ -128,10 +128,10 @@ Repo **không còn dùng Git LFS**: hạn mức LFS của tài khoản đã hế
 
 Sau cutover, Cloudflare Single Redirects xử lý:
 
-- `www.yamiannephilim.com/wedding-card` → `https://tynab.github.io/Yami-Buzzy` (**302**, không giữ query).
+- `wedding-card.yamiannephilim.com/*` → `https://tynab.github.io/Yami-Buzzy` (**302**, không giữ query).
 - `www.yamiannephilim.com/*` → `https://yamiannephilim.com` + path (**302**, giữ query).
 
-`portfolio.yamiannephilim.com` bị gỡ hoàn toàn — không DNS, không route, không redirect.
+Đường dẫn cũ `www.yamiannephilim.com/wedding-card` không còn là ngoại lệ; nó đi theo catch-all `www` về apex. `portfolio.yamiannephilim.com` bị gỡ hoàn toàn — không DNS, không route, không redirect.
 
 ## Ghi chú bảo trì
 
