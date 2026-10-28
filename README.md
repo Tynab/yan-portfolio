@@ -46,11 +46,11 @@ assets-src/README.md           # Quy ước và cách sinh lại asset nhị ph�
 scripts/
   verify-lfs-assets.js         # Chặn build nếu asset là con trỏ Git LFS (checkout hỏng)
   generate-icons.py            # Sinh toàn bộ icon site từ ảnh cá nhân (Pillow)
-  server/                      # bootstrap-runner.sh, install-runner.sh: cài self-hosted runner lên server deploy
-.github/workflows/             # ci.yml, deploy.yml, deploy-worker.yml
-cloudflare/                    # redirect-worker.js (+ test), wrangler.toml, README.md
-docs/DEPLOY.md                 # Kiến trúc CI/CD, secret/variable, thiết lập từ đầu, rollback
-Dockerfile, nginx.conf
+.github/workflows/             # ci.yml — lint, test, build (không deploy)
+docs/DEPLOY.md                 # Runbook Cloudflare Pages + cutover/rollback
+docs/legacy/                   # Runbook Docker/Worker cũ (chỉ tham khảo)
+src/seo.test.js                # Chốt canonical/OG/JSON-LD dùng apex
+public/favicon.ico             # Bản favicon gốc cho Pages (không còn nginx alias)
 ```
 
 Các file source tự viết mở đầu bằng comment tóm tắt tiếng Việt (`// Tóm tắt:` hoặc khối `/* ... */`); CSS tự viết cũng có header mô tả vai trò stylesheet.
@@ -79,7 +79,7 @@ Mỗi skill trong `portfolio.js` chọn một trong hai chế độ hiển thị
 - `fontAwesomeClassname` → icon Iconify (tên khóa giữ từ template), nạp qua script CDN Iconify khai báo trong `index.html`.
 - `imageSrc` → ảnh `public/skills/*.webp` (cao 96px, hiển thị cao 48px cho màn hình retina), nạp theo đường dẫn `${import.meta.env.BASE_URL}skills/<tên-file>?v=${skillAssetVersion}`.
 
-nginx cache `/skills/` dài hạn (`immutable`), nên **mỗi khi thêm/đổi ảnh skill phải bump hằng số `skillAssetVersion`** trong `SoftwareSkill.js` để bust cache. Cách chuyển ảnh gốc sang WebP 96px: `assets-src/README.md`.
+Cloudflare Pages/CDN có thể giữ `/skills/` trong cache theo deployment, nên **mỗi khi thêm/đổi ảnh skill phải bump hằng số `skillAssetVersion`** trong `SoftwareSkill.js` để bust cache. Cách chuyển ảnh gốc sang WebP 96px: `assets-src/README.md`.
 
 ## Icon site (`public/icons/`)
 
@@ -106,7 +106,7 @@ Test hiện có (chưa phải coverage đầy đủ):
 - `src/containers/Main.test.js` — router: `/` → `/home`, `/education` → `/certifications`, trang 404 và `<title>` từng trang.
 - `src/components/header/Header.test.js` — Escape đóng menu và trả focus, chỉ một link `aria-current`, có mục Contact, đổi route thì đóng menu.
 - `src/components/tooltip/Tooltip.test.js` — ARIA của tooltip (`toDomId`), hiện khi focus/hover, ẩn bằng Escape, giữ mở khi rê chuột sang bong bóng.
-- `cloudflare/redirect-worker.test.js` — Worker failover: probe `/healthz` (sống/chết, lỗi kết nối, timeout), memo 30 giây, wedding-card, chế độ pass-through.
+- `src/seo.test.js` — canonical/`og:url`/`og:image` và `seo.og.url` cùng trỏ apex; template OG không còn domain `portfolio.`.
 
 Không còn `npm start` / `react-scripts` — dự án đã rời Create React App, dùng Vite làm build tool.
 
@@ -114,25 +114,24 @@ Không còn `npm start` / `react-scripts` — dự án đã rời Create React A
 
 Repo **không còn dùng Git LFS**: hạn mức LFS của tài khoản đã hết và mọi file nhị phân đều nhỏ (icon kỹ năng WebP, icon site, ảnh logo, font web), nên tất cả lưu dạng blob Git thường; `.gitattributes` chỉ đánh dấu chúng là `binary`. Clone bình thường, không cần `git lfs pull`, và đừng thêm lại rule `filter=lfs`.
 
-`scripts/verify-lfs-assets.js` vẫn được giữ làm chốt chặn checkout hỏng/cũ: Dockerfile và CI chạy nó và **fail** nếu asset nào trong `public/` hoặc `src/assests/` là con trỏ LFS.
+`scripts/verify-lfs-assets.js` vẫn được giữ làm chốt chặn checkout hỏng/cũ: CI và build command của Cloudflare Pages chạy nó và **fail** nếu asset nào trong `public/` hoặc `src/assests/` là con trỏ LFS.
 
-## CI, Docker và deploy
+## CI và deploy (Cloudflare Pages)
 
-- GitHub Actions (`.github/workflows/`):
-  - `ci.yml` — mỗi push (`main`/`develop`) và pull request: `npm ci`, verify asset, lint, test, build, rồi build thử Docker image (không push). Không dùng secret.
-  - `deploy.yml` — push `main` hoặc Run workflow (tùy chọn `image_tag` để deploy lại/rollback), chỉ chạy khi biến repo `DEPLOY_ENABLED` = `true`: build & push `yamiannephilim/portfolio` (`latest` + `sha-<7 ký tự>`) lên Docker Hub, rồi **self-hosted runner trên server** chạy lại container `yan-portfolio` (tên mà Cloudflare Tunnel trỏ tới), chờ HEALTHCHECK `healthy` (lỗi thì rollback image cũ) và báo Telegram.
-  - `deploy-worker.yml` — push `main` có đổi `cloudflare/**` hoặc chính file workflow, hoặc Run workflow, chỉ chạy khi `WORKER_DEPLOY_ENABLED` = `true`: test Worker → `npx wrangler@4 deploy` → xác nhận qua API version mới nhận 100% traffic → smoke test (Cloudflare chặn IP runner ở edge thì chỉ cảnh báo — khi đó phải `curl -sI https://yamiannephilim.com` tay từ máy nhà).
-- `Dockerfile` build nhiều stage: stage `build` dùng `node:22-alpine`, `npm ci`, chạy `scripts/verify-lfs-assets.js`, `npm run lint && npm test` (lỗi là dừng build) rồi `npm run build`; stage runtime dùng `nginx:1.27-alpine` serve `build/` trên cổng `80`, kèm `HEALTHCHECK` gọi `/healthz`.
-- `nginx.conf`: SPA fallback `try_files ... /index.html`, bật gzip; `/healthz` trả `200 ok` (`no-store`, không ghi log); `/favicon.ico` trả `icons/favicon.ico`. Cache: `index.html`, `manifest.json`, `robots.txt` `no-cache`; `/assets/` (tên có hash) và `/skills/` (có `?v=`) 1 năm `immutable`; asset tĩnh khác 7 ngày.
-- Chi tiết: [docs/DEPLOY.md](docs/DEPLOY.md) (kiến trúc, secret/variable, thiết lập, rollback, bảo mật) và [cloudflare/README.md](cloudflare/README.md) (Worker).
-- Site thật chạy ở `https://portfolio.yamiannephilim.com/`, nên URL Open Graph/JSON-LD phải dùng domain `portfolio.`.
+- GitHub Actions (`.github/workflows/ci.yml`) — mỗi push (`main`/`develop`) và pull request: `npm ci`, verify asset, lint, test, build. Không dùng secret, không deploy.
+- Deploy production do **Cloudflare Pages Git integration** thực hiện khi merge vào `main`: build command `node scripts/verify-lfs-assets.js && npm run build`, output `build/`. Không còn Docker, nginx, Cloudflare Tunnel, self-hosted runner hay Worker.
+- Branch protection trên `main` phải yêu cầu check CI `Lint, test & build`; đây là hàng rào thay cho biến `DEPLOY_ENABLED` cũ.
+- Site thật chạy trực tiếp tại `https://yamiannephilim.com/`; mọi URL Open Graph/JSON-LD/canonical phải dùng apex. Không còn subdomain `portfolio.`.
+- Chi tiết cutover, redirect `www`/wedding-card, rollback và dọn hạ tầng cũ: [docs/DEPLOY.md](docs/DEPLOY.md). Runbook Docker cũ: [docs/legacy/DEPLOY-docker.md](docs/legacy/DEPLOY-docker.md).
 
-## Cloudflare Worker (`cloudflare/`)
+## Redirect alias
 
-Worker `yan-failover-redirect` (`redirect-worker.js`, route khai báo trong `wrangler.toml`) chuyển hướng theo **tình trạng server**:
+Sau cutover, Cloudflare Single Redirects xử lý:
 
-- `yamiannephilim.com/*` và `www.yamiannephilim.com/*` → `302` (`no-store`) tới `https://portfolio.yamiannephilim.com`; chỉ khi probe `GET /healthz` lỗi kết nối, quá 3 giây hoặc trả `502`/`503`/`504`/`520–526`/`530` thì chuyển sang `https://github.com/Tynab`. Kết quả probe được nhớ 30 giây trong mỗi isolate.
-- `www.yamiannephilim.com/wedding-card` giữ nguyên: luôn → `https://tynab.github.io/Yami-Buzzy` (không probe).
+- `www.yamiannephilim.com/wedding-card` → `https://tynab.github.io/Yami-Buzzy` (**302**, không giữ query).
+- `www.yamiannephilim.com/*` → `https://yamiannephilim.com` + path (**302**, giữ query).
+
+`portfolio.yamiannephilim.com` bị gỡ hoàn toàn — không DNS, không route, không redirect.
 
 ## Ghi chú bảo trì
 

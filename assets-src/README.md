@@ -19,7 +19,7 @@ im.save(dst, 'WEBP', quality=85, method=6)  # hoặc lossless=True nếu thấy 
 " Ten-goc.png public/skills/Ten.webp
 ```
 
-- Khai báo `imageSrc: "Ten.webp"` trong `src/portfolio.js`. nginx cache `/skills/` dài hạn (`immutable`): nếu **ghi đè** nội dung một file đã có cùng tên thì phải bump `skillAssetVersion` trong `src/components/softwareSkills/SoftwareSkill.js`.
+- Khai báo `imageSrc: "Ten.webp"` trong `src/portfolio.js`. Cloudflare Pages/CDN có thể giữ `/skills/` trong cache theo deployment: nếu **ghi đè** nội dung một file đã có cùng tên thì phải bump `skillAssetVersion` trong `src/components/softwareSkills/SoftwareSkill.js`.
 
 ## Icon site (`public/icons/`)
 
@@ -35,6 +35,7 @@ python3 scripts/generate-icons.py avatar.jpg --focus 0.5,0.4 --zoom 1.3 --out /t
 ```
 
 - Script cắt vuông, xoay theo EXIF, chuyển về sRGB, thu nhỏ bằng Lanczos, ghi đúng tên/kích thước mà `index.html` và `public/manifest.json` tham chiếu (kể cả `favicon.ico` 16+32+48 và `android-icon-512x512.png`) và **bỏ toàn bộ metadata** (EXIF/GPS) của ảnh gốc.
+- Với thư mục mặc định, script cũng chép `favicon.ico` sang `public/favicon.ico`. Cloudflare Pages không có nginx alias `/favicon.ico` → `/icons/favicon.ico`, nên file gốc này là bắt buộc; đừng xóa nó khi sinh lại icon.
 - Nên dùng ảnh có cạnh ngắn ≥ 512px; nhỏ hơn thì script vẫn chạy nhưng cảnh báo các size bị phóng to.
 - Không cần commit ảnh gốc; nếu muốn lưu lại thì đặt trong thư mục này.
 - Ảnh `og:image` khi chia sẻ link **không** còn là icon trong thư mục này mà là `public/og-image.png` (xem mục bên dưới); nó dùng `android-icon-512x512.png` làm ảnh chân dung, nên đổi icon thì nhớ chụp lại ảnh OG.
@@ -43,8 +44,8 @@ python3 scripts/generate-icons.py avatar.jpg --focus 0.5,0.4 --zoom 1.3 --out /t
 
 ## Ảnh Open Graph (`public/og-image.png`)
 
-- Ảnh preview 1200×630 khi chia sẻ link (Facebook, LinkedIn, Zalo, X); `index.html` khai báo `og:image` = `https://portfolio.yamiannephilim.com/og-image.png` kèm `og:image:width`/`og:image:height`/`og:image:alt` và `twitter:card` = `summary_large_image`.
-- Nguồn là template HTML `assets-src/og-image.html`: màu blueTheme (nền `#EDF9FE`, chữ `#001C55`, nhấn `#0E6BA8`), font Google Sans nạp bằng `@font-face` đường dẫn tương đối tới `src/assests/fonts/*.woff2`, ảnh chân dung `public/icons/android-icon-512x512.png` cắt tròn. Chữ trên ảnh: tên, "Yami An · Technical Leader", phụ đề (phải giống `greeting.subTitle` trong `src/portfolio.js`) và domain `portfolio.yamiannephilim.com`.
+- Ảnh preview 1200×630 khi chia sẻ link (Facebook, LinkedIn, Zalo, X); `index.html` khai báo `og:image` = `https://yamiannephilim.com/og-image.png` kèm `og:image:width`/`og:image:height`/`og:image:alt` và `twitter:card` = `summary_large_image`.
+- Nguồn là template HTML `assets-src/og-image.html`: màu blueTheme (nền `#EDF9FE`, chữ `#001C55`, nhấn `#0E6BA8`), font Google Sans nạp bằng `@font-face` đường dẫn tương đối tới `src/assests/fonts/*.woff2`, ảnh chân dung `public/icons/android-icon-512x512.png` cắt tròn. Chữ trên ảnh: tên, "Yami An · Technical Leader", phụ đề (phải giống `greeting.subTitle` trong `src/portfolio.js`) và domain `yamiannephilim.com`.
 - Sửa template xong thì chụp lại bằng Chrome headless (Node + `puppeteer-core`, dùng Chrome đã cài sẵn; viewport 1200×630, `deviceScaleFactor: 1`, chờ `document.fonts.ready`, mở file với cờ `--allow-file-access-from-files` để nạp font/ảnh tương đối). Script chụp dùng khi tạo ảnh hiện tại (đặt ngoài repo, chạy trong thư mục có `puppeteer-core`):
 
 ```bash

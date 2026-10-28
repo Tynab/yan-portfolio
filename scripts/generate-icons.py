@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Tóm tắt: Sinh toàn bộ icon của site (favicon, apple-touch, android/manifest, ms-tile) từ một ảnh
-# nguồn (ảnh cá nhân của chủ site), mặc định ghi vào public/icons/.
+# nguồn (ảnh cá nhân của chủ site), mặc định ghi vào public/icons/ và thêm bản favicon.ico ở gốc
+# public/ cho Cloudflare Pages (không còn nginx alias /favicon.ico).
 r"""Sinh bộ icon của portfolio từ MỘT ảnh nguồn (ảnh cá nhân của chủ site, ví dụ avatar.jpg).
 
 Yêu cầu: Python 3.8+ và Pillow >= 9.1 (`pip install Pillow`).
@@ -24,7 +25,8 @@ Ví dụ:
 Tham số:
     <ảnh-nguồn>    Ảnh bất kỳ Pillow đọc được (JPG, PNG, WebP...). Nên vuông hoặc gần vuông và
                    cạnh ngắn >= 512px; nhỏ hơn vẫn chạy nhưng các size lớn bị phóng to (có cảnh báo).
-    --out          Thư mục ghi icon (mặc định: public/icons của repo chứa script).
+    --out          Thư mục ghi icon (mặc định: public/icons của repo chứa script). Với thư mục mặc
+                   định, script cũng chép favicon.ico sang public/favicon.ico cho Cloudflare Pages.
     --focus x,y    Tâm vùng cắt vuông, tính theo tỉ lệ 0..1 của chiều rộng/cao ảnh (mặc định 0.5,0.5 =
                    cắt giữa). Vùng cắt luôn được giữ trong ảnh, nên tâm sát mép sẽ bị đẩy vào trong.
     --zoom Z       Phóng to vùng cắt (Z >= 1): cạnh vùng cắt = cạnh ngắn của ảnh / Z. Mặc định 1
@@ -50,6 +52,7 @@ import io
 import json
 import os
 import re
+import shutil
 import sys
 
 try:
@@ -256,6 +259,13 @@ def main(argv=None):
         if got != [(size, size) for size in ICO_SIZES]:
             sys.exit(f"favicon.ico sinh ra thiếu khung: {got}")
         written.append((ICO_NAME, "+".join(str(size) for size in ICO_SIZES), os.path.getsize(path)))
+
+        # Cloudflare Pages phục vụ tĩnh, không có nginx alias /favicon.ico -> /icons/favicon.ico.
+        # Chỉ ghi bản gốc khi dùng thư mục mặc định, để --out nháp không đụng vào public/.
+        if os.path.abspath(args.out) == os.path.abspath(DEFAULT_OUT):
+            root_favicon = os.path.join(REPO_ROOT, "public", "favicon.ico")
+            shutil.copyfile(path, root_favicon)
+            print(f"  {'public/favicon.ico':32s} {'(copy)':>9s} {os.path.getsize(root_favicon):>8d} B")
 
     for name, dims, size_bytes in written:
         print(f"  {name:32s} {dims:>9s} {size_bytes:>8d} B")
