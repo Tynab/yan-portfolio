@@ -150,4 +150,5 @@ Repo đã ở trạng thái không còn Docker/Worker. Các thao tác **thủ c�
 ## 10. AdSense/gtag
 
 - `index.html` nạp AdSense `ca-pub-8856447829714090` và gtag `AW-825508380`.
-- Sau cutover, xác nhận cả hai script tải được trên apex và ghi lại quyết định `ads.txt`. Chỉ thêm `public/ads.txt` nếu tài khoản AdSense báo thiếu.
+- `public/ads.txt` khai báo publisher `pub-8856447829714090` để `/ads.txt` trả text/plain thay vì SPA HTML. Cập nhật file này nếu publisher ID thay đổi.
+- Sau mỗi cutover, xác nhận cả hai script tải được trên apex và `/ads.txt` trả đúng nội dung.
