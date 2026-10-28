@@ -46,6 +46,8 @@ Cloudflare Pages Free hiện có giới hạn build/số file/kích thước fil
 
 **Bắt buộc trước khi nối Pages:** bật branch protection cho `main`, yêu cầu check CI `Lint, test & build` và chặn push trực tiếp. Pages Git integration không có biến gate kiểu `DEPLOY_ENABLED`; branch protection là hàng rào duy nhất để một merge đỏ không deploy thẳng production.
 
+> **Lỗi Git installation `8000011`:** nếu tạo Pages project báo lỗi này, cài lại Cloudflare Pages GitHub App cho repo: GitHub → Settings → Applications → Cloudflare Pages → Configure → chọn `Tynab/yan-portfolio` → Save. Sau đó tạo lại project. Không tạo project direct-upload thay thế vì sẽ mất deploy tự động khi merge `main`.
+
 ## 3. Deploy thường ngày
 
 1. Tạo nhánh từ `main`, sửa nội dung/code.
@@ -121,7 +123,7 @@ Không được có redirect loop. `www` giữ path/query là thay đổi có ch
 
 Repo đã ở trạng thái không còn Docker/Worker. Các thao tác **thủ công** còn lại sau cutover:
 
-1. Cloudflare Dashboard: xóa Worker `yan-failover-redirect` (nếu còn), mọi cron trigger/route còn sót; xác nhận không còn route trên apex/`www`.
+1. Cloudflare Dashboard: xóa Worker `yan-failover-redirect` (nếu còn), mọi cron trigger/route còn sót; xác nhận không còn route trên apex/`www`. Xóa luôn 3 Page Rule cũ (2 rule `301` về `portfolio.yamiannephilim.com` và rule wedding-card) — chúng đang `Disabled` nhưng nếu bật lại sẽ xung đột với Pages/Redirect Rules.
 2. Xóa record DNS `portfolio` (nếu còn). Không đụng record của dịch vụ khác.
 3. Trên server: xóa **chỉ** container `yan-portfolio` và image `yamiannephilim/portfolio`; xóa **chỉ** ingress `portfolio.yamiannephilim.com` khỏi Cloudflare Tunnel. Không dừng Docker daemon/Tunnel dùng chung.
 4. Gỡ self-hosted runner và hook root `/usr/local/libexec/gha-runner-guard.sh` + dòng `ACTIONS_RUNNER_HOOK_JOB_STARTED` trong `/opt/actions-runner/.env` nếu không còn dùng.
